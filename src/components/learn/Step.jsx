@@ -1,6 +1,6 @@
 import { notifyContext } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
-import { question1, question2, question3, question4 } from '@/utils/practice'
+import { question1, question2, question3, question4, question5 } from '@/utils/practice'
 import React, { useContext, useState } from 'react'
 
 const Step = ({ margin, left, status, door }) => {
@@ -9,10 +9,13 @@ const Step = ({ margin, left, status, door }) => {
     const [press, setPress] = useState(false)
 
     const handleAnimate = () => {
-        const questions = [question1(door.beginner), question2(door.beginner), question3(door.beginner), question4(door.beginner)]
-        // practiceHandler.setQuestions(questions)
-        // notifyHandler.navigate('/practice')
-        console.log(questions)
+        const questions = [question1(door.beginner), question2(door.beginner)]
+        practiceHandler.setQuestions(questions)
+        setPress(true)
+        setTimeout(() => {
+            setPress(false)
+            notifyHandler.navigate('/practice')
+        }, 200);
     }
 
     return (
@@ -29,11 +32,3 @@ const Step = ({ margin, left, status, door }) => {
 }
 
 export default Step
-
-
-
-// setPress(true)
-// setTimeout(() => {
-//     setPress(false)
-//     notifyHandler.navigate('/practice')
-// }, 200);

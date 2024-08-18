@@ -6,14 +6,18 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 export const practiceContext = createContext()
 
 const PracticeProvider = ({ children }) => {
-
+    const [currentQuestion, setCurrentQuestion] = useState(0)
     const [questions, setQuestions] = useState([])
-    console.log(questions)
+    const [myAnswer, setMyAnswer] = useState('')
     const data = {
-        questions
+        questions,
+        currentQuestion,
+        myAnswer
     }
     const handler = {
-        setQuestions
+        setQuestions,
+        setCurrentQuestion,
+        setMyAnswer
     }
 
     return (

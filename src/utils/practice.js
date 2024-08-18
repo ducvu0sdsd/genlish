@@ -22,7 +22,7 @@ export const question1 = (vocabularies) => {
     const false1 = vocabularies[arr[1]].split(':')[0]
     const false2 = vocabularies[arr[2]].split(':')[0]
     return {
-        question: `'${vocabulary.vietnamese}' là gì trong tiếng Anh?`,
+        question: `${vocabulary.vietnamese}`,
         options: shuffleArray([vocabulary.english, false1, false2]),
         answer: vocabulary.english,
         type: 0
@@ -30,7 +30,7 @@ export const question1 = (vocabularies) => {
 }
 
 //Xin chào là gì trong tiếng Anh loại 2
-export const question4 = (vocabularies) => {
+export const question2 = (vocabularies) => {
     const arr = []
     while (arr.length < 3) {
         const r = getRandomInt(Math.floor(vocabularies.length / 2) + 1, vocabularies.length - 1)
@@ -44,16 +44,16 @@ export const question4 = (vocabularies) => {
     const false1 = vocabularies[arr[1]].split(':')[0]
     const false2 = vocabularies[arr[2]].split(':')[0]
     return {
-        question: `'${vocabulary.vietnamese}' là gì trong tiếng Anh?`,
+        question: `${vocabulary.vietnamese}`,
         options: shuffleArray([vocabulary.english, false1, false2]),
         answer: vocabulary.english,
-        type: 1
+        type: 0
     }
 }
 
 
 // Đọc Tiếng Anh chọn 1 trong 3 tiếng Anh và có kết quả hiện tiếng việt
-export const question2 = (vocabularies) => {
+export const question3 = (vocabularies) => {
     const arr = []
     while (arr.length < 3) {
         const r = getRandomInt(0, vocabularies.length - 1)
@@ -67,16 +67,16 @@ export const question2 = (vocabularies) => {
     const false1 = vocabularies[arr[1]].split(':')[0]
     const false2 = vocabularies[arr[2]].split(':')[0]
     return {
-        question: `'${vocabulary.vietnamese}' là gì trong tiếng Anh?`,
+        question: `${vocabulary.vietnamese}`,
         options: shuffleArray([vocabulary.english, false1, false2]),
         answer: vocabulary.english,
-        type: 2
+        type: 1
     }
 }
 
 
 // Nối các câu
-export const question3 = (vocabularies) => {
+export const question4 = (vocabularies) => {
     let arr = []
     while (arr.length < 4) {
         const r = getRandomInt(0, vocabularies.length - 1)
@@ -92,11 +92,36 @@ export const question3 = (vocabularies) => {
     return {
         question: `Nối các câu khớp nghĩa với nhau`,
         vocabularies: arr,
-        type: 3
+        type: 2
     }
 }
 
+// Can you ___ me? |  who i am
+export const question5 = (vocabularies) => {
+    let arr = []
+    while (arr.length < 2) {
+        const r = getRandomInt(0, vocabularies.length - 1)
+        if (!arr.includes(r))
+            arr.push(r)
+    }
+    arr = arr.map(item => {
+        return {
+            english: vocabularies[item].split(':')[0],
+            vietnamese: vocabularies[item].split(':')[1]
+        }
+    })
+    const indexRemove = getRandomInt(0, arr[0].english.split(' ').length = 1)
+    const answer = arr[0].english.split(' ')[indexRemove]
+    const question = arr[0].english.replace(answer, '___')
+    const options = shuffleArray([answer, ...arr[1].english.split(' ')])
 
+    return {
+        answer,
+        question,
+        options,
+        type: 3
+    }
+}
 
 const pronounces = [
     {

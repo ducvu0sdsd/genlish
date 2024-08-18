@@ -3,6 +3,7 @@ import "./globals.css";
 import GlobalProvider from "@/context/GlobalContext";
 import AuthProvider from "@/context/AuthContext";
 import NotifyProvider from "@/context/NotifyContext";
+import PracticeProvider from "@/context/PracticeContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,13 +30,15 @@ export default function RootLayout({ children }) {
         <meta name="google-site-verification" content="qPr_3m_jtgVoFmOL2IRmvbU2OdtNkvMzWNbAkpMcueU" />
       </head>
       <body className='font-raleway'>
-        <NotifyProvider>
-          <AuthProvider>
-            <GlobalProvider>
-              {children}
-            </GlobalProvider>
-          </AuthProvider>
-        </NotifyProvider>
+        <PracticeProvider>
+          <NotifyProvider>
+            <AuthProvider>
+              <GlobalProvider>
+                {children}
+              </GlobalProvider>
+            </AuthProvider>
+          </NotifyProvider>
+        </PracticeProvider>
       </body>
     </html>
   );

@@ -40,7 +40,6 @@ export const api = ({ path, body, type, sendToken, port }) => {
                 axios.post(path, body, { headers: sendToken ? { accessToken, refreshToken } : {} })
                     .then(res => {
                         if (sendToken) {
-                            console.log(res)
                             globalThis.localStorage.setItem('accessToken', res.data.tokens.accessToken)
                             globalThis.localStorage.setItem('refreshToken', res.data.tokens.refreshToken)
                             rejects(res.data.data)

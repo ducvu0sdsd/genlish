@@ -1,4 +1,5 @@
 import { authContext } from '@/context/AuthContext'
+import { studyContext } from '@/context/StudyContext'
 import { api, TypeHTTP } from '@/utils/api'
 import React, { useContext } from 'react'
 
@@ -11,6 +12,7 @@ const MoreInformation = () => {
         'Tôi có thể nói về các chủ đề',
         'Tôi có thể thảo luận được chủ đề'
     ]
+    const { studyData } = useContext(studyContext)
     const { authData, authHandler } = useContext(authContext)
 
     const handleUpdateLevel = (currentEnglishLevel) => {
@@ -55,33 +57,15 @@ const MoreInformation = () => {
             <div className='border-[2px] text-[#5d5d5d] h-[65%] p-4 pb-0 border-[#f2f2f2] rounded-xl w-full'>
                 <div className='flex w-full items-center gap-3'>
                     <img src='/ai.png' className='w-[52px]' />
-                    <span className='font-bold text-[18px]'>Ải 1 (Khởi Đầu)</span>
+                    <span className='font-bold text-[18px]'>{studyData.gates[0]?.title}</span>
                 </div>
                 <div className='w-full cursor-pointer mt-3 h-[75%] overflow-auto items-center transition-all flex flex-col gap-2'>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#58cc02] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 1: Chào Hỏi (0/5)'}</span>
-                    </div>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#c837e8] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 2: Gia đình (0/7)'}</span>
-                    </div>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#f39247] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 3: Số đếm (0/7)'}</span>
-                    </div>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#527cfc] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 4: Màu sắc (0/9)'}</span>
-                    </div>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#ff3a3a] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 5: Động vật (0/9)'}</span>
-                    </div>
-                    <div className='flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] bg-[#ff43d0] px-2 py-1 rounded-lg'>
-                        <img className='h-[35px]' src='https://cdn3d.iconscout.com/3d/premium/thumb/raised-hand-symbol-7232368-5862622.png' />
-                        <span className='font-semibold'>{'Cửa 6: Thời gian (0/7)'}</span>
-                    </div>
+                    {studyData.doors.map((door, index) => (
+                        <div key={index} style={{ backgroundColor: door.individual.color }} className={`flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] px-2 py-1 rounded-lg`}>
+                            <img className='h-[35px]' src={door.individual.image} />
+                            <span className='font-semibold'>{`Cửa ${door.individual.door}: ${door.individual.title} (0/${door.individual.numberOfTest})`}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

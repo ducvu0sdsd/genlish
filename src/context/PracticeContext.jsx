@@ -9,6 +9,7 @@ const PracticeProvider = ({ children }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [questions, setQuestions] = useState([])
     const [myAnswer, setMyAnswer] = useState('')
+
     const data = {
         questions,
         currentQuestion,

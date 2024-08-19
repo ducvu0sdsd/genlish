@@ -3,7 +3,7 @@ import FormResult from './FormResult'
 import { practiceContext } from '@/context/PracticeContext'
 import { pronounces } from '@/utils/practice'
 
-const Type0 = ({ question, index }) => {
+const Type3 = ({ question, index }) => {
 
     const { practiceData, practiceHandler } = useContext(practiceContext)
     let voices = globalThis.window.speechSynthesis.getVoices();
@@ -29,10 +29,10 @@ const Type0 = ({ question, index }) => {
     }
 
     return (
-        <div className='w-[50%] flex flex-col gap-4'>
-            <span className='text-[23px] font-semibold'>Chọn Nghĩa Đúng</span>
+        <div className='w-[50%] flex flex-col gap-2 mt-4'>
+            <span className='text-[23px] font-semibold'>Hoàn Thành Câu</span>
             <div className='flex items-center gap-4'>
-                <img src='/logo.png' className='w-[100px]' />
+                <img src='/logo.png' className='w-[100px] animate-slight-move' />
                 <div className="flex items-start transition-all">
                     <div className="relative max-w-xs px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg">
                         <span className="block">{question.question}</span>
@@ -40,7 +40,7 @@ const Type0 = ({ question, index }) => {
                     </div>
                 </div>
             </div>
-            <div className='flex flex-col gap-2 w-full items-center py-2'>
+            <div className='grid grid-cols-2 gap-2 w-full items-center py-2'>
                 {question.options.map((option, index) => (
                     <button onClick={() => handleSubmitAnswer(option)} style={{ fontWeight: practiceData.myAnswer === option ? 'bold' : '400' }} key={index} className='w-[100%] bg-[white] border-[1px] border-[#dfdfdf] shadow-md py-3 rounded-md hover:scale-[1.05] transition-all'>{option}</button>
                 ))}
@@ -49,4 +49,4 @@ const Type0 = ({ question, index }) => {
     )
 }
 
-export default Type0
+export default Type3

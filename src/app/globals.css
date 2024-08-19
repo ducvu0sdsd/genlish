@@ -30,3 +30,25 @@
 ::-webkit-scrollbar-thumb {
     background-color: #7eb6ea;
 }
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20%,
+    60% {
+        transform: translateX(-10px);
+    }
+
+    40%,
+    80% {
+        transform: translateX(10px);
+    }
+}
+
+.shake {
+    animation: shake 0.3s ease-in-out;
+}

@@ -4,6 +4,7 @@ import GlobalProvider from "@/context/GlobalContext";
 import AuthProvider from "@/context/AuthContext";
 import NotifyProvider from "@/context/NotifyContext";
 import PracticeProvider from "@/context/PracticeContext";
+import StudyProvider from "@/context/StudyContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,9 +34,11 @@ export default function RootLayout({ children }) {
         <PracticeProvider>
           <NotifyProvider>
             <AuthProvider>
-              <GlobalProvider>
-                {children}
-              </GlobalProvider>
+              <StudyProvider>
+                <GlobalProvider>
+                  {children}
+                </GlobalProvider>
+              </StudyProvider>
             </AuthProvider>
           </NotifyProvider>
         </PracticeProvider>

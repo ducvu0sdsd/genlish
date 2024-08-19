@@ -7,7 +7,8 @@ const Admin = () => {
     const [gates, setGates] = useState([])
 
     const [ai, setAi] = useState({
-        title: ''
+        title: '',
+        level: ''
     })
     const [cua, setCua] = useState({
         gate: null,
@@ -44,16 +45,19 @@ const Admin = () => {
         <section className='p-[1rem] flex flex-col gap-4'>
             <div className='w-full border-[1px] border-[#999] p-[1rem] flex flex-col gap-2'>
                 <span>Quản Lý Ải Từ Vựng</span>
-                <input value={ai.title} onChange={e => setAi({ ...ai, title: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Tên Ải Từ Vựng' />
+                <div className='grid grid-cols-2 gap-3'>
+                    <input value={ai.title} onChange={e => setAi({ ...ai, title: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Tên Ải Từ Vựng' />
+                    <input value={ai.level} onChange={e => setAi({ ...ai, level: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Level' />
+                </div>
                 <button onClick={() => handleCreateAi()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] w-[10%] py-[7px] rounded-lg">Thêm</button>
             </div>
             <div className='w-full border-[1px] border-[#999] p-[1rem] flex flex-col gap-2'>
                 <span>Quản Lý Cửa Từ Vựng</span>
                 <div className='grid grid-cols-2 gap-3'>
-                    <select onChange={e => setCua({ ...cua, gate: { _id: e.target.value.split('-')[0], title: e.target.value.split('-')[1] } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]'>
+                    <select onChange={e => setCua({ ...cua, gate: { _id: e.target.value.split('-')[0], title: e.target.value.split('-')[1], level: e.target.value.split('-')[2] } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]'>
                         <option>Chọn Ải Từ Vựng</option>
                         {gates.map((gate, index) => (
-                            <option key={index} value={gate._id + '-' + gate.title}>{gate.title}</option>
+                            <option key={index} value={gate._id + '-' + gate.title + '-' + gate.level}>{gate.title}</option>
                         ))}
                     </select>
                     <input value={cua.individual.title} onChange={e => setCua({ ...cua, individual: { ...cua.individual, title: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Tên Cửa Từ Vựng' />

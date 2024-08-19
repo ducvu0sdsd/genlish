@@ -66,10 +66,13 @@ export const question3 = (vocabularies) => {
     }
     const false1 = vocabularies[arr[1]].split(':')[0]
     const false2 = vocabularies[arr[2]].split(':')[0]
+    const options = shuffleArray([vocabulary.english, false1, false2])
+    const answer = vocabulary.english
+    const question = vocabulary
     return {
-        question: `${vocabulary.vietnamese}`,
-        options: shuffleArray([vocabulary.english, false1, false2]),
-        answer: vocabulary.english,
+        answer,
+        question,
+        options,
         type: 1
     }
 }
@@ -92,7 +95,8 @@ export const question4 = (vocabularies) => {
     return {
         question: `Nối các câu khớp nghĩa với nhau`,
         vocabularies: arr,
-        type: 2
+        type: 2,
+        answer: arr.map(item => `${item.english}-${item.vietnamese}`).join('/')
     }
 }
 
@@ -101,7 +105,7 @@ export const question5 = (vocabularies) => {
     let arr = []
     while (arr.length < 2) {
         const r = getRandomInt(0, vocabularies.length - 1)
-        if (!arr.includes(r))
+        if (!arr.includes(r) && vocabularies[r].split(':')[0].split(' ').length > 1)
             arr.push(r)
     }
     arr = arr.map(item => {
@@ -113,7 +117,7 @@ export const question5 = (vocabularies) => {
     const indexRemove = getRandomInt(0, arr[0].english.split(' ').length = 1)
     const answer = arr[0].english.split(' ')[indexRemove]
     const question = arr[0].english.replace(answer, '___')
-    const options = shuffleArray([answer, ...arr[1].english.split(' ')])
+    const options = shuffleArray([...arr[1].english.split(' ').filter(item => item !== answer), answer]);
 
     return {
         answer,
@@ -123,7 +127,41 @@ export const question5 = (vocabularies) => {
     }
 }
 
-const pronounces = [
+// Viết lại câu bằng tiếng việt (sắp xếp)
+// coffee and water
+// ["cà","trà","phê","đường","và","nước"]
+export const question6 = (vocabularies) => {
+    let selectedIndices = [];
+    while (selectedIndices.length < 4) {
+        const randomIndex = getRandomInt(
+            0,
+            vocabularies.length - 1
+        );
+        if (!selectedIndices.includes(randomIndex))
+            selectedIndices.push(randomIndex);
+    }
+    selectedIndices = selectedIndices.map((item) => {
+        return {
+            english: vocabularies[item].split(":")[0],
+            vietnamese: vocabularies[item].split(":")[1],
+        };
+    });
+    const question = selectedIndices[1].english;
+    const answer = selectedIndices[1].vietnamese;
+    const options = shuffleArray([
+        ...selectedIndices[1].vietnamese.split(" "),
+        ...selectedIndices[0].vietnamese.split(" "),
+        ...selectedIndices[2].vietnamese.split(" "),
+    ]);
+    return {
+        question: `${question}`,
+        answer: answer,
+        options: options,
+        type: 4,
+    };
+};
+
+export const pronounces = [
     {
         name: 'David US',
         voiceName: 'Microsoft David - English (United States)',

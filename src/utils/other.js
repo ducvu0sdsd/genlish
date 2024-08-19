@@ -9,3 +9,70 @@ export function shuffleArray(array) {
 export function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+
+export const getPosition = (width, index) => {
+    const end = width / 3
+    const a = index % 5
+    const b = Math.floor(index / 5) % 2
+    if (index === 21) {
+        return 0
+    }
+    if (b === 0) {
+        if (index < 10) {
+            switch (a) {
+                case 1:
+                    return 0
+                case 2:
+                    return end / 2
+                case 3:
+                    return end - (end / 4)
+                case 4:
+                    return end / 2
+                case 5:
+                    return 0
+            }
+        } else {
+            switch (a) {
+                case 0:
+                    return end / 2
+                case 1:
+                    return end - (end / 4)
+                case 2:
+                    return end / 2
+                case 3:
+                    return 0
+                case 4:
+                    return -end / 2
+                case 5:
+                    return (end - (end / 4)) * -1
+            }
+        }
+    } else {
+        if (index < 10) {
+            switch (a) {
+                case 1:
+                    return -end / 2
+                case 2:
+                    return (end - (end / 4)) * -1
+                case 3:
+                    return -end / 2
+                case 4:
+                    return 0
+            }
+        } else {
+            switch (a) {
+                case 0:
+                    return (end - (end / 4)) * -1
+                case 1:
+                    return -end / 2
+                case 2:
+                    return 0
+                case 3:
+                    return end / 2
+                case 4:
+                    return (end - (end / 4))
+            }
+        }
+    }
+}

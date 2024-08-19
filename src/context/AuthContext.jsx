@@ -25,6 +25,9 @@ const AuthProvider = ({ children }) => {
                 api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
                     .then(res => {
                         setUser(res)
+                        if (res.statusSignUp !== 7) {
+                            notifyHandler.navigate('/getting-started')
+                        }
                     })
                     .catch(error => {
                         notifyHandler.navigate('/')
@@ -35,7 +38,11 @@ const AuthProvider = ({ children }) => {
                 api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
                     .then(res => {
                         setUser(res)
-                        notifyHandler.navigate('/learn')
+                        if (res.statusSignUp === 7) {
+                            notifyHandler.navigate('/learn')
+                        } else {
+                            notifyHandler.navigate('/getting-started')
+                        }
                     })
             }
         }

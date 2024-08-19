@@ -2,11 +2,25 @@ import React, { useEffect, useRef, useState } from 'react'
 import Introduce from './Introduce'
 import Step from './Step'
 import SpiritBeast from './SpiritBeast'
+import { getPosition } from '@/utils/other'
 
 const Gate = ({ door }) => {
     const wrapperRef = useRef()
     const [steps, setSteps] = useState([])
     const [width, setWidth] = useState(0)
+    const [numberOfBeast, setNumberOfBeast] = useState([])
+
+    useEffect(() => {
+        if (steps.length > 0) {
+            const num = Math.floor(steps.length / 4)
+            setNumberOfBeast(() => {
+                const arr = []
+                for (let i = 0; i < num; i++)
+                    arr.push(1)
+                return arr
+            })
+        }
+    }, [steps])
 
     useEffect(() => {
         if (door) {
@@ -24,22 +38,6 @@ const Gate = ({ door }) => {
         }
     }, [wrapperRef.current])
 
-    const getPosition = (index) => {
-        const end = width / 3
-        const between = Math.floor(steps.length / 2) + 1
-        const tongSoPhanBangNhau = end / (between - 1)
-        if (index === 1 || index === steps.length) {
-            return 0
-        }
-        if (index === between) {
-            return end
-        }
-        if (index < between) {
-            return tongSoPhanBangNhau * (index - 1)
-        } else {
-            return tongSoPhanBangNhau * (index - (index - between) * 2 - 1)
-        }
-    }
 
 
     return (
@@ -47,9 +45,11 @@ const Gate = ({ door }) => {
             <Introduce door={door} />
             <div className='mt-[3rem] flex flex-col relative w-full items-center gap-3'>
                 {steps.map((step, index) => (
-                    <Step door={door} left={true} margin={getPosition(index + 1)} key={index} />
+                    <Step level={index + 1} final={index === steps.length - 1 ? true : false} door={door} left={door.individual.door % 2 ? true : false} margin={getPosition(width, index + 1)} key={index} />
                 ))}
-                <SpiritBeast left={false} />
+                {numberOfBeast.map((beast, index) => (
+                    <SpiritBeast key={index} index={index} top={((100 / numberOfBeast.length) * index) + (50 / numberOfBeast.length)} left={door.individual.door % 2 ? false : true} />
+                ))}
             </div>
         </div>
     )

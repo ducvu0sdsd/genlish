@@ -4,30 +4,17 @@ import Step from './Step'
 import Gate from './Gate'
 import { api, TypeHTTP } from '@/utils/api'
 import { authContext } from '@/context/AuthContext'
+import { studyContext } from '@/context/StudyContext'
 
 const StudySchedule = () => {
 
     const [doors, setDoors] = useState([])
     const [gates, setGates] = useState([])
-    const { authData } = useContext(authContext)
-
-    useEffect(() => {
-        if (authData.user) {
-            api({ type: TypeHTTP.GET, path: '/gate/get-all', sendToken: false, })
-                .then(gates => setGates(gates))
-        }
-    }, [authData.user])
-
-    useEffect(() => {
-        if (gates.length > 0) {
-            api({ sendToken: false, path: `/door/get-by-gate/${gates[0]._id}`, type: TypeHTTP.GET })
-                .then(doors => setDoors(doors))
-        }
-    }, [gates])
+    const { studyData } = useContext(studyContext)
 
     return (
-        <div className='w-[50%] flex flex-col items-center h-screen overflow-auto'>
-            {doors.map((door, index) => (
+        <div className='w-[53%] flex flex-col items-center h-screen overflow-auto'>
+            {studyData.doors.map((door, index) => (
                 <Gate key={index} door={door} />
             ))}
         </div>

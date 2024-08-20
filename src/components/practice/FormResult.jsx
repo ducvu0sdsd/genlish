@@ -1,24 +1,76 @@
 import { authContext } from '@/context/AuthContext'
 import { notifyContext } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
+import { studyContext } from '@/context/StudyContext'
 import { api, TypeHTTP } from '@/utils/api'
+import { correctResponses, incorrectResponses, shuffleArray } from '@/utils/other'
+import { pronounces } from '@/utils/practice'
 import React, { useContext, useEffect, useState } from 'react'
 
 const FormResult = () => {
     const { practiceData, practiceHandler } = useContext(practiceContext)
     const { notifyHandler } = useContext(notifyContext)
+    const { studyData } = useContext(studyContext)
     const { authData, authHandler } = useContext(authContext)
     const [status, setStatus] = useState(0)
+    let voices = globalThis.window.speechSynthesis.getVoices();
+    let speakHandler = (voiceName, content) => { };
+
+    useEffect(() => {
+        if (voices) {
+            speakHandler = (voiceName, content) => {
+                const utterance = new SpeechSynthesisUtterance(content);
+                utterance.rate = 1;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                voices = globalThis.window.speechSynthesis.getVoices();
+                const selectedVoice = voices.find(voice => voice.name === voiceName);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                globalThis.window.speechSynthesis.speak(utterance);
+            };
+        }
+    }, [voices]);
 
     useEffect(() => {
         setStatus(0)
     }, [practiceData.currentQuestion])
 
     const handleCheckAnswer = () => {
-        if (practiceData.myAnswer === practiceData.questions[practiceData.currentQuestion].answer) {
-            setStatus(1)
-        } else
-            setStatus(-1)
+        if (practiceData.questions[practiceData.currentQuestion].type === 4 || practiceData.questions[practiceData.currentQuestion].type === 6) {
+            const ask = `'${practiceData.questions[practiceData.currentQuestion].question}' trong tiếng việt có phải là '${practiceData.myAnswer}' đúng không?, chỉ trả về đúng 1 chữ 'true' hoặc 'false' thôi, không trả lời gì thêm. No yapping - kiểm tra thật kĩ càng giúp tôi nha, vì tôi cần độ chính xác cao nhất`
+            api({ sendToken: false, type: TypeHTTP.POST, path: '/openai/ask', body: { ask } })
+                .then(res => {
+                    if (res.toLowerCase().includes('true')) {
+                        speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
+                        setStatus(1)
+                    } else {
+                        speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
+                        setStatus(-1)
+                    }
+                })
+        } else if (practiceData.questions[practiceData.currentQuestion].type === 5) {
+            const ask = `'${practiceData.questions[practiceData.currentQuestion].question}' trong tiếng anh là '${practiceData.myAnswer}' đúng không?, chỉ trả về đúng 1 chữ 'true' hoặc 'false' thôi, không trả lời gì thêm. No yapping - kiểm tra thật kĩ càng giúp tôi nha, vì tôi cần độ chính xác cao nhất`
+            api({ sendToken: false, type: TypeHTTP.POST, path: '/openai/ask', body: { ask } })
+                .then(res => {
+                    if (res.toLowerCase().includes('true')) {
+                        speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
+                        setStatus(1)
+                    } else {
+                        speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
+                        setStatus(-1)
+                    }
+                })
+        } else {
+            if (practiceData.myAnswer === practiceData.questions[practiceData.currentQuestion].answer) {
+                speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
+                setStatus(1)
+            } else {
+                speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
+                setStatus(-1)
+            }
+        }
     }
 
     const handleNext = () => {
@@ -31,7 +83,27 @@ const FormResult = () => {
     }
 
     const handleComplete = () => {
-        api({ type: TypeHTTP.POST, path: '/user/update', body: { ...authData.user, study: { ...authData.user.study, levelVocabulary: { ...authData.user.study.levelVocabulary, level: authData.user.study.levelVocabulary.level + 1 } } }, sendToken: true })
+        let levelVocabulary = {}
+        if (authData.user.study.levelVocabulary.level === studyData.doors.filter(item => item.individual.door === authData.user.study.levelVocabulary.door)[0].individual.numberOfTest) {
+            levelVocabulary = {
+                ...authData.user.study.levelVocabulary,
+                door: authData.user.study.levelVocabulary.door + 1,
+                level: 1
+            }
+        } else {
+            levelVocabulary = {
+                ...authData.user.study.levelVocabulary,
+                level: authData.user.study.levelVocabulary.level + 1
+            }
+        }
+        const body = {
+            ...authData.user,
+            study: {
+                ...authData.user.study,
+                levelVocabulary
+            }
+        }
+        api({ type: TypeHTTP.POST, path: '/user/update', body, sendToken: true })
             .then(userUpdated => {
                 authHandler.setUser(userUpdated)
                 notifyHandler.navigate('/learn')

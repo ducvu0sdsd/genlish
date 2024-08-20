@@ -29,6 +29,17 @@ const MoreInformation = () => {
             })
     }
 
+    const getProcess = (door) => {
+        const currentLevel = authData.user.study.levelVocabulary
+        if (currentLevel.gate === door.gate.level && currentLevel.door === door.individual.door) {
+            return currentLevel.level
+        }
+        if (currentLevel.gate > door.gate.level || currentLevel.door > door.individual.door) {
+            return door.individual.numberOfTest
+        }
+        return 0
+    }
+
     return (
         <div className='w-[28%] flex flex-col gap-4 h-screen overflow-auto py-[1rem]'>
             <div className='flex text-[#6e6e6e] items-center justify-evenly w-full'>
@@ -63,7 +74,7 @@ const MoreInformation = () => {
                     {studyData.doors.map((door, index) => (
                         <div key={index} style={{ backgroundColor: door.individual.color }} className={`flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] px-2 py-1 rounded-lg`}>
                             <img className='h-[35px]' src={door.individual.image} />
-                            <span className='font-semibold'>{`Cửa ${door.individual.door}: ${door.individual.title} (0/${door.individual.numberOfTest})`}</span>
+                            <span className='font-semibold'>{`Cửa ${door.individual.door}: ${door.individual.title} (${getProcess(door)}/${door.individual.numberOfTest})`}</span>
                         </div>
                     ))}
                 </div>

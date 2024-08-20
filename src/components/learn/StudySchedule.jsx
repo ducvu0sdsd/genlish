@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Introduce from './Introduce'
 import Step from './Step'
 import Gate from './Gate'
@@ -11,11 +11,22 @@ const StudySchedule = () => {
     const [doors, setDoors] = useState([])
     const [gates, setGates] = useState([])
     const { studyData } = useContext(studyContext)
+    const studyScheduleRef = useRef()
+    const [top, setTop] = useState(0)
+
+    useEffect(() => {
+        if (studyScheduleRef.current && top !== 0) {
+            studyScheduleRef.current.scrollTo({
+                top: top,
+                behavior: 'smooth'
+            });
+        }
+    }, [top])
 
     return (
-        <div className='w-[53%] flex flex-col items-center h-screen overflow-auto'>
+        <div ref={studyScheduleRef} className='w-[53%] flex flex-col items-center h-screen overflow-auto'>
             {studyData.doors.map((door, index) => (
-                <Gate key={index} door={door} />
+                <Gate setTop={setTop} key={index} door={door} />
             ))}
         </div>
     )

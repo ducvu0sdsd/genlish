@@ -76,3 +76,31 @@ export const getPosition = (width, index) => {
         }
     }
 }
+
+// Mảng cho các câu phản hồi đúng
+export const correctResponses = [
+    "Correct!",
+    "Very good!",
+    "Well done!",
+    "Excellent!",
+    "Outstanding!",
+    "Perfect!",
+    "Spot on!",
+    "Great job!",
+    "Not bad at all!",
+    "Top-notch!"
+];
+
+// Mảng cho các câu phản hồi sai
+export const incorrectResponses = [
+    "That's okay, try again!",
+    "Keep trying, you can do it!",
+    "You can do better!",
+    "Not quite, but don't give up!",
+    "Take another look!",
+    "Close, but not quite right!",
+    "Not correct, but keep going!",
+    "Give it another try!",
+    "Don't worry, you'll get it next time!",
+    "Try once more!"
+];

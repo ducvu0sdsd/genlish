@@ -161,6 +161,42 @@ export const question6 = (vocabularies) => {
     };
 };
 
+// đề tiếng anh tự ghi câu trả lời tiếng việt
+export const question7 = (vocabularies) => {
+    const arr = []
+    while (arr.length < 3) {
+        const r = getRandomInt(0, Math.floor(vocabularies.length / 2))
+        if (!arr.includes(r))
+            arr.push(r)
+    }
+    const vocabulary = {
+        english: vocabularies[arr[0]].split(':')[0],
+        vietnamese: vocabularies[arr[0]].split(':')[1]
+    }
+    return {
+        question: `${vocabulary.vietnamese}`,
+        type: 5
+    }
+}
+
+// đề tiếng việt tự ghi câu trả lời tiếng anh
+export const question8 = (vocabularies) => {
+    const arr = []
+    while (arr.length < 3) {
+        const r = getRandomInt(0, Math.floor(vocabularies.length / 2))
+        if (!arr.includes(r))
+            arr.push(r)
+    }
+    const vocabulary = {
+        english: vocabularies[arr[0]].split(':')[0],
+        vietnamese: vocabularies[arr[0]].split(':')[1]
+    }
+    return {
+        question: `${vocabulary.english}`,
+        type: 6
+    }
+}
+
 export const pronounces = [
     {
         name: 'David US',

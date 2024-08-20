@@ -3,13 +3,12 @@ import FormResult from './FormResult'
 import { practiceContext } from '@/context/PracticeContext'
 import { pronounces } from '@/utils/practice'
 
-const Type4 = ({ question, index }) => {
-
-    const { practiceData, practiceHandler } = useContext(practiceContext)
+const Type6 = ({ question, index }) => {
     let voices = globalThis.window.speechSynthesis.getVoices();
     let speakHandler = (voiceName, content) => { };
     const [ready, setReady] = useState(false)
-    const [myList, setMyList] = useState([])
+    const { practiceData, practiceHandler } = useContext(practiceContext)
+
     useEffect(() => {
         if (voices) {
             speakHandler = (voiceName, content) => {
@@ -33,14 +32,9 @@ const Type4 = ({ question, index }) => {
             speakHandler(pronounces[4], question.question)
         }
     }, [ready, practiceData.currentQuestion])
-
-    useEffect(() => {
-        practiceHandler.setMyAnswer(myList.join(' '))
-    }, [myList])
-
     return (
         <div className='w-[50%] flex flex-col gap-2 mt-4'>
-            <span className='text-[23px] font-semibold'>Sắp xếp bằng Tiếng Việt</span>
+            <span className='text-[23px] font-semibold'>Dịch Câu Sau</span>
             <div className='flex items-center gap-4'>
                 <img src='/logo.png' className='w-[100px] animate-slight-move' />
                 <div className="flex items-start transition-all">
@@ -50,20 +44,11 @@ const Type4 = ({ question, index }) => {
                     </div>
                 </div>
             </div>
-            <div className='min-h-[60px] w-full border-t-[1px] flex items-center gap-2 border-[#d1d1d1] border-b-[1px] mt-[1rem]'>
-                {myList.map((item, index) => (
-                    <button onClick={() => setMyList(prev => prev.filter(item1 => item1 !== item))} key={index} className='px-3 bg-[white] border-[1px] border-[#dfdfdf] shadow-md py-2 rounded-md hover:scale-[1.05] transition-all'>{item}</button>
-                ))}
-            </div>
-            <div className='flex gap-2 justify-start w-full items-center py-2 mt-[0.5rem] list'>
-                {question.options.map((option, index) => {
-                    if (!myList.includes(option)) {
-                        return <button onClick={() => setMyList(prev => [...prev, option])} key={index} className='px-3 bg-[white] border-[1px] border-[#dfdfdf] shadow-md py-2 rounded-md hover:scale-[1.05] transition-all'>{option}</button>
-                    }
-                })}
-            </div>
+            <textarea onChange={e => practiceHandler.setMyAnswer(e.target.value)} placeholder='Viết Tiếng Việt' className='w-[100%] h-[120px] focus:outline-0 p-2 text-[14px] border-[#d3d3d3] border-[1px] rounded-md '>
+
+            </textarea>
         </div>
     )
 }
 
-export default Type4
+export default Type6

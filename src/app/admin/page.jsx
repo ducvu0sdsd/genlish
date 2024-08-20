@@ -10,6 +10,12 @@ const Admin = () => {
         title: '',
         level: ''
     })
+
+    const [broadcast, setBroadcast] = useState({
+        vietnameseFile: null,
+        englishFile: null
+    })
+
     const [cua, setCua] = useState({
         gate: null,
         individual: {
@@ -35,6 +41,24 @@ const Admin = () => {
         api({ type: TypeHTTP.POST, sendToken: false, body: { ...cua }, path: '/door/save-or-update' })
             .then(door => console.log(door))
     }
+
+    const handleCreateBroadCast = () => {
+        const formData = new FormData()
+        formData.append('strs', broadcast.englishFile)
+        formData.append('strs', broadcast.vietnameseFile)
+        api({ sendToken: false, type: TypeHTTP.POST, path: '/broadcast/save', body: formData })
+    }
+
+    const handleFileChange = (e, type) => {
+        const selectedFile = e.target.files[0]; // Lấy file đầu tiên từ danh sách file
+        if (selectedFile) {
+            if (type === 'vietnam') {
+                setBroadcast({ ...broadcast, vietnameseFile: selectedFile })
+            } else {
+                setBroadcast({ ...broadcast, englishFile: selectedFile })
+            }
+        }
+    };
 
     useEffect(() => {
         api({ type: TypeHTTP.GET, path: '/gate/get-all', sendToken: false, })
@@ -79,6 +103,14 @@ const Admin = () => {
                     <div></div>
                 </div>
                 <button onClick={() => handleCreateCua()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] w-[10%] py-[7px] rounded-lg">Thêm</button>
+            </div>
+            <div className='w-full border-[1px] border-[#999] p-[1rem] flex flex-col gap-2'>
+                <span>Quản Lý BroadCast</span>
+                <div className='grid grid-cols-2 gap-3'>
+                    <input type='file' onChange={e => handleFileChange(e, 'english')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
+                    <input type='file' onChange={e => handleFileChange(e, 'vietnam')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
+                </div>
+                <button onClick={() => handleCreateBroadCast()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] w-[10%] py-[7px] rounded-lg">Thêm</button>
             </div>
         </section>
     )

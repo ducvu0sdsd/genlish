@@ -2,15 +2,16 @@ import { authContext } from '@/context/AuthContext'
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
 import { shuffleArray } from '@/utils/other'
-import { question1, question2, question3, question4, question5, question6 } from '@/utils/practice'
-import React, { useContext, useEffect, useState } from 'react'
+import { question1, question2, question3, question4, question5, question6, question7, question8 } from '@/utils/practice'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
-const Step = ({ margin, left, level, door, final = false }) => {
+const Step = ({ setTop, margin, left, level, door, final = false }) => {
     const trangThai = {
         1: 'Chưa Học',
         2: 'Hiện Tại',
         3: 'Đã Học'
     }
+    const stepRef = useRef(null); // Khởi tạo ref
     const { notifyHandler } = useContext(notifyContext)
     const { practiceHandler } = useContext(practiceContext)
     const { authData } = useContext(authContext)
@@ -26,6 +27,8 @@ const Step = ({ margin, left, level, door, final = false }) => {
                 question4(door.beginner),
                 question5(door.beginner),
                 question6(door.beginner),
+                question7(door.beginner),
+                question8(door.beginner),
             ])
             practiceHandler.setQuestions(questions)
             setPress(true)
@@ -44,22 +47,49 @@ const Step = ({ margin, left, level, door, final = false }) => {
             if (currentLevel.gate === door.gate.level && currentLevel.door === door.individual.door && currentLevel.level === level) {
                 setStatus(trangThai[2])
             }
-            if (currentLevel.gate >= door.gate.level && currentLevel.door >= door.individual.door && currentLevel.level > level) {
+            if (currentLevel.gate === door.gate.level && currentLevel.door === door.individual.door && currentLevel.level > level) {
+                setStatus(trangThai[3])
+            }
+            if (currentLevel.gate >= door.gate.level && currentLevel.door > door.individual.door) {
                 setStatus(trangThai[3])
             }
         }
     }, [authData.user, door, level])
 
+    useEffect(() => {
+        if (status === trangThai[2] && stepRef.current) {
+            const rect = stepRef.current.getBoundingClientRect();
+            const elementTop = rect.top + window.pageYOffset - window.innerHeight / 2;
+            setTop(elementTop)
+        }
+    }, [status])
+
     return (
-        <button onClick={() => handleAnimate()} style={left === false ? { marginLeft: `${margin}px` } : { marginRight: `${margin}px` }} className='relative z-50'>
-            <div style={{ top: press ? '8px' : 0, backgroundColor: status === trangThai[1] ? '#e5e5e5' : status === trangThai[2] ? '#85c1e9' : '#58d68d' }} className='h-[65px] transition-all absolute z-10 w-[70px] rounded-full flex items-center justify-center'>
+        <button
+            ref={status === trangThai[2] ? stepRef : null} // Gán ref đúng cách
+            onClick={() => handleAnimate()}
+            style={left === false ? { marginLeft: `${margin}px` } : { marginRight: `${margin}px` }}
+            className={`relative z-20`}
+        >
+            <div
+                style={{
+                    top: press ? '8px' : 0,
+                    backgroundColor: status === trangThai[1] ? '#e5e5e5' : status === trangThai[2] ? '#85c1e9' : '#58d68d'
+                }}
+                className='h-[65px] transition-all absolute z-10 w-[70px] rounded-full flex items-center justify-center'
+            >
                 {final ? (
                     <i style={{ color: status === trangThai[1] ? '#afafaf' : 'white' }} className="fa-solid fa-champagne-glasses text-[32px]"></i>
                 ) : (
                     <i style={{ color: status === trangThai[1] ? '#afafaf' : 'white' }} className="fa-solid fa-star text-[32px]"></i>
                 )}
             </div>
-            <div style={{ backgroundColor: status === trangThai[1] ? '#b7b7b7' : status === trangThai[2] ? '#2e86c1' : '#229954' }} className='h-[65px] absolute top-[8px] w-[70px] rounded-full'></div>
+            <div
+                style={{
+                    backgroundColor: status === trangThai[1] ? '#b7b7b7' : status === trangThai[2] ? '#2e86c1' : '#229954'
+                }}
+                className='h-[65px] absolute top-[8px] w-[70px] rounded-full'
+            ></div>
             <div className='h-[78px] relative w-[80px]'>
                 {status === trangThai[2] && (
                     <div className='animate-slight-move flex items-center gap-2 shadow-xl z-50 rounded-xl ml-[-140%] bg-[#85c1e9] px-2 py-2 w-[100px]'>
@@ -68,7 +98,7 @@ const Step = ({ margin, left, level, door, final = false }) => {
                     </div>
                 )}
             </div>
-        </button >
+        </button>
     )
 }
 

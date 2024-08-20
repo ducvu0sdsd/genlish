@@ -6,6 +6,8 @@ import Type1 from '@/components/practice/Type1'
 import Type2 from '@/components/practice/Type2'
 import Type3 from '@/components/practice/Type3'
 import Type4 from '@/components/practice/Type4'
+import Type5 from '@/components/practice/Type5'
+import Type6 from '@/components/practice/Type6'
 import { notifyContext } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
 import Link from 'next/link'
@@ -44,8 +46,12 @@ const Practice = () => {
                                 <Type2 question={question} index={index} />
                             ) : question.type === 3 ? (
                                 <Type3 question={question} index={index} />
-                            ) : question.type === 4 && (
+                            ) : question.type === 4 ? (
                                 <Type4 question={question} index={index} />
+                            ) : question.type === 5 ? (
+                                <Type5 question={question} index={index} />
+                            ) : question.type === 6 && (
+                                <Type6 question={question} index={index} />
                             )}
                         </div>
                     ))}

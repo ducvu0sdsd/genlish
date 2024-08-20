@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Logo from './Logo'
 import { notifyContext } from '@/context/NotifyContext'
 import { authContext } from '@/context/AuthContext'
+import Link from 'next/link'
 
 const Navbar = () => {
 
@@ -19,18 +20,22 @@ const Navbar = () => {
         <section className='w-[18%] px-[1.5rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
             <Logo />
             <div className='flex flex-col gap-2 mt-[1rem]'>
-                <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                    <img src='/book-menu.png' className='w-[32px]' />
-                    <span className='font-semibold text-[#d69898] text-[15px]'>Học Từ Vựng</span>
-                </div>
+                <Link href={'/learn'}>
+                    <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
+                        <img src='/book-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#d69898] text-[15px]'>Học Từ Vựng</span>
+                    </div>
+                </Link>
                 <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
                     <img src='/glass-menu.png' className='w-[32px]' />
                     <span className='font-semibold text-[#393939] text-[15px]'>Tra Từ Vựng</span>
                 </div>
-                <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                    <img src='/radio-menu.png' className='w-[32px]' />
-                    <span className='font-semibold text-[#393939] text-[15px]'>Broadcast</span>
-                </div>
+                <Link href={'/broad-casts'}>
+                    <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
+                        <img src='/radio-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#393939] text-[15px]'>Broadcast</span>
+                    </div>
+                </Link>
                 <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
                     <img src='/com-menu.png' className='w-[32px]' />
                     <span className='font-semibold text-[#393939] text-[15px]'>Giao Tiếp AI</span>

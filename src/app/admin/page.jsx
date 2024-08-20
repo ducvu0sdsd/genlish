@@ -1,10 +1,14 @@
 'use client'
+import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { handleFileUpload } from '@/utils/file'
-import React, { useEffect, useState } from 'react'
+import { formatDuration, parseISO8601Duration } from '@/utils/other'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 
 const Admin = () => {
     const [gates, setGates] = useState([])
+    const { notifyHandler } = useContext(notifyContext)
 
     const [ai, setAi] = useState({
         title: '',
@@ -13,7 +17,8 @@ const Admin = () => {
 
     const [broadcast, setBroadcast] = useState({
         vietnameseFile: null,
-        englishFile: null
+        englishFile: null,
+        urlVideo: ''
     })
 
     const [cua, setCua] = useState({
@@ -34,19 +39,45 @@ const Admin = () => {
 
     const handleCreateAi = () => {
         api({ type: TypeHTTP.POST, sendToken: false, body: { ...ai }, path: '/gate/save' })
-            .then(gate => console.log(gate))
+            .then(gate => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
+            })
+            .catch(error => {
+                notifyHandler.notify(notifyType.FAIL, error.message)
+            })
     }
 
     const handleCreateCua = () => {
         api({ type: TypeHTTP.POST, sendToken: false, body: { ...cua }, path: '/door/save-or-update' })
-            .then(door => console.log(door))
+            .then(door => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
+            })
+            .catch(error => {
+                notifyHandler.notify(notifyType.FAIL, error.message)
+            })
     }
 
-    const handleCreateBroadCast = () => {
+    const handleCreateBroadCast = async () => {
         const formData = new FormData()
         formData.append('strs', broadcast.englishFile)
         formData.append('strs', broadcast.vietnameseFile)
+        const res = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${broadcast.urlVideo}&key=${'AIzaSyDBJ0uR3jcjnJDB3BOZYW8eJvIkGVFjdlw'}&part=snippet,contentDetails,statistics,status`)
+        const title = res.data.items[0].snippet.title
+        const thum = res.data.items[0].snippet.thumbnails.maxres.url
+        const duration = formatDuration(parseISO8601Duration(res.data.items[0].contentDetails.duration)).replace('00:', '')
+        const channelName = res.data.items[0].snippet.channelTitle
+        formData.append('urlVideo', broadcast.urlVideo);
+        formData.append('title', title)
+        formData.append('thum', thum)
+        formData.append('duration', duration)
+        formData.append('channelName', channelName)
         api({ sendToken: false, type: TypeHTTP.POST, path: '/broadcast/save', body: formData })
+            .then(broadcast => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
+            })
+            .catch(error => {
+                notifyHandler.notify(notifyType.FAIL, error.message)
+            })
     }
 
     const handleFileChange = (e, type) => {
@@ -109,6 +140,7 @@ const Admin = () => {
                 <div className='grid grid-cols-2 gap-3'>
                     <input type='file' onChange={e => handleFileChange(e, 'english')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
                     <input type='file' onChange={e => handleFileChange(e, 'vietnam')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
+                    <input value={broadcast.urlVideo} onChange={e => setBroadcast({ ...broadcast, urlVideo: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='URL Video' />
                 </div>
                 <button onClick={() => handleCreateBroadCast()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] w-[10%] py-[7px] rounded-lg">Thêm</button>
             </div>

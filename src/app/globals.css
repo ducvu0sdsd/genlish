@@ -52,3 +52,14 @@
 .shake {
     animation: shake 0.3s ease-in-out;
 }
+
+.english-active {
+    font-size: 21px;
+    margin-bottom: 7px;
+    color: #6dbaa8;
+}
+
+.vietnamese-active {
+    font-size: 17px;
+    color: #6dbaa8;
+}

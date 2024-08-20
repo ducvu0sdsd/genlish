@@ -30,7 +30,7 @@ const MoreInformation = () => {
     }
 
     const getProcess = (door) => {
-        const currentLevel = authData.user.study.levelVocabulary
+        const currentLevel = authData.user?.study?.levelVocabulary
         if (currentLevel.gate === door.gate.level && currentLevel.door === door.individual.door) {
             return currentLevel.level
         }

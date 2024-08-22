@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const accessToken = globalThis.window.localStorage.getItem('accessToken')
         const refreshToken = globalThis.window.localStorage.getItem('refreshToken')
-        const privateRoutes = ['/learn', '/practice', '/broad-casts']
+        const privateRoutes = ['/learn', '/practice', '/broad-casts', '/communicate-with-ai']
         if (privateRoutes.includes(pathname)) {
             if (!accessToken || !refreshToken) {
                 notifyHandler.navigate('/')
@@ -37,11 +37,13 @@ const AuthProvider = ({ children }) => {
             if (accessToken && refreshToken) {
                 api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
                     .then(res => {
-                        setUser(res)
-                        if (res.statusSignUp === 7) {
-                            notifyHandler.navigate('/learn')
-                        } else {
-                            notifyHandler.navigate('/getting-started')
+                        if (res) {
+                            setUser(res)
+                            if (res?.statusSignUp === 7) {
+                                notifyHandler.navigate('/learn')
+                            } else {
+                                notifyHandler.navigate('/getting-started')
+                            }
                         }
                     })
             }

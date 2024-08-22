@@ -44,7 +44,7 @@ const Type1 = ({ question, index }) => {
         <div className='w-[50%] flex flex-col gap-4'>
             <span className='text-[23px] font-semibold'>Bạn nghe được gì?</span>
             <div className='flex items-center gap-4 justify-center'>
-                <div class="flex items-start transition-all">
+                <div className="flex items-start transition-all">
                     <button
                         className={`bg-[#1cb0f6] p-[1.5rem] rounded-xl transition-all text-[white] ${isClicked ? 'shadow-2xl shake' : 'shadow-lg'
                             }`}

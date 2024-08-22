@@ -7,8 +7,6 @@ import React, { useContext } from 'react'
 
 const Learn = () => {
 
-    const { authData } = useContext(authContext)
-
     return (
         <section className='w-full h-screen flex'>
             <Navbar />

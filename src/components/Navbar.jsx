@@ -36,10 +36,12 @@ const Navbar = () => {
                         <span className='font-semibold text-[#393939] text-[15px]'>Broadcast</span>
                     </div>
                 </Link>
-                <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                    <img src='/com-menu.png' className='w-[32px]' />
-                    <span className='font-semibold text-[#393939] text-[15px]'>Giao Tiếp AI</span>
-                </div>
+                <Link href={'/communicate-with-ai'}>
+                    <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
+                        <img src='/com-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#393939] text-[15px]'>Giao Tiếp AI</span>
+                    </div>
+                </Link>
                 <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
                     <img src='/person-menu.png' className='w-[32px]' />
                     <span className='font-semibold text-[#393939] text-[15px]'>Hồ Sơ</span>

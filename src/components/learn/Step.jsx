@@ -19,25 +19,150 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
     const [status, setStatus] = useState(trangThai[1])
 
     const handleAnimate = () => {
-        if (status !== trangThai[1]) {
-            const questions = shuffleArray([
-                question1(door.beginner),
-                question2(door.beginner),
-                question3(door.beginner),
-                question4(door.beginner),
-                question5(door.beginner),
-                question6(door.beginner),
-                question7(door.beginner),
-                question8(door.beginner),
-            ])
-            practiceHandler.setQuestions(questions)
-            setPress(true)
-            setTimeout(() => {
-                setPress(false)
-                notifyHandler.navigate('/practice')
-            }, 200);
-        } else {
-            notifyHandler.notify(notifyType.WARNING, 'Hãy hoàn thành bài học trước để có thể kiểm tra')
+        try {
+            if (status !== trangThai[1]) {
+                const tests1 = [door.beginner, door.elementary, door.intermediate, door.upperIntermediate, door.advanced].filter(item => item.length > 0).length
+                let tests = []
+                if (level === door.individual.numberOfTest) {
+                    if (Math.floor(door.individual.numberOfTest / 4) < 4) {
+                        tests = shuffleArray([...door.beginner, ...door.elementary, ...door.intermediate])
+                    } else {
+                        tests = shuffleArray([...door.beginner, ...door.elementary, ...door.intermediate, ...door.upperIntermediate, ...door.advanced])
+                    }
+                } else {
+                    if (level <= 4) {
+                        tests = [...door.beginner]
+                    } else if (level > 4 && level <= 8) {
+                        tests = [...door.elementary, ...shuffleArray(door.beginner.filter((item, index) => index < door.beginner.length / 2))]
+                    } else if (level > 8 && level <= 12) {
+                        tests = [...door.intermediate, ...shuffleArray(door.elementary.filter((item, index) => index < door.elementary.length / 2))]
+                    } else if (level > 12 && level <= 16) {
+                        tests = [...door.upperIntermediate, ...shuffleArray(door.intermediate.filter((item, index) => index < door.intermediate.length / 2))]
+                    } else if (level > 16 && level <= 20) {
+                        tests = [...door.advanced, ...shuffleArray(door.upperIntermediate.filter((item, index) => index < door.upperIntermediate.length / 2))]
+                    }
+                }
+
+                let questions = []
+                if (level === door.individual.numberOfTest) {
+                    questions = shuffleArray([
+                        question1(tests),
+                        question2(tests),
+                        question3(tests),
+                        question4(tests),
+                        question5(tests),
+                        question6(tests),
+                        question7(tests),
+                        question8(tests),
+                        question1(tests),
+                        question2(tests),
+                        question3(tests),
+                        question4(tests),
+                        question5(tests),
+                        question6(tests),
+                        question7(tests),
+                        question8(tests),
+                        question3(tests),
+                        question4(tests),
+                        question5(tests),
+                        question6(tests),
+                        question7(tests),
+                        question8(tests),
+                        question7(tests),
+                        question8(tests),
+                        question2(tests),
+                        question3(tests),
+                        question4(tests),
+                        question5(tests),
+                        question6(tests),
+                        question7(tests),
+                        question8(tests),
+                        question1(tests),
+                        question2(tests),
+                        question3(tests),
+                        question4(tests),
+                    ])
+                }
+                else {
+                    if (level <= 4) {
+                        questions = shuffleArray([
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                        ])
+                    } else if (level > 16 && level <= 20) {
+                        questions = shuffleArray([
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                            question7(tests),
+                            question8(tests),
+                            question7(tests),
+                            question8(tests),
+                            question8(tests),
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                        ])
+                    }
+                    else {
+                        questions = shuffleArray([
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                            question7(tests),
+                            question8(tests),
+                            question7(tests),
+                            question8(tests),
+                        ])
+                    }
+                }
+                console.log(questions)
+                practiceHandler.setQuestions(questions)
+                setPress(true)
+                setTimeout(() => {
+                    setPress(false)
+                    notifyHandler.navigate('/practice')
+                }, 200);
+            } else {
+                notifyHandler.notify(notifyType.WARNING, 'Hãy hoàn thành bài học trước để có thể kiểm tra')
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 

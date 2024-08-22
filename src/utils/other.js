@@ -133,3 +133,9 @@ export function parseISO8601Duration(durationString) {
         return 0;
     }
 }
+
+export function removeSpecialChars(str) {
+    // Biểu thức chính quy để khớp với tất cả các ký tự đặc biệt
+    const specialCharsRegex = /[\/\\.,\-()'"[\]{}_+=*!@#$%^&~|;:?]/g;
+    return str.replace(specialCharsRegex, '');
+}

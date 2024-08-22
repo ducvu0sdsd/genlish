@@ -8,7 +8,7 @@ import Type3 from '@/components/practice/Type3'
 import Type4 from '@/components/practice/Type4'
 import Type5 from '@/components/practice/Type5'
 import Type6 from '@/components/practice/Type6'
-import { notifyContext } from '@/context/NotifyContext'
+import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
 import Link from 'next/link'
 import React, { useContext, useEffect, useRef, useState } from 'react'
@@ -17,6 +17,7 @@ const Practice = () => {
     const { practiceData } = useContext(practiceContext)
     const { notifyHandler } = useContext(notifyContext)
     const [questions, setQuestions] = useState([])
+    const [wrong, setWrong] = useState(0)
     const stepRef = useRef()
 
     useEffect(() => {
@@ -26,6 +27,18 @@ const Practice = () => {
             setQuestions(practiceData.questions)
         }
     }, [practiceData.questions])
+
+    useEffect(() => {
+        setWrong(0)
+    }, [questions])
+
+    useEffect(() => {
+        if (wrong === 5) {
+            setWrong(0)
+            notifyHandler.notify(notifyType.FAIL, 'Bạn đã trượt bài học này')
+            notifyHandler.navigate('/learn')
+        }
+    }, [wrong])
 
 
     return (
@@ -57,7 +70,7 @@ const Practice = () => {
                     ))}
                 </div>
             </div>
-            <FormResult />
+            <FormResult setWrong={setWrong} />
         </section>
     )
 }

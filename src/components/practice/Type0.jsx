@@ -50,3 +50,5 @@ const Type0 = ({ question, index }) => {
 }
 
 export default Type0
+
+

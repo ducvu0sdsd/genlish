@@ -46,6 +46,8 @@ const Type2 = ({ question, index }) => {
     useEffect(() => {
         if (ready && practiceData.currentQuestion === index) {
             speakHandler(pronounces[4], question.question.english)
+        } else {
+            setMyList([])
         }
     }, [ready, practiceData.currentQuestion])
 

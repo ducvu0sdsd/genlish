@@ -50,12 +50,12 @@ const Type4 = ({ question, index }) => {
                     </div>
                 </div>
             </div>
-            <div className='min-h-[60px] w-full border-t-[1px] flex items-center gap-2 border-[#d1d1d1] border-b-[1px] mt-[1rem]'>
+            <div className='min-h-[60px] w-full border-t-[1px] flex flex-wrap items-center gap-2 border-[#d1d1d1] border-b-[1px] mt-[0.5rem]'>
                 {myList.map((item, index) => (
                     <button onClick={() => setMyList(prev => prev.filter(item1 => item1 !== item))} key={index} className='px-3 bg-[white] border-[1px] border-[#dfdfdf] shadow-md py-2 rounded-md hover:scale-[1.05] transition-all'>{item}</button>
                 ))}
             </div>
-            <div className='flex gap-2 justify-start w-full items-center py-2 mt-[0.5rem] list'>
+            <div className='flex gap-2 justify-start w-full items-center flex-wrap py-2 mt-2 list'>
                 {question.options.map((option, index) => {
                     if (!myList.includes(option)) {
                         return <button onClick={() => setMyList(prev => [...prev, option])} key={index} className='px-3 bg-[white] border-[1px] border-[#dfdfdf] shadow-md py-2 rounded-md hover:scale-[1.05] transition-all'>{option}</button>

@@ -1,13 +1,14 @@
+'use client'
 import { authContext } from '@/context/AuthContext'
 import { notifyContext } from '@/context/NotifyContext'
 import { practiceContext } from '@/context/PracticeContext'
 import { studyContext } from '@/context/StudyContext'
 import { api, TypeHTTP } from '@/utils/api'
-import { correctResponses, incorrectResponses, shuffleArray } from '@/utils/other'
+import { correctResponses, incorrectResponses, removeSpecialChars, shuffleArray } from '@/utils/other'
 import { pronounces } from '@/utils/practice'
 import React, { useContext, useEffect, useState } from 'react'
 
-const FormResult = () => {
+const FormResult = ({ setWrong }) => {
     const { practiceData, practiceHandler } = useContext(practiceContext)
     const { notifyHandler } = useContext(notifyContext)
     const { studyData } = useContext(studyContext)
@@ -37,39 +38,36 @@ const FormResult = () => {
         setStatus(0)
     }, [practiceData.currentQuestion])
 
-    const handleCheckAnswer = () => {
-        if (practiceData.questions[practiceData.currentQuestion].type === 4 || practiceData.questions[practiceData.currentQuestion].type === 6) {
-            const ask = `'${practiceData.questions[practiceData.currentQuestion].question}' trong tiếng việt có phải là '${practiceData.myAnswer}' đúng không?, chỉ trả về đúng 1 chữ 'true' hoặc 'false' thôi, không trả lời gì thêm. No yapping - kiểm tra thật kĩ càng giúp tôi nha, vì tôi cần độ chính xác cao nhất`
-            api({ sendToken: false, type: TypeHTTP.POST, path: '/openai/ask', body: { ask } })
-                .then(res => {
-                    if (res.toLowerCase().includes('true')) {
-                        speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
-                        setStatus(1)
-                    } else {
-                        speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
-                        setStatus(-1)
-                    }
-                })
-        } else if (practiceData.questions[practiceData.currentQuestion].type === 5) {
-            const ask = `'${practiceData.questions[practiceData.currentQuestion].question}' trong tiếng anh là '${practiceData.myAnswer}' đúng không?, chỉ trả về đúng 1 chữ 'true' hoặc 'false' thôi, không trả lời gì thêm. No yapping - kiểm tra thật kĩ càng giúp tôi nha, vì tôi cần độ chính xác cao nhất`
-            api({ sendToken: false, type: TypeHTTP.POST, path: '/openai/ask', body: { ask } })
-                .then(res => {
-                    if (res.toLowerCase().includes('true')) {
-                        speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
-                        setStatus(1)
-                    } else {
-                        speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
-                        setStatus(-1)
-                    }
-                })
-        } else {
-            if (practiceData.myAnswer === practiceData.questions[practiceData.currentQuestion].answer) {
-                speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
-                setStatus(1)
-            } else {
-                speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
-                setStatus(-1)
+    useEffect(() => {
+        const handleKeyDown = async (event) => {
+            if (event.code === 'Enter') {
+                event.preventDefault();
+                if (status === 0) {
+                    handleCheckAnswer()
+                }
             }
+            if (event.code === 'AltRight') {
+                event.preventDefault();
+                if (status !== 0) {
+                    handleNext()
+                }
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [practiceData.currentQuestion, practiceData.myAnswer, status]);
+
+    const handleCheckAnswer = () => {
+        console.log(removeSpecialChars(practiceData.myAnswer.trim().toLowerCase()), removeSpecialChars(practiceData.questions[practiceData.currentQuestion].answer.trim().toLowerCase()))
+        if (removeSpecialChars(practiceData.myAnswer.trim().toLowerCase()) === removeSpecialChars(practiceData.questions[practiceData.currentQuestion].answer.trim().toLowerCase())) {
+            speakHandler(pronounces[4], shuffleArray(correctResponses)[0])
+            setStatus(1)
+        } else {
+            setWrong(prev => prev + 1)
+            speakHandler(pronounces[4], shuffleArray(incorrectResponses)[0])
+            setStatus(-1)
         }
     }
 
@@ -125,7 +123,14 @@ const FormResult = () => {
                 <div style={{ transition: '0.5s', top: status === 1 ? '0' : '100%' }} className='w-full h-full px-[25%] items-center py-6 flex justify-between absolute left-0 bg-[#d7ffb8] z-50'>
                     <div className='flex items-center gap-4'>
                         <img src='/success.png' className=' w-[70px] z-50' />
-                        <span className='text-[21px] font-semibold text-[#009c22]'>Đúng rồi !!!</span>
+                        <div className='flex flex-col'>
+                            <span className='text-[21px] font-semibold text-[#009c22]'>Đúng rồi !!!</span>
+                            {![2].includes(practiceData.questions[practiceData.currentQuestion]?.type) && (
+                                <>
+                                    <span className='font-semibold text-[#4f4f4f]'>{practiceData.questions[practiceData.currentQuestion]?.display.english} - {practiceData.questions[practiceData.currentQuestion]?.display.vietnamese}</span>
+                                </>
+                            )}
+                        </div>
                     </div>
                     {practiceData.currentQuestion === practiceData.questions.length - 1 ? (
                         <button onClick={() => handleComplete()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] px-10 py-[7px] rounded-lg">Hoàn Thành</button>
@@ -137,7 +142,14 @@ const FormResult = () => {
                 <div style={{ transition: '0.5s', top: status === -1 ? '0' : '100%' }} className='w-full h-full px-[25%] items-center py-6 flex justify-between absolute left-0 bg-[#ffdfe0] z-50'>
                     <div className='flex items-center gap-4'>
                         <img src='/fail.png' className=' w-[60px] z-50' />
-                        <span className='text-[20px] font-bold text-[red]'>Sai Rồi !!!</span>
+                        <div className='flex flex-col'>
+                            <span className='text-[20px] font-bold text-[red]'>Sai Rồi !!!</span>
+                            {![2].includes(practiceData.questions[practiceData.currentQuestion]?.type) && (
+                                <>
+                                    <span className='font-semibold text-[#4f4f4f]'>{practiceData.questions[practiceData.currentQuestion]?.display.english} - {practiceData.questions[practiceData.currentQuestion]?.display.vietnamese}</span>
+                                </>
+                            )}
+                        </div>
                     </div>
                     {practiceData.currentQuestion === practiceData.questions.length - 1 ? (
                         <button onClick={() => handleComplete()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] px-10 py-[7px] rounded-lg">Hoàn Thành</button>

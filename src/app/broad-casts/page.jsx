@@ -14,8 +14,6 @@ const BroadCasts = () => {
             .then(broadcasts => setBroadCasts(broadcasts))
     }, [])
 
-    console.log(broadcasts)
-
     return (
         <section className='w-full h-screen flex'>
             <Navbar />

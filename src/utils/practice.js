@@ -25,6 +25,7 @@ export const question1 = (vocabularies) => {
         question: `${vocabulary.vietnamese}`,
         options: shuffleArray([vocabulary.english, false1, false2]),
         answer: vocabulary.english,
+        display: vocabulary,
         type: 0
     }
 }
@@ -47,6 +48,7 @@ export const question2 = (vocabularies) => {
         question: `${vocabulary.vietnamese}`,
         options: shuffleArray([vocabulary.english, false1, false2]),
         answer: vocabulary.english,
+        display: vocabulary,
         type: 0
     }
 }
@@ -73,6 +75,7 @@ export const question3 = (vocabularies) => {
         answer,
         question,
         options,
+        display: vocabulary,
         type: 1
     }
 }
@@ -123,6 +126,7 @@ export const question5 = (vocabularies) => {
         answer,
         question,
         options,
+        display: arr[0],
         type: 3
     }
 }
@@ -157,6 +161,7 @@ export const question6 = (vocabularies) => {
         question: `${question}`,
         answer: answer,
         options: options,
+        display: selectedIndices[1],
         type: 4,
     };
 };
@@ -175,7 +180,9 @@ export const question7 = (vocabularies) => {
     }
     return {
         question: `${vocabulary.vietnamese}`,
-        type: 5
+        type: 5,
+        answer: vocabulary.english,
+        display: vocabulary
     }
 }
 
@@ -193,7 +200,9 @@ export const question8 = (vocabularies) => {
     }
     return {
         question: `${vocabulary.english}`,
-        type: 6
+        type: 6,
+        answer: vocabulary.vietnamese,
+        display: vocabulary
     }
 }
 

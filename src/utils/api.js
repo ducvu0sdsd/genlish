@@ -1,5 +1,5 @@
 import axios from "axios";
-export let baseURL = 'http://localhost:8080/api/v1'
+export let baseURL = 'https://genlish-be.vercel.app/api/v1'
 axios.defaults.baseURL = `${baseURL}`
 
 export const TypeHTTP = {

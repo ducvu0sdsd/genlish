@@ -14,24 +14,22 @@ const FormResult = ({ setWrong }) => {
     const { studyData } = useContext(studyContext)
     const { authData, authHandler } = useContext(authContext)
     const [status, setStatus] = useState(0)
-    let voices = globalThis.window.speechSynthesis.getVoices();
+    let voices = globalThis.window?.speechSynthesis.getVoices();
     let speakHandler = (voiceName, content) => { };
 
     useEffect(() => {
-        if (voices) {
-            speakHandler = (voiceName, content) => {
-                const utterance = new SpeechSynthesisUtterance(content);
-                utterance.rate = 1;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-                voices = globalThis.window.speechSynthesis.getVoices();
-                const selectedVoice = voices.find(voice => voice.name === voiceName);
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                globalThis.window.speechSynthesis.speak(utterance);
-            };
-        }
+        speakHandler = (voiceName, content) => {
+            const utterance = new SpeechSynthesisUtterance(content);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            voices = globalThis.window?.speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => voice.name === voiceName);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            globalThis.window?.speechSynthesis.speak(utterance);
+        };
     }, [voices]);
 
     useEffect(() => {

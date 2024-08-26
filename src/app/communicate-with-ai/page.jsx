@@ -13,7 +13,7 @@ const CommunicateWithAI = () => {
     const [value, setValue] = useState('')
     const [visibleSend, setVisibleSend] = useState(false)
     const { authData } = useContext(authContext)
-    let voices = globalThis.window.speechSynthesis.getVoices();
+    let voices = globalThis.window?.speechSynthesis.getVoices();
     let speakHandler = (voiceName, content) => { };
     const [messages, setMessages] = useState([])
     const chatRef = useRef()
@@ -24,12 +24,12 @@ const CommunicateWithAI = () => {
             utterance.rate = 1;
             utterance.pitch = 1;
             utterance.volume = 1;
-            voices = globalThis.window.speechSynthesis.getVoices();
+            voices = globalThis.window?.speechSynthesis.getVoices();
             const selectedVoice = voices.find(voice => voice.name === voiceName);
             if (selectedVoice) {
                 utterance.voice = selectedVoice;
             }
-            globalThis.window.speechSynthesis.speak(utterance);
+            globalThis.window?.speechSynthesis.speak(utterance);
         };
     }, [voices]);
 

@@ -6,26 +6,24 @@ import { pronounces } from '@/utils/practice'
 const Type4 = ({ question, index }) => {
 
     const { practiceData, practiceHandler } = useContext(practiceContext)
-    let voices = globalThis.window.speechSynthesis.getVoices();
+    let voices = globalThis.window?.speechSynthesis.getVoices();
     let speakHandler = (voiceName, content) => { };
     const [ready, setReady] = useState(false)
     const [myList, setMyList] = useState([])
     useEffect(() => {
-        if (voices) {
-            speakHandler = (voiceName, content) => {
-                const utterance = new SpeechSynthesisUtterance(content);
-                utterance.rate = 1;
-                utterance.pitch = 1;
-                utterance.volume = 1;
-                voices = globalThis.window.speechSynthesis.getVoices();
-                const selectedVoice = voices.find(voice => voice.name === voiceName);
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                globalThis.window.speechSynthesis.speak(utterance);
-            };
+        speakHandler = (voiceName, content) => {
+            const utterance = new SpeechSynthesisUtterance(content);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            voices = globalThis.window?.speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => voice.name === voiceName);
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            globalThis.window?.speechSynthesis.speak(utterance);
             setReady(true)
-        }
+        };
     }, [voices]);
 
     useEffect(() => {

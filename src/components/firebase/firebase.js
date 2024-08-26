@@ -16,14 +16,24 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 //     measurementId: "G-KW0XQS2J58"
 // };
 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyC30TN_4w_Mlza2Ai8VpqLzaFF2L5vUrtI",
+//     authDomain: "genlish-82212.firebaseapp.com",
+//     projectId: "genlish-82212",
+//     storageBucket: "genlish-82212.appspot.com",
+//     messagingSenderId: "321536514856",
+//     appId: "1:321536514856:web:632ef6d48e206360dc8e1d",
+//     measurementId: "G-73H5E8VCEV"
+// };
+
 const firebaseConfig = {
-    apiKey: "AIzaSyC30TN_4w_Mlza2Ai8VpqLzaFF2L5vUrtI",
-    authDomain: "genlish-82212.firebaseapp.com",
-    projectId: "genlish-82212",
-    storageBucket: "genlish-82212.appspot.com",
-    messagingSenderId: "321536514856",
-    appId: "1:321536514856:web:632ef6d48e206360dc8e1d",
-    measurementId: "G-73H5E8VCEV"
+    apiKey: "AIzaSyBDEELUjcxImDDzFCnBgj8aWQNMSo2wW7U",
+    authDomain: "genlish-a9054.firebaseapp.com",
+    projectId: "genlish-a9054",
+    storageBucket: "genlish-a9054.appspot.com",
+    messagingSenderId: "423036501386",
+    appId: "1:423036501386:web:e9efeb29ee2bd26cc45c73",
+    measurementId: "G-S9J2E3H96N"
 };
 
 // const firebaseConfig = {

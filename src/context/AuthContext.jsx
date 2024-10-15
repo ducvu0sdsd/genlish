@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
                                 notifyHandler.navigate('/admin')
                             } else {
                                 if (res?.statusSignUp === 7) {
-                                    notifyHandler.navigate('/learn')
+                                    notifyHandler.navigate('/course')
                                 } else {
                                     notifyHandler.navigate('/getting-started')
                                 }

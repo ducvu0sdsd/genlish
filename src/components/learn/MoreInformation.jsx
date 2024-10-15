@@ -42,19 +42,11 @@ const MoreInformation = () => {
 
     return (
         <div className='w-[28%] flex flex-col gap-4 h-screen overflow-auto py-[1rem]'>
-            <div className='flex text-[#6e6e6e] items-center justify-evenly w-full'>
+            <div className='flex text-[#6e6e6e] items-center justify-end gap-4 w-full'>
                 <img src='/america.png' className='w-[40px]' />
-                <div className='flex items-center'>
-                    <img src='/fire.png' className='w-[35px]' />
-                    <span className='text-[21px] font-semibold'>0</span>
-                </div>
-                <div className='flex items-center'>
-                    <img src='/vocabulary.png' className='w-[45px]' />
-                    <span className='text-[21px] font-semibold'>0</span>
-                </div>
                 <img src={authData.user?.avatar} className='w-[40px] rounded-full' />
             </div>
-            <div className='gap-3 mt-2 border-[2px] p-4 border-[#f2f2f2] rounded-xl flex items-center justify-evenly w-full'>
+            {/* <div className='gap-3 mt-2 border-[2px] p-4 border-[#f2f2f2] rounded-xl flex items-center justify-evenly w-full'>
                 <img src='/level.png' className='w-[50px]' />
                 <div className='flex flex-col gap-1'>
                     <span className='font-bold text-[#5d5d5d] text-[18px]'>Trình độ của tôi</span>
@@ -64,17 +56,17 @@ const MoreInformation = () => {
                         ))}
                     </select>
                 </div>
-            </div>
-            <div className='border-[2px] text-[#5d5d5d] h-[65%] p-4 pb-0 border-[#f2f2f2] rounded-xl w-full'>
+            </div> */}
+            <div className='border-[2px] text-[#5d5d5d] h-[90%] p-4 pb-0 border-[#f5f5f5] rounded-xl w-full'>
                 <div className='flex w-full items-center gap-3'>
                     <img src='/ai.png' className='w-[52px]' />
                     <span className='font-bold text-[18px]'>{studyData.gates[0]?.title}</span>
                 </div>
                 <div className='w-full cursor-pointer mt-3 h-[75%] overflow-auto items-center transition-all flex flex-col gap-2'>
                     {studyData.doors.map((door, index) => (
-                        <div key={index} style={{ backgroundColor: door.individual.color }} className={`flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] px-2 py-1 rounded-lg`}>
-                            <img className='h-[35px]' src={door.individual.image} />
-                            <span className='font-semibold'>{`Cửa ${door.individual.door}: ${door.individual.title} (${getProcess(door)}/${door.individual.numberOfTest})`}</span>
+                        <div key={index} style={{ backgroundColor: door.individual.color }} className={`flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] px-2 py-3 rounded-lg`}>
+                            <img className='h-[25px]' src={door.individual.image} />
+                            <span className='font-semibold text-[15px] translate-y-[2px]'>{`Cửa ${door.individual.door}: ${door.individual.title} (${getProcess(door)}/${door.individual.numberOfTest})`}</span>
                         </div>
                     ))}
                 </div>

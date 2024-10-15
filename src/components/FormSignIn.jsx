@@ -29,7 +29,7 @@ const FormSignIn = ({ visible, hidden }) => {
                 globalThis.localStorage.setItem('refreshToken', res.tokens.refreshToken)
                 authHandler.setUser(res.user)
                 if (res.user.statusSignUp === 7) {
-                    router.push('/learn')
+                    router.push('/course')
                 } else {
                     router.push('/getting-started')
                 }

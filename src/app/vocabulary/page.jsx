@@ -80,7 +80,7 @@ const Vocabularu = () => {
         >
             <section className='h-screen w-full flex'>
                 <Navbar />
-                <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+                <div className="max-w-4xl mx-auto p-6 rounded-lg flex flex-col justify-center">
                     <h1 className="text-3xl font-bold text-center mb-6">Từ Điển Anh - Việt</h1>
                     <div className="flex justify-center mb-4">
                         <input
@@ -91,7 +91,7 @@ const Vocabularu = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <button
-                            className={`ml-4 px-4 py-2 text-white bg-blue-500 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`ml-2 px-4 py-2 text-white bg-blue-500 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                             onClick={handleSearch}
                             disabled={loading}
                         >
@@ -103,19 +103,21 @@ const Vocabularu = () => {
 
                     {result && (
                         result.translatedText !== undefined ? (
-                            <div className="mt-6 p-4 bg-white rounded-md shadow-md">
+                            <div className="mt-6 p-4 flex flex-col gap-2 bg-white rounded-md shadow-md">
                                 <h2 className="text-3xl font-semiboldt text-blue-500 font-bold">{result.word}</h2>
                                 <p><strong>Định nghĩa:</strong> {result.translatedText}</p>
                                 <p><strong>Loại từ:</strong> {result.form}</p>
                                 <p><strong>Ngữ âm:</strong> {result.phonetics}</p>
-                                <strong>Phát âm:</strong>
-                                <div className='flex w-[80%] flex-wrap font-poppins gap-1'>
-                                    {pronounces.map((pronounce, index) => (
-                                        <button onClick={() => speakHandler(pronounce.voiceName, result.word)} key={index} className='ml-4 flex h-[30px] text-[14px] items-center gap-1'>
-                                            <span className='font-semibold'>{pronounce.name}</span>
-                                            <img src={pronounce.image} className='h-[60%]' />
-                                        </button>
-                                    ))}
+                                <div className='flex '>
+                                    <strong>Phát âm:</strong>
+                                    <div className='flex w-[80%] flex-wrap font-poppins gap-1'>
+                                        {pronounces.map((pronounce, index) => (
+                                            <button onClick={() => speakHandler(pronounce.voiceName, result.word)} key={index} className='ml-4 flex h-[30px] text-[14px] items-center gap-1'>
+                                                <span className='font-semibold'>{pronounce.name}</span>
+                                                <img src={pronounce.image} className='h-[60%]' />
+                                            </button>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         ) : (
@@ -124,8 +126,6 @@ const Vocabularu = () => {
                             </div>
                         )
                     )}
-
-
                 </div>
             </section>
         </motion.div >

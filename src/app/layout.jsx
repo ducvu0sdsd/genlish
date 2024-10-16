@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
         />
         <meta name="google-site-verification" content="qPr_3m_jtgVoFmOL2IRmvbU2OdtNkvMzWNbAkpMcueU" />
       </head>
-      <body className='font-nunitosans overflow-hidden'>
+      <body className='font-nunitosans'>
         <PayloadProvider>
           <PracticeProvider>
             <NotifyProvider>

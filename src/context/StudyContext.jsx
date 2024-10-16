@@ -10,30 +10,39 @@ const StudyProvider = ({ children }) => {
 
     const [doors, setDoors] = useState([])
     const [gates, setGates] = useState([])
+    const [currentGate, setCurrentGate] = useState()
     const { authData } = useContext(authContext)
+    const [showSchedule, setShowSchedule] = useState(false)
 
     useEffect(() => {
         if (authData.user) {
             api({ type: TypeHTTP.GET, path: '/gate/get-all', sendToken: false, })
-                .then(gates => setGates(gates))
+                .then(gates => {
+                    setGates(gates)
+                    setCurrentGate(gates[authData.user.study.levelVocabulary.gate - 1])
+                })
         }
     }, [authData.user])
 
     useEffect(() => {
-        if (gates.length > 0) {
-            api({ sendToken: false, path: `/door/get-by-gate/${gates[0]._id}`, type: TypeHTTP.GET })
+        if (gates.length > 0 && currentGate) {
+            api({ sendToken: false, path: `/door/get-by-gate/${currentGate?._id}`, type: TypeHTTP.GET })
                 .then(doors => setDoors(doors))
         }
-    }, [gates])
+    }, [gates, currentGate])
 
     const data = {
         doors,
-        gates
+        gates,
+        currentGate,
+        showSchedule
     }
 
     const handler = {
         setDoors,
-        setGates
+        setGates,
+        setCurrentGate,
+        setShowSchedule
     }
 
     return (

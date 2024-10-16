@@ -54,7 +54,7 @@ const CourseDetail = () => {
                 <Navbar />
                 <div ref={wrapperRef} className=' w-[82%] flex h-screen overflow-y-auto'>
                     {course && (
-                        <div style={{ transition: '0.5s', marginLeft: study ? '-100%' : '0' }} className='w-[100%] flex overflow-x-hidden overflow-y-auto'>
+                        <div style={{ transition: '0.5s', marginLeft: study ? '-100%' : '0' }} className='w-[100%] flex'>
                             <DetailCourse course={course} setStudy={setStudy} />
                             <ViewingCourse course={course} setStudy={setStudy} setCourse={setCourse} />
                         </div>

@@ -60,7 +60,10 @@ const MoreInformation = () => {
             <div className='border-[2px] text-[#5d5d5d] h-[90%] p-4 pb-0 border-[#f5f5f5] rounded-xl w-full'>
                 <div className='flex w-full items-center gap-3'>
                     <img src='/ai.png' className='w-[52px]' />
-                    <span className='font-bold text-[18px]'>{studyData.gates[0]?.title}</span>
+                    <div className='flex flex-col'>
+                        <span className='text-[15px]'>Level {studyData.gates[0].level}</span>
+                        <span className='font-bold text-[18px]'>{studyData.gates[0]?.title}</span>
+                    </div>
                 </div>
                 <div className='w-full cursor-pointer mt-3 h-[75%] overflow-auto items-center transition-all flex flex-col gap-2'>
                     {studyData.doors.map((door, index) => (

@@ -9,7 +9,7 @@ import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 const HoSo = () => {
-    const { authData } = useContext(authContext);
+    const { authData, authHandler } = useContext(authContext);
     const { notifyHandler } = useContext(notifyContext)
     const [user, setUser] = useState(authData.user);
 
@@ -29,10 +29,8 @@ const HoSo = () => {
     const handleUpdateUser = () => {
         api({ path: '/user/update', body: user, type: TypeHTTP.POST, sendToken: true }).then(res => {
             notifyHandler.notify(notifyType.SUCCESS, 'Update thành công')
+            authHandler.setUser(user)
         })
-        // console.log(user);
-
-
     }
     const [change, setChange] = useState()
     return (

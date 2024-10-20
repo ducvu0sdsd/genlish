@@ -5,16 +5,20 @@ import React, { useContext, useState } from 'react'
 
 const ChangePassword = ({ change, setChange }) => {
     const { authData, authHandler } = useContext(authContext);
-    const [oldPassword, setOldPassword] = useState()
-    const [newPassword, setNewPassword] = useState()
-    const [confirmNewPassword, setConfirmNewPassword] = useState()
+    const [oldPassword, setOldPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmNewPassword, setConfirmNewPassword] = useState('')
     const { notifyHandler } = useContext(notifyContext)
 
     const handleChange = () => {
-        if (oldPassword.length < 6 || newPassword.length < 6)
+        if (oldPassword.length < 6 || newPassword.length < 6) {
             notifyHandler.notify(notifyType.WARNING, 'Mật khẩu phải trên 6 ký tự')
-        if (newPassword !== confirmNewPassword)
+            return
+        }
+        if (newPassword !== confirmNewPassword) {
             notifyHandler.notify(notifyType.WARNING, 'Mật khẩu mới phải trùng với mật khẩu xác nhận')
+            return
+        }
         api({ path: '/user/updatePassword', body: { id: authData.user?._id, oldPassword: oldPassword, newPassword: newPassword }, sendToken: true, type: TypeHTTP.POST })
             .then(res => {
                 setOldPassword('')

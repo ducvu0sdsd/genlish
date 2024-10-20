@@ -18,40 +18,42 @@ const AuthProvider = ({ children }) => {
         const accessToken = globalThis.window.localStorage.getItem('accessToken')
         const refreshToken = globalThis.window.localStorage.getItem('refreshToken')
         const privateRoutes = ['learn', 'practice', 'broad-casts', 'communicate-with-ai', 'hoso', 'vocabulary', 'course', 'teacher', 'admin']
-        if (privateRoutes.includes(pathname.split('/')[1])) {
-            if (!accessToken || !refreshToken) {
-                notifyHandler.navigate('/')
-            } else {
-                api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
-                    .then(res => {
-                        setUser(res)
-                        if (res.statusSignUp !== 7) {
-                            notifyHandler.navigate('/getting-started')
-                        }
-                    })
-                    .catch(error => {
-                        notifyHandler.navigate('/')
-                    })
-            }
-        } else {
-            if (accessToken && refreshToken) {
-                api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
-                    .then(res => {
-                        if (res) {
+        if (pathname.split('/')[1] !== 'ai-public') {
+            if (privateRoutes.includes(pathname.split('/')[1])) {
+                if (!accessToken || !refreshToken) {
+                    notifyHandler.navigate('/')
+                } else {
+                    api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
+                        .then(res => {
                             setUser(res)
-                            if (res.role === 'TEACHER') {
-                                notifyHandler.navigate('/teacher')
-                            } else if (res.role === 'ADMIN') {
-                                notifyHandler.navigate('/admin')
-                            } else {
-                                if (res?.statusSignUp === 7) {
-                                    notifyHandler.navigate('/course')
+                            if (res.statusSignUp !== 7) {
+                                notifyHandler.navigate('/getting-started')
+                            }
+                        })
+                        .catch(error => {
+                            notifyHandler.navigate('/')
+                        })
+                }
+            } else {
+                if (accessToken && refreshToken) {
+                    api({ type: TypeHTTP.POST, path: '/auth/find-user-by-token', sendToken: true })
+                        .then(res => {
+                            if (res) {
+                                setUser(res)
+                                if (res.role === 'TEACHER') {
+                                    notifyHandler.navigate('/teacher')
+                                } else if (res.role === 'ADMIN') {
+                                    notifyHandler.navigate('/admin')
                                 } else {
-                                    notifyHandler.navigate('/getting-started')
+                                    if (res?.statusSignUp === 7) {
+                                        notifyHandler.navigate('/course')
+                                    } else {
+                                        notifyHandler.navigate('/getting-started')
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                }
             }
         }
     }, [pathname])

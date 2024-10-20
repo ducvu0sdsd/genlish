@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const MicroPhone = ({ handleSendMessage, inputRef, isRecord, setIsRecord, setValue, value, visibleSend }) => {
+const MicroPhone = ({ handleSendMessage, type = false, inputRef, isRecord, setIsRecord, setValue, value, visibleSend }) => {
 
     const recognitionRef = useRef(null)
     const [reLoad, setReLoad] = useState(false)
@@ -64,7 +64,7 @@ const MicroPhone = ({ handleSendMessage, inputRef, isRecord, setIsRecord, setVal
     }, [transcript]);
 
     return (
-        <div className='w-[80%] absolute bottom-4 left-[50%] translate-x-[-50%] h-[130px] font-poppins transition-all bg-[white] shadow-xl py-5 px-4 flex items-end justify-between rounded-md overflow-hidden gap-4'>
+        <div style={type === false ? { width: '80%' } : { width: '100%', position: 'fixed', bottom: 10 }} className='absolute bottom-4 left-[50%] translate-x-[-50%] h-[130px] font-poppins transition-all bg-[white] shadow-xl py-5 px-4 flex items-end justify-between rounded-md overflow-hidden gap-4'>
             <div className='w-full'>
                 <div className='flex items-center justify-between'>
                     <h3 className='font-bold mb-1'>{isRecord ? 'Communicating' : 'Communicate'}</h3>

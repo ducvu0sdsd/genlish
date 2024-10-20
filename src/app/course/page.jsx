@@ -16,7 +16,6 @@ const Course = () => {
     useEffect(() => {
         api({ type: TypeHTTP.GET, sendToken: true, path: '/course/get-all' })
             .then(res => {
-                console.log(res)
                 setCourses(res)
             })
     }, [])

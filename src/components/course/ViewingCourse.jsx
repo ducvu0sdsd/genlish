@@ -55,7 +55,6 @@ const ViewingCourse = ({ course, setStudy, setCourse }) => {
             }
         }
     }, [payloadData.studyCourse?.currentTimeStudied])
-
     const handleOnProgress = () => {
         if (reactPlayerRef.current) {
             setPlayed(Math.floor(reactPlayerRef.current.getCurrentTime()))

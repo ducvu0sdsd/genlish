@@ -104,7 +104,7 @@ const Vocabularu = () => {
                     {result && (
                         result.translatedText !== undefined ? (
                             <div className="mt-6 p-4 flex flex-col gap-2 bg-white rounded-md shadow-md">
-                                <h2 className="text-3xl font-semiboldt text-blue-500 font-bold">{result.word}</h2>
+                                <h2 classNam e="text-3xl font -semiboldt text-blue-500 font-bold">{result.word}</h2>
                                 <p><strong>Định nghĩa:</strong> {result.translatedText}</p>
                                 <p><strong>Loại từ:</strong> {result.form}</p>
                                 <p><strong>Ngữ âm:</strong> {result.phonetics}</p>

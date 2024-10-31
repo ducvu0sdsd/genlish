@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { convertSecondsToReadableFormat, convertSecondsToTimeFormat, convertSecondsToVietnameseFormat } from '@/utils/time'
 import { mainColor } from '@/utils/color'
-import { formatMoney } from '@/utils/other'
+import { formatMoney, typePayments } from '@/utils/other'
 import { authContext } from '@/context/AuthContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { payloadContext } from '@/context/PayloadContext'
 
-const DetailCourse = ({ course, setStudy }) => {
+const DetailCourse = ({ course, setStudy, setPayment }) => {
 
     const [more, setMore] = useState(false)
     const { authData } = useContext(authContext)
@@ -16,16 +16,20 @@ const DetailCourse = ({ course, setStudy }) => {
 
 
     const handleSignUpCourse = () => {
-        const body = {
-            student_id: authData.user._id,
-            course_id: course._id,
-            process: 1
+        if (course.type === 'free') {
+            const body = {
+                student_id: authData.user._id,
+                course_id: course._id,
+                process: 1
+            }
+            api({ sendToken: true, type: TypeHTTP.POST, body, path: '/studycourse/create' })
+                .then(res => {
+                    notifyHandler.notify(notifyType.SUCCESS, 'Đăng Ký Học Thành Công')
+                    payloadHandler.setStudyCourse(res)
+                })
+        } else {
+            setPayment(true)
         }
-        api({ sendToken: true, type: TypeHTTP.POST, body, path: '/studycourse/create' })
-            .then(res => {
-                notifyHandler.notify(notifyType.SUCCESS, 'Đăng Ký Học Thành Công')
-                payloadHandler.setStudyCourse(res)
-            })
     }
 
     return (

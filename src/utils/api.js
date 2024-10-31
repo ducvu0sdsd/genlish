@@ -14,7 +14,7 @@ export const api = ({ path, body, type, sendToken, port }) => {
         baseURL = 'http://localhost:' + port + '/api/v1'
         axios.defaults.baseURL = `${baseURL}`
     } else {
-        baseURL = 'https://genlish-be.vercel.app/api/v1'
+        baseURL = 'http://localhost:8080/api/v1'
         // baseURL = 'https://genlish-be.vercel.app/api/v1'
         axios.defaults.baseURL = `${baseURL}`
     }

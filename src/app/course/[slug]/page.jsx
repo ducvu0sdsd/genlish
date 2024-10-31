@@ -9,11 +9,13 @@ import DetailCourse from '@/components/course/DetailCourse'
 import ViewingCourse from '@/components/course/ViewingCourse'
 import { authContext } from '@/context/AuthContext'
 import { payloadContext } from '@/context/PayloadContext'
+import Payment from '@/components/course/Payment'
 const CourseDetail = () => {
 
     const { slug } = useParams()
     const [course, setCourse] = useState()
     const [study, setStudy] = useState(false)
+    const [payment, setPayment] = useState(false)
     const wrapperRef = useRef()
     const { authData } = useContext(authContext)
     const { payloadHandler, payloadData } = useContext(payloadContext)
@@ -21,7 +23,7 @@ const CourseDetail = () => {
 
     useEffect(() => {
         if (authData.user?._id, course?._id) {
-            api({ sendToken: true, type: TypeHTTP.GET, path: `/studycourse/get-by-student-and-course?studentid=${authData.user._id}&courseid=${course._id}` })
+            api({ sendToken: true, type: TypeHTTP.GET, path: `/studycourse/get-by-student-and-course?studentid=${authData.user?._id}&courseid=${course._id}` })
                 .then(res => payloadHandler.setStudyCourse(res))
         }
     }, [authData.user?._id, course?._id])
@@ -54,8 +56,9 @@ const CourseDetail = () => {
                 <Navbar />
                 <div ref={wrapperRef} className=' w-[82%] flex h-screen overflow-y-auto'>
                     {course && (
-                        <div style={{ transition: '0.5s', marginLeft: study ? '-100%' : '0' }} className='w-[100%] flex'>
-                            <DetailCourse course={course} setStudy={setStudy} />
+                        <div style={{ transition: '0.5s', marginLeft: payment ? '-100%' : study ? '-200%' : '0' }} className='w-[100%] flex'>
+                            <DetailCourse course={course} setStudy={setStudy} setPayment={setPayment} />
+                            <Payment course={course} payment={payment} setPayment={setPayment} />
                             <ViewingCourse course={course} setStudy={setStudy} setCourse={setCourse} />
                         </div>
                     )}

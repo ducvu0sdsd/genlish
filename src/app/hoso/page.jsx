@@ -8,10 +8,12 @@ import { api, TypeHTTP } from '@/utils/api'
 import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import PaymentHistory from '@/components/PaymentHistory'
 const HoSo = () => {
     const { authData, authHandler } = useContext(authContext);
     const { notifyHandler } = useContext(notifyContext)
     const [user, setUser] = useState(authData.user);
+    const [history, setHistory] = useState(false)
 
     useEffect(() => {
 
@@ -74,10 +76,41 @@ const HoSo = () => {
                             <option value={true}>Nam</option>
                             <option value={false}>Nữ</option>
                         </select>
+                        <span className='font-semibold'>Thông tin thanh toán</span>
+                        <div />
+                        <input
+                            placeholder='Tên ngân hàng'
+                            value={authData.user?.bank?.bankName}
+                            onChange={e => authHandler.setUser(prevData => ({
+                                ...prevData,
+                                bank: { ...prevData.bank, bankName: e.target.value },
+                            }))}
+                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                        />
+                        <input
+                            placeholder='Tên tài khoản'
+                            value={authData.user?.bank?.accountName}
+                            onChange={e => authHandler.setUser(prevData => ({
+                                ...prevData,
+                                bank: { ...prevData.bank, accountName: e.target.value },
+                            }))}
+                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                        />
+                        <input
+                            placeholder='Số tài khoản'
+                            value={authData.user?.bank?.accountNumber}
+                            onChange={e => authHandler.setUser(prevData => ({
+                                ...prevData,
+                                bank: { ...prevData.bank, accountNumber: e.target.value },
+                            }))}
+                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                        />
+                        <button onClick={() => setHistory(true)} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-[#2dcc87] text-white'>Lịch sử thanh toán</button>
                         <button onClick={() => handleUpdateUser()} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-blue-400 text-white'> Cập nhật thông tin người dùng</button>
                         <button onClick={() => setChange('d')} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-red-400 text-white'>Đổi mật khẩu</button>
                     </section>
                 </div>
+                <PaymentHistory history={history} setHistory={setHistory} />
                 <ChangePassword setChange={setChange} change={change} />
             </section>
         </motion.div>

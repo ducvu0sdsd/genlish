@@ -11,6 +11,9 @@ export function getRandomInt(min, max) {
 }
 
 export function formatMoney(num) {
+    if (num === 0) {
+        return '0 '
+    }
     if (num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
@@ -177,3 +180,9 @@ export const dateCrateComment = (dateString) => {
         return `${differenceInSeconds} giây trước`;
     }
 };
+
+export const typePayments = {
+    studentTranfer: 'STUDENT_TRANFER',
+    waitingForTeacher: 'WAITING_FOR_TEACHER',
+    moneyToTeacher: 'MONEY_TO_TEACHER'
+}

@@ -1,9 +1,11 @@
 'use client'
 
 
+import ChangePassword from '@/components/ChangePassword'
 import Logo from '@/components/Logo'
 import ChiTietBaiHoc from '@/components/teacher/ChiTietBaiHoc'
 import QLCacBaiHoc from '@/components/teacher/QLCacBaiHoc'
+import ThongKeDoanhThu from '@/components/teacher/ThongKeDoanhThu'
 import { authContext } from '@/context/AuthContext'
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
@@ -21,6 +23,7 @@ const Teacher = () => {
     const [option, setOption] = useState('a')
     const [courses, setCourses] = useState([])
     const [currentCourse, setCurrentCourse] = useState()
+    const [change, setChange] = useState()
 
     //data
     const [image, setImage] = useState('')
@@ -69,9 +72,24 @@ const Teacher = () => {
             })
     }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        authHandler.setUser(prevData => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleUpdateUser = () => {
+        api({ path: '/user/update', body: authData.user, type: TypeHTTP.POST, sendToken: true }).then(res => {
+            notifyHandler.notify(notifyType.SUCCESS, 'Update thành công')
+            authHandler.setUser(res)
+        })
+    }
+
     return (
         <section className='w-full h-screen flex'>
-            <section className='w-[18%] px-[1.5rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
+            <section className='w-[20%] px-[1.5rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
                 <Logo />
                 <div className='flex flex-col gap-2 mt-[1rem] w-full'>
                     <div onClick={() => setOption('a')} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[35px] py-2 px-2 w-[100%] items-center gap-4 cursor-pointer'>
@@ -82,13 +100,21 @@ const Teacher = () => {
                         <img src='/radio-menu.png' className='w-[32px]' />
                         <span className='font-semibold text-[#393939] text-[14px]'>Quản lý các bài học</span>
                     </div>
+                    <div onClick={() => setOption('d')} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[35px] py-2 px-2 w-[100%] items-center gap-4 cursor-pointer'>
+                        <img src='/radio-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#393939] text-[14px]'>Thống kê doanh thu</span>
+                    </div>
+                    <div onClick={() => setOption('c')} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[35px] py-2 px-2 w-[100%] items-center gap-4 cursor-pointer'>
+                        <img src='/radio-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#393939] text-[14px]'>Hồ Sơ</span>
+                    </div>
                     <div onClick={() => handleSignOut()} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[35px] py-2 px-2 w-[100%] items-center gap-4 cursor-pointer'>
                         <img src='/logout-menu.png' className='w-[32px]' />
                         <span className='font-semibold text-[#393939] text-[14px]'>Đăng Xuất</span>
                     </div>
                 </div>
             </section>
-            <div className=' w-[82%] py-[1.5rem] h-screen overflow-y-auto'>
+            <div className=' w-[80%] py-[1.5rem] h-screen overflow-y-auto'>
                 {option === "a" ? (
                     <div className='w-full p-[1rem] flex flex-col gap-2 h-full'>
                         <span className='font-semibold text-[#393939] text-[18px]'>Quản Lý Khóa học</span>
@@ -134,13 +160,85 @@ const Teacher = () => {
                             </div>
                         )}
                     </div>
-                ) : (
+                ) : option === "b" ? (
                     <div className='flex w-full h-full'>
                         <div style={{ marginLeft: currentCourse ? '-100%' : '0%', transition: '0.5s' }} className='flex w-[100%] h-full'>
                             <QLCacBaiHoc setCurrentCourse={setCurrentCourse} courses={courses} />
                             <ChiTietBaiHoc setCurrentCourse={setCurrentCourse} course={currentCourse} />
                         </div>
                     </div>
+                ) : option === "c" ? (
+                    <div className='flex h-screen'>
+                        <div className='w-[100%] h-full justify-center translate-y-[-50px] gap-5 flex flex-col items-center'>
+                            <img src={authData.user?.avatar} alt="" className='col-span-2 w-[200px] aspect-square rounded-full' />
+                            <section className='w-[100%] grid grid-cols-2 gap-[1rem] px-[12rem] justify-center items-center overflow-y-auto'>
+                                <input
+                                    name="phone"
+                                    value={authData.user?.phone}
+                                    onChange={handleChange}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                    disabled
+                                />
+                                <input
+                                    name="fullName"
+                                    value={authData.user?.fullName}
+                                    onChange={handleChange}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                />
+                                <input
+                                    name="address"
+                                    value={authData.user?.address}
+                                    onChange={handleChange}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                />
+
+                                <select
+                                    name="gender"
+                                    onChange={handleChange}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                >
+
+                                    <option value={true}>Nam</option>
+                                    <option value={false}>Nữ</option>
+                                </select>
+                                <span className='font-semibold'>Thông tin thanh toán</span>
+                                <div />
+                                <input
+                                    placeholder='Tên ngân hàng'
+                                    value={authData.user?.bank?.bankName}
+                                    onChange={e => authHandler.setUser(prevData => ({
+                                        ...prevData,
+                                        bank: { ...prevData.bank, bankName: e.target.value },
+                                    }))}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                />
+                                <input
+                                    placeholder='Tên tài khoản'
+                                    value={authData.user?.bank?.accountName}
+                                    onChange={e => authHandler.setUser(prevData => ({
+                                        ...prevData,
+                                        bank: { ...prevData.bank, accountName: e.target.value },
+                                    }))}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                />
+                                <input
+                                    placeholder='Số tài khoản'
+                                    value={authData.user?.bank?.accountNumber}
+                                    onChange={e => authHandler.setUser(prevData => ({
+                                        ...prevData,
+                                        bank: { ...prevData.bank, accountNumber: e.target.value },
+                                    }))}
+                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                />
+                                <div />
+                                <button onClick={() => handleUpdateUser()} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-blue-400 text-white'> Cập nhật thông tin người dùng</button>
+                                <button onClick={() => setChange('d')} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-red-400 text-white'>Đổi mật khẩu</button>
+                            </section>
+                        </div>
+                        <ChangePassword setChange={setChange} change={change} />
+                    </div>
+                ) : (
+                    <ThongKeDoanhThu />
                 )}
             </div>
         </section>

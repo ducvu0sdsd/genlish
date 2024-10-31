@@ -32,7 +32,7 @@ const ChangePassword = ({ change, setChange }) => {
             })
     }
     return (
-        <div style={{ right: change ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[82%] gap-3 p-[1.5rem] h-screen overflow-y-auto justify-center  items-center flex flex-col'>
+        <div style={{ right: change ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[80%] gap-3 p-[1.5rem] h-screen overflow-y-auto justify-center  items-center flex flex-col'>
             <input value={oldPassword} type='password' onChange={(e) => setOldPassword(e.target.value)} className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] w-[500px] px-4 mt-10 border border-[#e1e1e1]' placeholder='Nhập mật khẩu hiện tại' />
             <input value={newPassword} type='password' onChange={(e) => setNewPassword(e.target.value)} className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] w-[500px] px-4 border border-[#e1e1e1]' placeholder='Nhập mật khẩu mới' />
             <input value={confirmNewPassword} type='password' onChange={(e) => setConfirmNewPassword(e.target.value)} className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] w-[500px] px-4 border border-[#e1e1e1]' placeholder='Xác nhận mật khẩu mới' />

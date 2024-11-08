@@ -55,47 +55,6 @@ const Admin = () => {
             .then(gates => setGates(gates))
     }, [])
 
-    const handleCreateBroadCast = async () => {
-        const formData = new FormData()
-        formData.append('strs', broadcast.englishFile)
-        formData.append('strs', broadcast.vietnameseFile)
-        const res = await axios.get(`https://www.googleapis.com/youtube/v3/videos?id=${broadcast.urlVideo}&key=${apiKey}&part=snippet,contentDetails,statistics,status`)
-        const title = res.data.items[0].snippet.title
-        const thum = res.data.items[0].snippet.thumbnails.maxres.url
-        const duration = formatDuration(parseISO8601Duration(res.data.items[0].contentDetails.duration)).replace('00:', '')
-        const channelName = res.data.items[0].snippet.channelTitle
-        formData.append('urlVideo', broadcast.urlVideo);
-        formData.append('title', title)
-        formData.append('thum', thum)
-        formData.append('duration', duration)
-        formData.append('channelName', channelName)
-        api({ sendToken: false, type: TypeHTTP.POST, path: '/broadcast/save', body: formData })
-            .then(broadcast => {
-                setBroadCasts(prev => [...prev, broadcast])
-                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
-            })
-            .catch(error => {
-                notifyHandler.notify(notifyType.FAIL, error.message)
-            })
-    }
-
-    const handleDelete = (gateId) => {
-        api({ type: TypeHTTP.DELETE, path: `/gate/delete/${gateId}`, sendToken: false, })
-            .then((gate) => {
-
-                setGates(gates.filter(item => item._id.toLowerCase() !== gate._id.toLowerCase()));
-                notifyHandler.notify(notifyType.SUCCESS, 'Xóa thành công')
-            })
-    }
-
-    const handleRemoveBroadcast = (id) => {
-        api({ path: `/broadcast/delete/${id}`, type: TypeHTTP.DELETE, sendToken: false })
-            .then(res => {
-                setBroadCasts(broadcasts.filter(item => item._id.toLowerCase() !== res._id.toLowerCase()))
-                notifyHandler.notify(notifyType.SUCCESS, 'Xóa thành công')
-
-            })
-    }
 
     const handleSignOut = () => {
         globalThis.localStorage.removeItem('accessToken')
@@ -103,17 +62,6 @@ const Admin = () => {
         authHandler.setUser()
         notifyHandler.navigate('/')
     }
-
-    const handleFileChange = (e, type) => {
-        const selectedFile = e.target.files[0]; // Lấy file đầu tiên từ danh sách file
-        if (selectedFile) {
-            if (type === 'vietnam') {
-                setBroadcast({ ...broadcast, vietnameseFile: selectedFile })
-            } else {
-                setBroadcast({ ...broadcast, englishFile: selectedFile })
-            }
-        }
-    };
 
     return (
         <section className='w-full h-screen flex'>
@@ -157,7 +105,7 @@ const Admin = () => {
                     ) : option === 'b' ? (
                         <QuanLyCua cua={cua} setCua={setCua} gates={gates} />
                     ) : option === 'c' ? (
-                        <QuanLyBroadcast broadcast={broadcast} broadcasts={broadcasts} />
+                        <QuanLyBroadcast broadcast={broadcast} broadcasts={broadcasts} setBroadCasts={setBroadCasts} setBroadCast={setBroadcast} />
                     ) : option === 'd' ? (
                         <QuanLyNguoiDung />
                     ) : option === 'e' ? (

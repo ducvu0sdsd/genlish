@@ -17,6 +17,15 @@ const QuanLyAi = ({ ai, setAi, gates, setGates }) => {
             })
     }
 
+    const handleDelete = (gateId) => {
+        api({ type: TypeHTTP.DELETE, path: `/gate/delete/${gateId}`, sendToken: false, })
+            .then((gate) => {
+
+                setGates(gates.filter(item => item._id.toLowerCase() !== gate._id.toLowerCase()));
+                notifyHandler.notify(notifyType.SUCCESS, 'Xóa thành công')
+            })
+    }
+
     return (
         <div className='w-full  p-[1rem] flex flex-col gap-2'>
             <span>Quản Lý Ải Từ Vựng</span>

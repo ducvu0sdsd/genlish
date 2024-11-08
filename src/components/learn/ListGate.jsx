@@ -7,7 +7,7 @@ const ListGate = () => {
     const { studyData, studyHandler } = useContext(studyContext)
 
     return (
-        <div className=' w-[82%] flex flex-wrap h-screen py-[1rem] px-[2rem] gap-2 overflow-y-auto'>
+        <div className=' w-[95%] flex flex-wrap h-screen py-[1rem] px-[2rem] gap-2 overflow-y-auto'>
             {studyData.gates.map((gate, index) => (
                 <div onClick={() => {
                     studyHandler.setCurrentGate(gate)

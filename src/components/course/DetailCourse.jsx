@@ -1,18 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { convertSecondsToReadableFormat, convertSecondsToTimeFormat, convertSecondsToVietnameseFormat } from '@/utils/time'
 import { mainColor } from '@/utils/color'
-import { formatMoney, typePayments } from '@/utils/other'
+import { formatMoney, removeVietnameseTones, typePayments } from '@/utils/other'
 import { authContext } from '@/context/AuthContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { payloadContext } from '@/context/PayloadContext'
+import { usePathname } from 'next/navigation'
 
-const DetailCourse = ({ course, setStudy, setPayment }) => {
+const DetailCourse = ({ course, setStudy, setPayment, handleAccept }) => {
 
     const [more, setMore] = useState(false)
-    const { authData } = useContext(authContext)
+    const { authData, authHandler } = useContext(authContext)
     const { notifyHandler } = useContext(notifyContext)
     const { payloadHandler, payloadData } = useContext(payloadContext)
+    const pathname = usePathname()
 
 
     const handleSignUpCourse = () => {
@@ -108,12 +110,31 @@ const DetailCourse = ({ course, setStudy, setPayment }) => {
                     <i className='bx bxs-battery translate-y-[2px]'></i>
                     <span className='text-[13px]'>Học mọi lúc, mọi nơi</span>
                 </div>
-                {payloadData.studyCourse ? (
-                    <button onClick={() => setStudy(true)} className='text-[white] pt-1 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Tiếp Tục Học</button>
-                ) : (
-                    <button onClick={() => handleSignUpCourse()} className='text-[white] pt-1 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Đăng Ký Học</button>
-                )}
-
+                {console.log(pathname)}
+                {pathname !== '/admin' ?
+                    <>
+                        {authData.user ? (<>
+                            {payloadData.studyCourse ? (
+                                <button onClick={() => setStudy(true)} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Tiếp Tục Học</button>
+                            ) : (
+                                <button onClick={() => handleSignUpCourse()} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Đăng Ký Học</button>
+                            )}
+                        </>) : (
+                            <button onClick={() => {
+                                authHandler.showSignIn()
+                                payloadHandler.setTarget(`/course/${removeVietnameseTones(course.slug)}`)
+                            }} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Đăng Nhập Để Bắt Đầu Học</button>
+                        )}
+                    </>
+                    : (
+                        <>
+                            {course.status === false && (
+                                <button onClick={() => {
+                                    handleAccept(course)
+                                }} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Phê duyệt khóa học</button>
+                            )}
+                        </>
+                    )}
             </div>
         </div >
     )

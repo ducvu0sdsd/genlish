@@ -1,49 +1,20 @@
 import React from 'react'
+import Logo from './logo'
 
 const Footer = () => {
     return (
-        <footer id='about' className='gap-3 grid-cols-2 md:px-[10px] sm:grid-cols-5 lg:px-[15rem] justify-items-center w-full grid bg-[#4dac96] py-12 rounded-t-xl text-white justify-center items-center sm:gap-16'>
-            <div className='hidden sm:flex flex-col gap-3'>
-                <img src='/hat.png' className='w-[150px]' />
-                <p className='font-semibold text-[18px]'>© GenLish, Company</p>
+        <div className="flex flex-col gap-5 items-start text-[white] justify-start px-[6rem] py-[3rem] bg-[#242a61] w-[100%] text-[14px] font-medium">
+            <div>
+                <Logo scale={1.15} color='white' />
             </div>
-            <div className=''>
-                <h3 className='font-bold text-[20px] leading-[40px]'>About Us</h3>
-                <div>
-                    <p className='text-[1rem] leading-[28px]'>History</p>
-                    <p className='text-[1rem] leading-[28px]'>Education Method</p>
-                    <p className='text-[1rem] leading-[28px]'>Schedule Study</p>
+            <div className='flex items-center'>
+                <div className='flex flex-col gap-2'>
+                    <span className='flex gap-2 items-center'><span className='font-bold text-[15px]'>Hotline</span> 0902491471</span>
+                    <span className='flex gap-2 items-center'><span className='font-bold text-[15px]'>Hỗ Trợ</span> vutienduc26122002@gmail.com</span>
+                    <span className='w-[400px]'>Copyright © 2017-2024 Rai and Rohl Technologies, Inc. All rights reserved.</span>
                 </div>
             </div>
-            <div className=''>
-                <h3 className='font-bold text-[20px] leading-[40px]'>About Us</h3>
-                <div>
-                    <p className='text-[1rem] leading-[28px]'>History</p>
-                    <p className='text-[1rem] leading-[28px]'>Education Method</p>
-                    <p className='text-[1rem] leading-[28px]'>Schedule Study</p>
-                </div>
-            </div>
-            <div className=''>
-                <h3 className='font-bold text-[20px] leading-[40px]'>About Us</h3>
-                <div>
-                    <p className='text-[1rem] leading-[28px]'>History</p>
-                    <p className='text-[1rem] leading-[28px]'>Education Method</p>
-                    <p className='text-[1rem] leading-[28px]'>Schedule Study</p>
-                </div>
-            </div>
-            <div className=''>
-                <h3 className='font-bold text-[20px] leading-[40px]'>About Us</h3>
-                <div>
-                    <p className='text-[1rem] leading-[28px]'>History</p>
-                    <p className='text-[1rem] leading-[28px]'>Education Method</p>
-                    <p className='text-[1rem] leading-[28px]'>Schedule Study</p>
-                </div>
-            </div>
-            {/* <div className='ml-7 sm:m-0 flex sm:hidden flex-col gap-3'>
-                <img src='/logo.png' className='w-[150px]' />
-                <p className='font-semibold text-[18px]'>© Qilearn, A VF Company</p>
-            </div> */}
-        </footer>
+        </div>
     )
 }
 

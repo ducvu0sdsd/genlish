@@ -20,14 +20,14 @@ const BroadCasts = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex'>
+            <section className='w-full h-screen flex bg-[#f4f0fa]'>
                 <Navbar />
-                <div className='flex flex-wrap w-[82%] gap-10 p-[1.5rem] overflow-y-auto'>
+                <div className='w-[95%] gap-5 grid grid-cols-4 p-[1.5rem] overflow-y-auto'>
                     {broadcasts.map((broadCast, index) => (
                         <div
                             key={index}
                             onClick={() => setCurrentBroadCast(broadCast)}
-                            className='rounded-md w-[300px] h-[240px] cursor-pointer overflow-hidden flex flex-col shadow-xl bg-white ransform scale-105 hover:scale-110 transition-transform duration-300 '>
+                            className='rounded-md w-full h-[220px] cursor-pointer overflow-hidden flex flex-col shadow-xl bg-white ransform scale-105 hover:scale-110 transition-transform duration-300 '>
                             <img src={broadCast.thum} width={'100%'} />
                             <div className='py-1 flex justify-between'>
                                 <span

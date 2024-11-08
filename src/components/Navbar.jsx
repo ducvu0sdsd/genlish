@@ -3,11 +3,14 @@ import Logo from './Logo'
 import { notifyContext } from '@/context/NotifyContext'
 import { authContext } from '@/context/AuthContext'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
 
     const { notifyHandler } = useContext(notifyContext)
     const { authData, authHandler } = useContext(authContext)
+    const pathname = usePathname()
+    console.log(pathname)
 
     const handleSignOut = () => {
         globalThis.localStorage.removeItem('accessToken')
@@ -22,54 +25,53 @@ const Navbar = () => {
     }, [authData.user]);
     return (
         <>
-            {user?.role === 'USER' ? (<section className='w-[18%] px-[1rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
+            {user?.role === 'USER' ? (<section className='w-[5%] px-[1rem] py-[1.25rem] relative flex flex-col items-center border-r-[1px] border-[#e1e1e1]'>
                 <Logo />
-                <div className='flex flex-col gap-1 mt-[1rem]'>
+                <div className='flex flex-col gap-2 mt-[1rem] items-center'>
                     <Link href={'/course'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/course-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[15px]'>Các Khóa học</span>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] bg-[#ffffff] rounded-lg h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <i style={{ color: pathname.includes('course') ? '#4d5de4' : '#616161' }} className="fa-brands fa-studiovinari text-[20px] text-[#616161]"></i>
                         </div>
                     </Link>
                     <Link href={'/learn'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/book-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[15px]'>Học Từ Vựng</span>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <i style={{ color: pathname === '/learn' ? '#4d5de4' : '#616161' }} className="text-[15px] text-[#616161] fa-solid fa-book"></i>
                         </div>
                     </Link>
                     <Link href={'/vocabulary'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/glass-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[#393939] text-[15px]'>Tra Từ Vựng</span>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <i style={{ color: pathname === '/vocabulary' ? '#4d5de4' : '#616161' }} className="fa-solid fa-magnifying-glass text-[15px] text-[#616161]"></i>
                         </div>
                     </Link>
                     <Link href={'/broad-casts'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/radio-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[#393939] text-[15px]'>Broadcast</span>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <i style={{ color: pathname === '/broad-casts' ? '#4d5de4' : '#616161' }} className="text-[15px] text-[#616161] fa-solid fa-radio"></i>
                         </div>
                     </Link>
                     <Link href={'/communicate-with-ai'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/com-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[#393939] text-[15px]'>Giao Tiếp AI</span>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <i style={{ color: pathname === '/communicate-with-ai' ? '#4d5de4' : '#616161' }} className="text-[15px] text-[#616161] fa-solid fa-microphone"></i>
                         </div>
                     </Link>
-                    <Link href={'/hoso'}>
-                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                            <img src='/person-menu.png' className='w-[30px]' />
-                            <span className='font-semibold text-[#393939] text-[15px]'>Hồ Sơ</span>
+                    {/* <Link href={'/hoso'}>
+                        <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                            <img src='/person-menu.png' className='w-[50px]' />
                         </div>
-                    </Link>
-                    {/* <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                        <img src='/setting-menu.png' className='w-[30px]' />
+                    </Link> */}
+                    {/* <div style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                        <img src='/setting-menu.png' className='w-[50px]' />
                         <span className='font-semibold text-[#393939] text-[15px]'>Cài Đặt</span>
                     </div> */}
-                    <div onClick={() => handleSignOut()} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[37px] px-2 w-[100%] items-center gap-4 cursor-pointer'>
-                        <img src='/logout-menu.png' className='w-[30px]' />
-                        <span className='font-semibold text-[#393939] text-[15px]'>Đăng Xuất</span>
+                    <div onClick={() => handleSignOut()} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg bg-[white] h-[35px] px-2 w-[35px] items-center gap-4 cursor-pointer justify-center'>
+                        <i className="text-[15px] text-[#616161] fa-solid fa-right-from-bracket"></i>
                     </div>
                 </div>
+                <Link href={'/hoso'}>
+                    <button className='absolute bottom-2 left-[50%] translate-x-[-50%]'>
+                        <img src={authData.user?.avatar} className='rounded-full w-[50px]' width={'50px'} />
+                    </button>
+                </Link>
+
             </section>) : null}
         </>
 

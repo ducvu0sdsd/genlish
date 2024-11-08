@@ -12,7 +12,7 @@ const StudyProvider = ({ children }) => {
     const [gates, setGates] = useState([])
     const [currentGate, setCurrentGate] = useState()
     const { authData } = useContext(authContext)
-    const [showSchedule, setShowSchedule] = useState(false)
+    const [showSchedule, setShowSchedule] = useState(true)
 
     useEffect(() => {
         if (authData.user) {

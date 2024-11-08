@@ -3,6 +3,7 @@ import QuanLyAi from '@/components/admin/QuanLyAi'
 import QuanLyBroadcast from '@/components/admin/QuanLyBroadcast'
 import QuanLyCua from '@/components/admin/QuanLyCua'
 import QuanLyGiaoVien from '@/components/admin/QuanLyGiaoVien'
+import QuanLyKhoaHoc from '@/components/admin/QuanLyKhoaHoc'
 import QuanLyNguoiDung from '@/components/admin/QuanLyNguoiDung'
 import Logo from '@/components/Logo'
 import { authContext } from '@/context/AuthContext'
@@ -161,6 +162,10 @@ const Admin = () => {
                         <img src='/radio-menu.png' className='w-[32px]' />
                         <span className='font-semibold text-[#393939] text-[15px]'>Quản lý giáo viên</span>
                     </div>
+                    <div onClick={() => setOption('f')} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-2 cursor-pointer'>
+                        <img src='/radio-menu.png' className='w-[32px]' />
+                        <span className='font-semibold text-[#393939] text-[15px]'>Quản lý Khóa Học</span>
+                    </div>
                     <div onClick={() => handleSignOut()} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-2 cursor-pointer'>
                         <img src='/logout-menu.png' className='w-[32px]' />
                         <span className='font-semibold text-[#393939] text-[15px]'>Đăng Xuất</span>
@@ -177,8 +182,10 @@ const Admin = () => {
                         <QuanLyBroadcast broadcast={broadcast} broadcasts={broadcasts} />
                     ) : option === 'd' ? (
                         <QuanLyNguoiDung />
-                    ) : (
+                    ) : option === 'e' ? (
                         <QuanLyGiaoVien />
+                    ) : (
+                        <QuanLyKhoaHoc />
                     )
                 }
             </div>

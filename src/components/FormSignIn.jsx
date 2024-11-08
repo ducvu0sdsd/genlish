@@ -5,11 +5,13 @@ import { api, TypeHTTP } from '@/utils/api'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useState } from 'react'
 import ForgotPassword from './forgotpassword/ForgotPassword'
+import { payloadContext } from '@/context/PayloadContext'
 
 const FormSignIn = ({ visible, hidden }) => {
     const router = useRouter()
     const { authHandler } = useContext(authContext)
     const { notifyHandler } = useContext(notifyContext)
+    const { payloadData, payloadHandler } = useContext(payloadContext)
 
     const [info, setInfo] = useState({
         phone: '',
@@ -29,11 +31,15 @@ const FormSignIn = ({ visible, hidden }) => {
                 globalThis.localStorage.setItem('refreshToken', res.tokens.refreshToken)
                 authHandler.setUser(res.user)
                 if (res.user.statusSignUp === 7) {
-                    router.push('/course')
+                    if (payloadData.target === '') {
+                        router.push('/course')
+                    } else {
+                        router.push(payloadData.target)
+                        payloadHandler.setTarget('')
+                    }
                 } else {
                     router.push('/getting-started')
                 }
-                router.push('/getting-started')
                 setTimeout(() => {
                     if (res.user.statusSignUp === 7) {
                         notifyHandler.notify(notifyType.SUCCESS, 'Đăng nhập thành công')

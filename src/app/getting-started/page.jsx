@@ -42,7 +42,7 @@ const GettingStarted = () => {
                             notifyHandler.navigate('/teacher')
                         }
                         else {
-                            notifyHandler.navigate('/learn')
+                            notifyHandler.navigate('/course')
                         }
 
                     })

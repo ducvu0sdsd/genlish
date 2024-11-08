@@ -57,7 +57,7 @@ const MoreInformation = () => {
                     </select>
                 </div>
             </div> */}
-            <div className='border-[2px] text-[#5d5d5d] h-[90%] p-4 pb-0 border-[#f5f5f5] rounded-xl w-full'>
+            <div className='border-[2px] text-[#5d5d5d] h-[90%] p-4 pb-0 border-[#ededed] rounded-xl w-full'>
                 <div className='flex w-full items-center gap-3'>
                     <img src='/ai.png' className='w-[52px]' />
                     <div className='flex flex-col'>

@@ -18,7 +18,7 @@ const PaymentHistory = ({ history, setHistory }) => {
     }, [history])
 
     return (
-        <div style={{ right: history ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[82%] gap-3 py-[1.5rem] h-screen overflow-y-auto items-center flex flex-col'>
+        <div style={{ right: history ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[95%] gap-3 p-[1.5rem] h-screen overflow-y-auto items-center flex flex-col'>
             <button onClick={() => setHistory(false)}><i className='bx bx-x absolute right-2 top-2 text-[30px] text-[#5e5e5e]'></i></button>
             <span className='w-full font-semibold'>Lịch sử thanh toán</span>
             <div className='w-full h-[90%] flex flex-col overflow-y-auto gap-2'>

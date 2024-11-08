@@ -11,12 +11,15 @@ const PayloadProvider = ({ children }) => {
     const [time, setTime] = useState()
     const [currentEpisode, setCurrentEpisode] = useState()
 
+    // navigate sau khi signin (dung cho course public)
+    const [target, setTarget] = useState('')
+
     const data = {
-        studyCourse, time, course, currentEpisode
+        studyCourse, time, course, currentEpisode, target
     }
 
     const handler = {
-        setStudyCourse, setTime, setCourse, setCurrentEpisode
+        setStudyCourse, setTime, setCourse, setCurrentEpisode, setTarget
     }
 
     return (

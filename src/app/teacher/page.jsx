@@ -62,7 +62,7 @@ const Teacher = () => {
         }
         api({ type: TypeHTTP.POST, body, sendToken: true, path: '/course/create' })
             .then(res => {
-                notifyHandler.notify(notifyType.SUCCESS, 'Tạo Khóa Học Thành Công')
+                notifyHandler.notify(notifyType.SUCCESS, 'Tạo khóa học thành công, hãy chờ quản trị viên xét duyệt')
                 setTimeout(() => {
                     notifyHandler.reload()
                 }, (1000));
@@ -146,7 +146,8 @@ const Teacher = () => {
                                         <img src={course.image} className='w-[80px] rounded-lg' />
                                         <div className='flex flex-col'>
                                             <span className='font-semibold text-[15px]'>{course.title}</span>
-                                            <span className='text-[12px]'>by {course.teacher.fullName}</span>
+                                            <span className='text-[13px]'>by {course.teacher.fullName}</span>
+                                            <span style={{ color: course.status === false ? 'black' : 'blue' }} className='text-[13px]'>{course.status === false ? 'Chưa phê duyệt' : 'Đã phê duyệt'}</span>
                                         </div>
                                         <div className='flex flex-col absolute right-[1rem] top-[50%] translate-y-[-50%]'>
                                             <span className='text-[13px]'>{course.type === 'free' ? 'Miễn Phí' : 'Trả Phí'}</span>
@@ -241,7 +242,7 @@ const Teacher = () => {
                     <ThongKeDoanhThu />
                 )}
             </div>
-        </section>
+        </section >
     )
 }
 

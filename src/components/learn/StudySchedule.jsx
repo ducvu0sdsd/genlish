@@ -24,7 +24,7 @@ const StudySchedule = () => {
     }, [top])
 
     return (
-        <div ref={studyScheduleRef} className='w-[53%] flex flex-col items-center h-screen overflow-auto'>
+        <div ref={studyScheduleRef} className='w-[66%] flex flex-col items-center h-screen overflow-auto'>
             {studyData.doors.map((door, index) => (
                 <Gate setTop={setTop} key={index} door={door} />
             ))}

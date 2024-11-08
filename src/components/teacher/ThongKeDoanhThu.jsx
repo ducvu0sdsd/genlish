@@ -19,7 +19,7 @@ const ThongKeDoanhThu = () => {
         if (authData.user) {
             const body = {
                 from: new Date('2024-10-01').toISOString(),
-                to: new Date('2024-10-31').toISOString(),
+                to: new Date('2024-11-30').toISOString(),
                 provider_id: authData.user._id
             }
             api({ sendToken: true, type: TypeHTTP.POST, path: '/payment/get-by-time-and-provider', body: body })

@@ -5,7 +5,8 @@ import { notifyContext, notifyType } from '@/context/NotifyContext';
 import { api, TypeHTTP } from '@/utils/api';
 import React, { useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-const Vocabularu = () => {
+import { useRouter } from 'next/navigation';
+const Vocabulary = () => {
     const pronounces = [
         {
             name: 'David US',
@@ -38,6 +39,7 @@ const Vocabularu = () => {
             image: '/EN.png'
         }
     ]
+    const router = useRouter()
     const [searchTerm, setSearchTerm] = useState('');
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -78,8 +80,11 @@ const Vocabularu = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.5 } }}
         >
-            <section className='h-screen w-full flex bg-[#f4f0fa]'>
-                <Navbar />
+            <section className='h-screen w-full flex bg-[#f4f0fa] relative' >
+                <div onClick={() => router.push('/')} className='w-full cursor-pointer absolute left-6 flex items-center gap-2 top-2 text-[#3f3f3f]'>
+                    <i className="fa-solid fa-arrow-left"></i>
+                    <span>Trở về</span>
+                </div>
                 <div className="max-w-4xl mx-auto p-6 rounded-lg flex flex-col justify-center">
                     <h1 className="text-3xl font-bold text-center mb-6">Từ Điển Anh - Việt</h1>
                     <div className="flex justify-center mb-4">
@@ -132,4 +137,4 @@ const Vocabularu = () => {
     )
 }
 
-export default Vocabularu
+export default Vocabulary

@@ -55,28 +55,6 @@ const Admin = () => {
             .then(gates => setGates(gates))
     }, [])
 
-
-    const handleCreateAi = () => {
-        api({ type: TypeHTTP.POST, sendToken: false, body: { ...ai }, path: '/gate/save' })
-            .then(gate => {
-                setGates(prev => [...prev, gate]);
-                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
-            })
-            .catch(error => {
-                notifyHandler.notify(notifyType.FAIL, error.message)
-            })
-    }
-
-    const handleCreateCua = () => {
-        api({ type: TypeHTTP.POST, sendToken: false, body: { ...cua }, path: '/door/save-or-update' })
-            .then(door => {
-                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
-            })
-            .catch(error => {
-                notifyHandler.notify(notifyType.FAIL, error.message)
-            })
-    }
-
     const handleCreateBroadCast = async () => {
         const formData = new FormData()
         formData.append('strs', broadcast.englishFile)
@@ -175,7 +153,7 @@ const Admin = () => {
             <div className=' w-[80%] h-screen overflow-y-auto'>
                 {
                     option === 'a' ? (
-                        <QuanLyAi ai={ai} setAi={setAi} gates={gates} />
+                        <QuanLyAi ai={ai} setAi={setAi} gates={gates} setGates={setGates} />
                     ) : option === 'b' ? (
                         <QuanLyCua cua={cua} setCua={setCua} gates={gates} />
                     ) : option === 'c' ? (

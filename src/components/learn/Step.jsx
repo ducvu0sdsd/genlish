@@ -30,15 +30,15 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
                         tests = shuffleArray([...door.beginner, ...door.elementary, ...door.intermediate, ...door.upperIntermediate, ...door.advanced])
                     }
                 } else {
-                    if (level <= 4) {
+                    if (level <= 3) {
                         tests = [...door.beginner]
-                    } else if (level > 4 && level <= 8) {
+                    } else if (level > 3 && level <= 5) {
                         tests = [...door.elementary, ...shuffleArray(door.beginner.filter((item, index) => index < door.beginner.length / 2))]
-                    } else if (level > 8 && level <= 12) {
+                    } else if (level > 5 && level <= 8) {
                         tests = [...door.intermediate, ...shuffleArray(door.elementary.filter((item, index) => index < door.elementary.length / 2))]
-                    } else if (level > 12 && level <= 16) {
+                    } else if (level > 8 && level <= 10) {
                         tests = [...door.upperIntermediate, ...shuffleArray(door.intermediate.filter((item, index) => index < door.intermediate.length / 2))]
-                    } else if (level > 16 && level <= 20) {
+                    } else if (level > 10 && level <= 13) {
                         tests = [...door.advanced, ...shuffleArray(door.upperIntermediate.filter((item, index) => index < door.upperIntermediate.length / 2))]
                     }
                 }
@@ -72,19 +72,10 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
                         question8(tests),
                         question2(tests),
                         question3(tests),
-                        question4(tests),
-                        question5(tests),
-                        question6(tests),
-                        question7(tests),
-                        question8(tests),
-                        question1(tests),
-                        question2(tests),
-                        question3(tests),
-                        question4(tests),
                     ])
                 }
                 else {
-                    if (level <= 4) {
+                    if (level <= 3) {
                         questions = shuffleArray([
                             question1(tests),
                             question2(tests),
@@ -95,7 +86,7 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
                             question7(tests),
                             question8(tests),
                         ])
-                    } else if (level > 16 && level <= 20) {
+                    } else if (level > 3 && level <= 5) {
                         questions = shuffleArray([
                             question1(tests),
                             question2(tests),
@@ -109,24 +100,23 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
                             question2(tests),
                             question3(tests),
                             question4(tests),
-                            question5(tests),
-                            question6(tests),
-                            question7(tests),
-                            question8(tests),
-                            question7(tests),
-                            question8(tests),
-                            question7(tests),
-                            question8(tests),
-                            question8(tests),
-                            question1(tests),
-                            question2(tests),
-                            question3(tests),
-                            question4(tests),
-                            question5(tests),
-                            question6(tests),
                         ])
-                    }
-                    else {
+                    } else if (level > 5 && level <= 8) {
+                        questions = shuffleArray([
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
+                            question7(tests),
+                            question8(tests),
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                        ])
+                    } else if (level > 8 && level <= 10) {
                         questions = shuffleArray([
                             question1(tests),
                             question2(tests),
@@ -144,14 +134,28 @@ const Step = ({ setTop, margin, left, level, door, final = false }) => {
                             question6(tests),
                             question7(tests),
                             question8(tests),
+                        ])
+                    } else if (level > 10 && level <= 12) {
+                        questions = shuffleArray([
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
                             question7(tests),
                             question8(tests),
+                            question1(tests),
+                            question2(tests),
+                            question3(tests),
+                            question4(tests),
+                            question5(tests),
+                            question6(tests),
                             question7(tests),
                             question8(tests),
                         ])
                     }
                 }
-                console.log(questions)
                 practiceHandler.setQuestions(questions)
                 setPress(true)
                 setTimeout(() => {

@@ -15,14 +15,14 @@ const Payment = ({ course, payment, setPayment }) => {
 
     useEffect(() => {
         if (course && authData.user && payment === true) {
-            setUrl(`https://qr.sepay.vn/img?bank=ACB&acc=37731017&&template=compact&amount=${'1000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
+            setUrl(`https://qr.sepay.vn/img?bank=ACB&acc=37731017&&template=compact&amount=${'20000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
         }
     }, [payment])
 
     useEffect(() => {
         if (payment) {
             paymentRef.current = setInterval(() => {
-                api({ type: TypeHTTP.POST, body: { course_id: course._id, user_id: authData.user._id }, path: '/payment/check_payment', sendToken: true })
+                api({ type: TypeHTTP.POST, body: { course_id: course._id, user_id: authData.user._id }, path: '/payment/check_payment', sendToken: false })
                     .then(res => {
                         if (res) {
                             notifyHandler.notify(notifyType.LOADING, 'Đang Tiến Hành Thanh Toán Khóa Học')

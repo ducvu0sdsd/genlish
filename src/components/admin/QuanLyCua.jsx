@@ -1,6 +1,21 @@
-import React from 'react'
+import { notifyContext, notifyType } from '@/context/NotifyContext'
+import { api, TypeHTTP } from '@/utils/api'
+import { handleFileUpload } from '@/utils/file'
+import React, { useContext } from 'react'
 
 const QuanLyCua = ({ cua, setCua, gates }) => {
+    const { notifyHandler } = useContext(notifyContext)
+
+    const handleCreateCua = () => {
+        api({ type: TypeHTTP.POST, sendToken: false, body: { ...cua }, path: '/door/save-or-update' })
+            .then(door => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
+            })
+            .catch(error => {
+                notifyHandler.notify(notifyType.FAIL, error.message)
+            })
+    }
+
     return (
         <div className='w-full p-[1rem] flex flex-col gap-2'>
             <span>Quản Lý Cửa Từ Vựng</span>

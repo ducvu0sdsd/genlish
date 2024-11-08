@@ -1,6 +1,22 @@
-import React from 'react'
+import { notifyContext, notifyType } from '@/context/NotifyContext';
+import { api, TypeHTTP } from '@/utils/api';
+import React, { useContext } from 'react'
 
-const QuanLyAi = ({ ai, setAi, gates }) => {
+const QuanLyAi = ({ ai, setAi, gates, setGates }) => {
+
+    const { notifyHandler } = useContext(notifyContext)
+
+    const handleCreateAi = () => {
+        api({ type: TypeHTTP.POST, sendToken: false, body: { ...ai }, path: '/gate/save' })
+            .then(gate => {
+                setGates(prev => [...prev, gate]);
+                notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
+            })
+            .catch(error => {
+                notifyHandler.notify(notifyType.FAIL, error.message)
+            })
+    }
+
     return (
         <div className='w-full  p-[1rem] flex flex-col gap-2'>
             <span>Quản Lý Ải Từ Vựng</span>

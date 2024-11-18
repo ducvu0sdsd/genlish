@@ -18,7 +18,7 @@ const Learn = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex bg-[#f4f0fa]'>
+            <section className='w-full h-screen flex bg-[#f9fafb]'>
                 <Navbar />
                 {(studyData.currentGate && studyData.showSchedule) ?
                     studyData.doors.length > 0 ? (

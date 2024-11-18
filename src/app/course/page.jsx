@@ -29,7 +29,7 @@ const Course = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex bg-[#f4f0fa]'>
+            <section className='w-full h-screen flex bg-[#f9fafb]'>
                 <Navbar />
                 <div className=' w-[95%] relative p-[1.5rem] h-screen overflow-y-auto'>
                     {loading === false ? (

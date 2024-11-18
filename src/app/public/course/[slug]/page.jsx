@@ -44,7 +44,7 @@ const CourseDetail = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex bg-[#f4f0fa]'>
+            <section className='w-full h-screen flex bg-[#f9fafb]'>
                 <div ref={wrapperRef} className=' w-[100%] flex h-screen overflow-y-auto relative pt-[1rem]'>
                     <div onClick={() => router.push('/')} className='w-full cursor-pointer absolute left-6 flex items-center gap-2 top-2 text-[#3f3f3f]'>
                         <i className="fa-solid fa-arrow-left"></i>

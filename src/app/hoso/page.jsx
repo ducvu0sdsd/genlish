@@ -41,7 +41,7 @@ const HoSo = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='h-screen w-full flex bg-[#f4f0fa]'>
+            <section className='h-screen w-full flex bg-[#f9fafb]'>
                 <Navbar />
                 <div className='w-[100%] h-full justify-center pt-[2rem] translate-y-[-50px] gap-5 flex flex-col items-center'>
                     <img src={user?.avatar} alt="" className='col-span-2 w-[200px] aspect-square rounded-full' />

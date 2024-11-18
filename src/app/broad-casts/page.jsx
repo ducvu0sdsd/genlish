@@ -20,7 +20,7 @@ const BroadCasts = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex bg-[#f4f0fa]'>
+            <section className='w-full h-screen flex bg-[#f9fafb]'>
                 <Navbar />
                 <div className='w-[95%] gap-5 grid grid-cols-4 p-[1.5rem] overflow-y-auto'>
                     {broadcasts.map((broadCast, index) => (

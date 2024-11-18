@@ -68,7 +68,7 @@ const CommunicateWithAI = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.2 } }}
         >
-            <section className='w-full h-screen flex overflow-hidden bg-[#f4f0fa]'>
+            <section className='w-full h-screen flex overflow-hidden bg-[#f9fafb]'>
                 <Navbar />
                 <div className='relative w-[95%] py-[1rem] flex flex-col items-center px-[2.5rem] h-screen overflow-y-auto'>
                     <MicroPhone handleSendMessage={handleSendMessage} visibleSend={visibleSend} inputRef={inputRef} setValue={setValue} isRecord={isRecord} setIsRecord={setIsRecord} />

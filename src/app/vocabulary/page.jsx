@@ -78,7 +78,7 @@ const Vocabularu = () => {
             animate={{ x: 0 }}
             exit={{ x: 1920 * -1, transition: { duration: 0.5 } }}
         >
-            <section className='h-screen w-full flex bg-[#f4f0fa]'>
+            <section className='h-screen w-full flex bg-[#f9fafb]'>
                 <Navbar />
                 <div className="max-w-4xl mx-auto p-6 rounded-lg flex flex-col justify-center">
                     <h1 className="text-3xl font-bold text-center mb-6">Từ Điển Anh - Việt</h1>

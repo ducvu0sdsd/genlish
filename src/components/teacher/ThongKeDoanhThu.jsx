@@ -1,67 +1,96 @@
 import { authContext } from '@/context/AuthContext'
+import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
+import { getMondayAndSunday } from '@/utils/date'
 import { formatMoney, typePayments } from '@/utils/other'
 import { ProviderId } from 'firebase/auth'
 import React, { useContext, useEffect, useState } from 'react'
 
 const ThongKeDoanhThu = () => {
     const { authData } = useContext(authContext)
+    const { notifyHandler } = useContext(notifyContext)
     const [payments, setPayments] = useState([])
     const [totalRevenue, setTotalRevenue] = useState(0)
     const [pendingPayment, setPendingPayment] = useState(0)
     const [paid, setPaid] = useState(0)
     const [numberOfUser, setNumberOfUser] = useState(0)
     const [balance, setBalance] = useState(0)
-    const [from, setFrom] = useState()
-    const [to, setTo] = useState()
+    const [fromDate, setFromDate] = useState()
+    const [toDate, setToDate] = useState()
 
     useEffect(() => {
-        if (authData.user) {
-            const body = {
-                from: new Date('2024-10-01').toISOString(),
-                to: new Date('2024-11-30').toISOString(),
-                provider_id: authData.user._id
-            }
-            api({ sendToken: true, type: TypeHTTP.POST, path: '/payment/get-by-time-and-provider', body: body })
-                .then(payments => {
-                    setPayments(payments)
-                    setTotalRevenue(payments
-                        .map(item => item.payments)
-                        .flat()
-                        .filter(item => item.type === typePayments.studentTranfer)
-                        .reduce((total, item) => total + item.price, 0))
-                    setPendingPayment(payments
-                        .map(item => item.payments)
-                        .flat()
-                        .filter(item => item.type === typePayments.waitingForTeacher)
-                        .reduce((total, item) => total + item.price, 0))
-                    setPaid(payments
-                        .map(item => item.payments)
-                        .flat()
-                        .filter(item => item.type === typePayments.moneyToTeacher)
-                        .reduce((total, item) => total + item.price, 0))
-                    setNumberOfUser(payments
-                        .map(item => item.payments)
-                        .flat().length)
-                })
+        setFromDate(new Date(getMondayAndSunday().monday).toISOString().split('T')[0])
+        setToDate(new Date(getMondayAndSunday().sunday).toISOString().split('T')[0])
+    }, [])
+
+    const getByTimeAndProvider = async () => {
+        const body = {
+            from: new Date(fromDate).toISOString(),
+            to: new Date(toDate).toISOString(),
+            provider_id: authData.user._id
+        }
+        api({ sendToken: true, type: TypeHTTP.POST, path: '/payment/get-by-time-and-provider', body: body })
+            .then(payments => {
+                setPayments(payments)
+                setTotalRevenue(payments
+                    .map(item => item.payments)
+                    .flat()
+                    .filter(item => item.type === typePayments.studentTranfer)
+                    .reduce((total, item) => total + item.price, 0))
+                setPendingPayment(payments
+                    .map(item => item.payments)
+                    .flat()
+                    .filter(item => item.type === typePayments.waitingForTeacher)
+                    .reduce((total, item) => total + item.price, 0))
+                setPaid(payments
+                    .map(item => item.payments)
+                    .flat()
+                    .filter(item => item.type === typePayments.moneyToTeacher)
+                    .reduce((total, item) => total + item.price, 0))
+                setNumberOfUser(payments
+                    .map(item => item.payments)
+                    .flat().length)
+            })
+    }
+
+    useEffect(() => {
+        if (authData.user && fromDate && toDate) {
+            getByTimeAndProvider()
             api({ sendToken: true, type: TypeHTTP.GET, path: `/payment/get-balance/${authData.user._id}` })
                 .then(balance => setBalance(balance))
         }
-    }, [authData.user])
+    }, [authData.user, fromDate, toDate])
+
+    const handleWithdraw = () => {
+        if (balance === 0) {
+            notifyHandler.notify(notifyType.WARNING, 'Số dư của bạn phải trên 200.000đ')
+            return
+        }
+        notifyHandler.notify(notifyType.LOADING, 'Đang gửi yêu cầu rút tiền')
+        api({ sendToken: true, type: TypeHTTP.PUT, path: `/payment/withdraw/${authData.user._id}` })
+            .then(balance => {
+                getByTimeAndProvider().then(() => {
+                    notifyHandler.notify(notifyType.SUCCESS, 'Đã gửi yêu cầu rút tiền')
+                })
+            })
+            .catch(balance => {
+                notifyHandler.notify(notifyType.FAIL, 'Gửi yêu cầu rút tiền thất bại')
+            })
+    }
 
     return (
-        <section className='w-full flex flex-col px-[1.5rem] h-full'>
+        <section className='w-full flex flex-col px-[1.5rem] py-[1rem] h-full'>
             <span className='text-[20px] font-semibold'>Thống Kê Doanh Thu</span>
             <div className='flex items-center justify-between w-full mt-2'>
                 <div className='flex items-center gap-2'>
                     <span>Từ ngày</span>
-                    <input type='date' className='border-[1px] border-[#e4e4e4] rounded-md px-2 text-[15px]' />
+                    <input value={fromDate} onChange={e => setFromDate(e.target.value)} type='date' className='border-[1px] border-[#e4e4e4] rounded-md px-2 text-[14px]' />
                     <span>đến ngày</span>
-                    <input type='date' className='border-[1px] border-[#e4e4e4] rounded-md px-2 text-[15px]' />
+                    <input value={toDate} onChange={e => setToDate(e.target.value)} type='date' className='border-[1px] border-[#e4e4e4] rounded-md px-2 text-[14px]' />
                 </div>
                 <div className='flex items-center gap-2'>
                     <span className='text-[16px] font-medium'>Khả Dụng: {formatMoney(balance)}đ</span>
-                    <button style={{ background: 'linear-gradient(to right, #56ccf2, #2f80ed)' }} className='transition-all hover:scale-[1.05] text[13px] px-4 py-1 text-[white] font-semibold rounded-lg'>Rút tiền</button>
+                    <button onClick={() => handleWithdraw()} style={{ background: 'linear-gradient(to right, #56ccf2, #2f80ed)' }} className='transition-all hover:scale-[1.05] text[13px] px-4 py-1 text-[white] font-semibold rounded-lg'>Rút tiền</button>
                 </div>
             </div>
             <div className='w-full grid grid-cols-4 gap-[1rem] mt-[0.5rem]'>

@@ -20,3 +20,20 @@ export function formatDateTime(dateString) {
 
     return `ngày ${day} tháng ${month} năm ${year} lúc ${hours}:${minutes}:${seconds}`;
 }
+
+export function getMondayAndSunday() {
+    const today = new Date();
+
+    // Tính ngày Thứ Hai
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - today.getDay() + 1);
+
+    // Tính ngày Chủ Nhật
+    const sunday = new Date(today);
+    sunday.setDate(today.getDate() - today.getDay() + 7);
+
+    return {
+        monday,
+        sunday,
+    };
+}

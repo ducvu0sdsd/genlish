@@ -1,6 +1,8 @@
 'use client'
 import AllNote from "@/components/forms/AllNote";
 import Note from "@/components/forms/Note";
+import ThemAi from "@/components/forms/ThemAi";
+import ThemKhoaHoc from "@/components/forms/ThemKhoaHoc";
 import Notification from "@/components/notification";
 import Wrapper from "@/components/wrapper";
 import { api, TypeHTTP } from "@/utils/api";
@@ -13,6 +15,8 @@ const FormProvider = ({ children }) => {
     const wrapperRef = useRef();
     const [visibleNote, setVisibleNote] = useState(false)
     const [visibleAllNote, setVisibleAllNote] = useState(false)
+    const [visibleThemKhoaHoc, setVisibleThemKhoaHoc] = useState(false)
+    const [visibleThemAi, setVisibleThemAi] = useState(false)
 
     const showWrapper = () => {
         wrapperRef.current.style.display = "block";
@@ -51,10 +55,31 @@ const FormProvider = ({ children }) => {
         hiddenWrapper()
     }
 
+    const showThemKhoaHoc = () => {
+        setVisibleThemKhoaHoc(true)
+        showWrapper()
+    }
+
+    const hiddenThemKhoaHoc = () => {
+        setVisibleThemKhoaHoc(false)
+        hiddenWrapper()
+    }
+    const showThemAi = () => {
+        setVisibleThemAi(true)
+        showWrapper()
+    }
+
+    const hiddenThemAi = () => {
+        setVisibleThemAi(false)
+        hiddenWrapper()
+    }
+
     const hidden = () => {
         hiddenWrapper();
         hiddenNote()
         hiddenAllNote()
+        hiddenThemKhoaHoc()
+        hiddenThemAi()
     };
 
     const data = {
@@ -65,7 +90,9 @@ const FormProvider = ({ children }) => {
         showNote,
         hiddenNote,
         showAllNote,
-        hiddenAllNote
+        hiddenAllNote,
+        showThemKhoaHoc,
+        showThemAi
     }
 
     return (
@@ -74,6 +101,8 @@ const FormProvider = ({ children }) => {
             <Wrapper wrapperRef={wrapperRef} onClick={hidden} />
             <Note visible={visibleNote} hidden={hiddenNote} />
             <AllNote visible={visibleAllNote} hidden={hiddenAllNote} />
+            <ThemKhoaHoc visible={visibleThemKhoaHoc} hidden={hiddenThemKhoaHoc} />
+            <ThemAi visible={visibleThemAi} hidden={hiddenThemAi} />
         </formContext.Provider >
     )
 }

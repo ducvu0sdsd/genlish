@@ -1,9 +1,9 @@
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { handleFileUpload } from '@/utils/file'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
-const QuanLyCua = ({ cua, setCua, gates }) => {
+const QuanLyCua = ({ cua, setCua, gates, currentAi, setCurrentAi }) => {
     const { notifyHandler } = useContext(notifyContext)
 
     const handleCreateCua = () => {
@@ -16,21 +16,25 @@ const QuanLyCua = ({ cua, setCua, gates }) => {
             })
     }
 
+    useEffect(() => {
+        if (currentAi) {
+            setCua({ ...cua, gate: { _id: currentAi._id, title: currentAi.title, level: currentAi.level } })
+        }
+    }, [currentAi])
+
     return (
         <div className='w-full p-[1rem] flex flex-col gap-2'>
-            <span>Quản Lý Cửa Từ Vựng</span>
+            <div className='flex items-center'>
+                <i onClick={() => setCurrentAi()} className='bx bx-chevron-left text-[30px] cursor-pointer text-[#333333]'></i>
+                <span className='font-semibold'>Quản Lý Danh Sách Bài Học</span>
+            </div>
             <div className='grid grid-cols-2 gap-3'>
-                <select onChange={e => setCua({ ...cua, gate: { _id: e.target.value.split('-')[0], title: e.target.value.split('-')[1], level: e.target.value.split('-')[2] } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]'>
-                    <option>Chọn Ải Từ Vựng</option>
-                    {gates.map((gate, index) => (
-                        <option key={index} value={gate._id + '-' + gate.title + '-' + gate.level}>{gate.title}</option>
-                    ))}
-                </select>
                 <input value={cua.individual.title} onChange={e => setCua({ ...cua, individual: { ...cua.individual, title: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Tên Cửa Từ Vựng' />
                 <input value={cua.individual.image} onChange={e => setCua({ ...cua, individual: { ...cua.individual, image: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Ảnh Cửa Từ Vựng' />
                 <input value={cua.individual.numberOfTest} onChange={e => setCua({ ...cua, individual: { ...cua.individual, numberOfTest: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Số Bài Kiểm Tra' />
                 <input value={cua.individual.color} onChange={e => setCua({ ...cua, individual: { ...cua.individual, color: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Màu Sắc' />
                 <input value={cua.individual.door} onChange={e => setCua({ ...cua, individual: { ...cua.individual, door: e.target.value } })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='Cửa' />
+                <div />
                 <span className='font-bold'>Beginner (excel)</span>
                 <span className='font-bold'>Elementary (excel)</span>
                 <input onChange={(e) => { handleFileUpload(e).then(res => setCua({ ...cua, beginner: res })) }} accept=".xlsx, .xls" type='file' className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />

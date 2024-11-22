@@ -1,7 +1,9 @@
 'use client'
+import Navbar from '@/components/admin/Navbar'
 import QuanLyAi from '@/components/admin/QuanLyAi'
 import QuanLyBroadcast from '@/components/admin/QuanLyBroadcast'
 import QuanLyCua from '@/components/admin/QuanLyCua'
+import QuanLyDoanhThuGiaoVien from '@/components/admin/QuanLyDoanhThuGiaoVien'
 import QuanLyGiaoVien from '@/components/admin/QuanLyGiaoVien'
 import QuanLyKhoaHoc from '@/components/admin/QuanLyKhoaHoc'
 import QuanLyNguoiDung from '@/components/admin/QuanLyNguoiDung'
@@ -65,7 +67,7 @@ const Admin = () => {
 
     return (
         <section className='w-full h-screen flex'>
-            <section className='w-[20%] px-[1.5rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
+            {/* <section className='w-[20%] px-[1.5rem] py-[1.25rem] border-r-[2px] border-[#f4f4f4]'>
                 <Logo />
                 <div className='flex flex-col gap-1 mt-[1rem]'>
                     <div onClick={() => setOption('a')} style={{ transition: '0.4s' }} className='flex hover:bg-[#ebebeb] rounded-lg h-[40px] px-2 w-[100%] items-center gap-2 cursor-pointer'>
@@ -97,11 +99,12 @@ const Admin = () => {
                         <span className='font-semibold text-[#393939] text-[15px]'>Đăng Xuất</span>
                     </div>
                 </div>
-            </section>
-            <div className=' w-[80%] h-screen overflow-y-auto'>
+            </section> */}
+            <Navbar setOption={setOption} />
+            <div className='w-full h-screen overflow-y-auto'>
                 {
                     option === 'a' ? (
-                        <QuanLyAi ai={ai} setAi={setAi} gates={gates} setGates={setGates} />
+                        <QuanLyAi ai={ai} setAi={setAi} cua={cua} setCua={setCua} gates={gates} setGates={setGates} />
                     ) : option === 'b' ? (
                         <QuanLyCua cua={cua} setCua={setCua} gates={gates} />
                     ) : option === 'c' ? (
@@ -110,9 +113,9 @@ const Admin = () => {
                         <QuanLyNguoiDung />
                     ) : option === 'e' ? (
                         <QuanLyGiaoVien />
-                    ) : (
+                    ) : option === 'f' ? (
                         <QuanLyKhoaHoc />
-                    )
+                    ) : <QuanLyDoanhThuGiaoVien />
                 }
             </div>
         </section>

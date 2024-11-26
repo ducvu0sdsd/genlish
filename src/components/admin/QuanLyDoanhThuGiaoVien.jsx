@@ -1,6 +1,6 @@
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
-import { formatMoney } from '@/utils/other'
+import { formatMoney, typePayments } from '@/utils/other'
 import React, { useContext, useEffect, useState } from 'react'
 
 const QuanLyDoanhThuGiaoVien = () => {
@@ -8,7 +8,7 @@ const QuanLyDoanhThuGiaoVien = () => {
     const [payments, setPayments] = useState([])
     const [reload, setReload] = useState(false)
 
-    useEffect(() => {
+    const getData = () => {
         api({ type: TypeHTTP.GET, sendToken: true, path: '/payment/get-withdraw-teacher' })
             .then(res => {
                 let arr = []
@@ -25,7 +25,7 @@ const QuanLyDoanhThuGiaoVien = () => {
                 })
                 setPayments(arr)
             })
-    }, [])
+    }
 
     useEffect(() => {
         api({ type: TypeHTTP.GET, sendToken: true, path: '/payment/get-withdraw-teacher' })
@@ -46,11 +46,63 @@ const QuanLyDoanhThuGiaoVien = () => {
             })
     }, [])
 
-    const handleComplete = (payments) => {
-        api({ type: TypeHTTP.POST, sendToken: true, path: '/payment/complete-withdraw', body: payments })
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const handleComplete = (payments, teacher) => {
+        api({
+            type: TypeHTTP.POST, sendToken: true, path: '/payment/complete-withdraw', body: payments.map(item => {
+                return { ...item, type: typePayments.moneyToTeacher }
+            })
+        })
             .then(res => {
                 notifyHandler.notify(notifyType.SUCCESS, 'Đã cập nhật trạng thái')
-                setReload()
+                getData()
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: teacher._id,
+                        fullName: teacher.fullName,
+                        avatar: teacher.avatar
+                    },
+                    fromUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    content: `Quản trị viên đã chuyển tiền`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
+            })
+    }
+
+    const handleReject = (payments, teacher) => {
+        api({
+            type: TypeHTTP.POST, sendToken: true, path: '/payment/fail-withdraw', body: payments.map(item => {
+                return { ...item, type: typePayments.studentTranfer }
+            })
+        })
+            .then(res => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Đã cập nhật trạng thái')
+                getData()
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: teacher._id,
+                        fullName: teacher.fullName,
+                        avatar: teacher.avatar
+                    },
+                    fromUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    content: `Quản trị viên đã từ chối yêu cầu rút tiền của bạn`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
             })
     }
 
@@ -58,7 +110,7 @@ const QuanLyDoanhThuGiaoVien = () => {
         <section style={{ marginLeft: `-${screen * 100}%` }} className='flex flex-col w-full relative h-[100%] transition-all'>
             <div className='min-w-[100%] flex flex-col gap-2 h-[100%] overflow-auto p-[1rem]'>
                 <div className='w-full flex justify-between mb-[0.5rem]'>
-                    <span className='font-semibold'>Quản Lý Doanh Thu Giáo Viên</span>
+                    <span className='font-semibold'>Yêu cầu rút tiền từ giáo viên</span>
                 </div>
                 <div className="w-full max-h-[90%] mt-2 overflow-y-auto relative">
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -111,13 +163,13 @@ const QuanLyDoanhThuGiaoVien = () => {
                                     </td>
                                     <td className="py-4 flex items-center gap-2">
                                         <button
-                                            onClick={() => handleDelete(gate._id)} // Assuming each gate has a unique ID
+                                            onClick={() => handleReject(payment.payments, payment.teacher)} // Assuming each gate has a unique ID
                                             className="text-[white] bg-[red] text-[13px] px-3 py-1 rounded-md focus:outline-none"
                                         >
                                             Từ chối
                                         </button>
                                         <button
-                                            onClick={() => handleComplete(payment.payments)} // Assuming each gate has a unique ID
+                                            onClick={() => handleComplete(payment.payments, payment.teacher)} // Assuming each gate has a unique ID
                                             className="text-[white] bg-[blue] text-[13px] px-3 py-1 rounded-md focus:outline-none"
                                         >
                                             Đã chuyển

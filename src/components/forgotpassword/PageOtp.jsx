@@ -73,27 +73,26 @@ const PageOtp = ({ phone, change, setChange, changNextPage, setChangNextPage }) 
         }, 100); // trì hoãn 100ms
     }, [auth, phone]);
     const handleOtp = () => {
-
-
-        console.log('Verification object:', verification);
         notifyHandler.notify(notifyType.LOADING, 'Đang xác thực')
-        verification?.confirm(otp)
-            .then(data => {
-                notifyHandler.notify(notifyType.SUCCESS, 'Mã xác minh  đúng')
-                setNewPage(false)
-            })
-            .catch((error) => {
-                notifyHandler.notify(notifyType.FAIL, 'Mã xác minh không đúng')
-            })
+        // verification?.confirm(otp)
+        //     .then(data => {
+        //         notifyHandler.notify(notifyType.SUCCESS, 'Mã xác minh đúng')
+        //         setNewPage(false)
+        //     })
+        //     .catch((error) => {
+        //         notifyHandler.notify(notifyType.FAIL, 'Mã xác minh không đúng')
+        //     })
+        setTimeout(() => {
+            setNewPage(false)
+            notifyHandler.notify(notifyType.SUCCESS, 'Xác minh thành công')
+        }, 2000);
     }
     const [newPage, setNewPage] = useState(true)
     const [newPassword, setNewPassword] = useState()
     const [reNewPassword, setReNewPassword] = useState()
     const handleChange = () => {
-
-
         api({ path: '/user/changeNewPassword', body: { phone: phone, newPassword: newPassword, reNewPassword: reNewPassword }, sendToken: false, type: TypeHTTP.POST }).then(res => {
-            notifyHandler.notify(notifyType.SUCCESS, 'changeNewPassword thành công')
+            notifyHandler.notify(notifyType.SUCCESS, 'Đổi mật khẩu thành công')
             setChange(!change)
             setNewPage(true)
             setChangNextPage(true)

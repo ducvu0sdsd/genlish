@@ -15,7 +15,7 @@ const Payment = ({ course, payment, setPayment }) => {
 
     useEffect(() => {
         if (course && authData.user && payment === true) {
-            setUrl(`https://qr.sepay.vn/img?bank=ACB&acc=37731017&&template=compact&amount=${'20000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
+            setUrl(`https://qr.sepay.vn/img?bank=ACB&acc=37731017&&template=compact&amount=${'2000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
         }
     }, [payment])
 
@@ -56,6 +56,19 @@ const Payment = ({ course, payment, setPayment }) => {
                                             notifyHandler.notify(notifyType.SUCCESS, 'Thanh Toán Thành Công')
                                             payloadHandler.setStudyCourse(res)
                                             setPayment(false)
+
+                                            // notify
+                                            const body1 = {
+                                                toUser: course.teacher,
+                                                fromUser: {
+                                                    _id: authData.user._id,
+                                                    fullName: authData.user.fullName,
+                                                    avatar: authData.user.avatar
+                                                },
+                                                content: `${authData.user.fullName} đã thanh toán khóa học "${course.title}", giá ${course.price}`,
+                                                type: 'inbox'
+                                            }
+                                            api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
                                         })
                                 })
                         }

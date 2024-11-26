@@ -1,8 +1,10 @@
 
+import { authContext } from '@/context/AuthContext'
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { payloadContext } from '@/context/PayloadContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { mainColor } from '@/utils/color'
+import { handleImageUpload } from '@/utils/file'
 import { convertSecondsToTimeFormat } from '@/utils/time'
 import React, { useContext, useState } from 'react'
 
@@ -11,6 +13,7 @@ const ThemKhoaHoc = ({ visible, hidden }) => {
     const [currentStep, setCurrentStep] = useState(1)
     const { payloadData, payloadHandler } = useContext(payloadContext)
     const { notifyHandler } = useContext(notifyContext)
+    const { authData } = useContext(authContext)
 
     //data
     const [image, setImage] = useState('')
@@ -34,6 +37,22 @@ const ThemKhoaHoc = ({ visible, hidden }) => {
         api({ type: TypeHTTP.POST, body, sendToken: true, path: '/course/create' })
             .then(res => {
                 notifyHandler.notify(notifyType.SUCCESS, 'Tạo khóa học thành công, hãy chờ quản trị viên xét duyệt')
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    fromUser: {
+                        _id: authData.user._id,
+                        fullName: authData.user.fullName,
+                        avatar: authData.user.avatar
+                    },
+                    content: `${authData.user.fullName} yêu cầu phê duyệt khóa học "${title}"`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
                 setTimeout(() => {
                     notifyHandler.reload()
                 }, (1000));

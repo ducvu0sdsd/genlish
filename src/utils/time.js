@@ -84,3 +84,16 @@ export const formatDateTime = (isoString) => {
     // Trả về định dạng: 20:25 15-10-2024
     return `${hours}:${minutes} ${day}-${month}-${year}`;
 };
+
+
+
+export function formatDateNotify(isoString) {
+    const date = new Date(isoString);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Tháng bắt đầu từ 0
+    const year = date.getFullYear();
+
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
+}

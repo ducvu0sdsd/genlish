@@ -28,6 +28,19 @@ const DetailCourse = ({ course, setStudy, setPayment, handleAccept }) => {
                 .then(res => {
                     notifyHandler.notify(notifyType.SUCCESS, 'Đăng Ký Học Thành Công')
                     payloadHandler.setStudyCourse(res)
+
+                    // notify
+                    const body1 = {
+                        toUser: course.teacher,
+                        fromUser: {
+                            _id: authData.user._id,
+                            fullName: authData.user.fullName,
+                            avatar: authData.user.avatar
+                        },
+                        content: `${authData.user.fullName} đã đăng ký khóa học "${course.title}"`,
+                        type: 'inbox'
+                    }
+                    api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
                 })
         } else {
             setPayment(true)

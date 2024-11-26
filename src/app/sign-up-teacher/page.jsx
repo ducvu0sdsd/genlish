@@ -75,8 +75,27 @@ const SignUpTeacher = () => {
         api({ type: TypeHTTP.POST, sendToken: false, path: '/auth/sign-up-with-teacher', body: info })
             .then(res => {
                 notifyHandler.notify(notifyType.SUCCESS, 'Đăng ký thành công, hãy chờ quản trị viên phê duyệt')
-                router.push('/')
-                reset()
+                setTimeout(() => {
+                    router.push('/')
+                    reset()
+                }, 500);
+
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    fromUser: {
+                        _id: info.phone,
+                        fullName: info.fullName,
+                        avatar: 'https://th.bing.com/th/id/R.be953f29410b3d18ef0e5e0fbd8d3120?rik=Dm2iDRVLgVcpdA&pid=ImgRaw&r=0'
+                    },
+                    content: `${info.fullName} yêu cầu phê duyệt thông tin đăng nhập`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
             })
             .catch(res => {
                 notifyHandler.notify(notifyType.FAIL, res.message)

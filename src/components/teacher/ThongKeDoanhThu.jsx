@@ -70,8 +70,26 @@ const ThongKeDoanhThu = () => {
         api({ sendToken: true, type: TypeHTTP.PUT, path: `/payment/withdraw/${authData.user._id}` })
             .then(balance => {
                 getByTimeAndProvider().then(() => {
+                    setBalance(0)
                     notifyHandler.notify(notifyType.SUCCESS, 'Đã gửi yêu cầu rút tiền')
                 })
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    fromUser: {
+                        _id: authData.user._id,
+                        fullName: authData.user.fullName,
+                        avatar: authData.user.avatar
+                    },
+                    content: `${authData.user.fullName} yêu cầu rút tiền`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
+
             })
             .catch(balance => {
                 notifyHandler.notify(notifyType.FAIL, 'Gửi yêu cầu rút tiền thất bại')

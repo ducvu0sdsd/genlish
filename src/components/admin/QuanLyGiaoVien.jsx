@@ -41,6 +41,22 @@ const QuanLyGiaoVien = () => {
                     }
                     return item
                 }))
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: user._id,
+                        fullName: user.fullName,
+                        avatar: user.avatar
+                    },
+                    fromUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    content: `Quản trị viên đã phê duyệt hồ sơ của bạn`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
                 notifyHandler.notify(notifyType.SUCCESS, 'Phê duyệt hồ sơ giáo viên thành công')
             })
     }

@@ -48,6 +48,22 @@ const QuanLyKhoaHoc = () => {
                 if (currentCourse._id === updated._id) {
                     setCurrentCourse({ ...currentCourse, status: true })
                 }
+                // notify
+                const body1 = {
+                    toUser: {
+                        _id: course.teacher._id,
+                        fullName: course.teacher.fullName,
+                        avatar: course.teacher.avatar
+                    },
+                    fromUser: {
+                        _id: 'admin',
+                        fullName: 'admin',
+                        avatar: 'admin'
+                    },
+                    content: `Quản trị viên đã phê duyệt khóa học "${course.title}" của bạn`,
+                    type: 'notify'
+                }
+                api({ type: TypeHTTP.POST, sendToken: false, path: '/notification/save', body: body1 })
                 notifyHandler.notify(notifyType.SUCCESS, 'Phê duyệt khóa học thành công')
             })
     }

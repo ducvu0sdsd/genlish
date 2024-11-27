@@ -61,6 +61,18 @@ const QuanLyGiaoVien = () => {
             })
     }
 
+    const handleDelete = (user) => {
+        api({ sendToken: true, type: TypeHTTP.DELETE, path: `/user/delete/${user._id}` })
+            .then(res => {
+                if (currentUser._id === res._id) {
+                    setCurrentUser()
+                    setScreen(0)
+                }
+                setUsers(prev => prev.filter(item => item._id !== user._id))
+                notifyHandler.notify(notifyType.SUCCESS, 'Xóa hồ sơ giáo viên thành công')
+            })
+    }
+
     return (
         <section style={{ marginLeft: `-${screen * 100}%` }} className='flex w-full relative h-[100%] transition-all'>
             {loading === false ? (<>
@@ -89,11 +101,6 @@ const QuanLyGiaoVien = () => {
                                         <span className='text-[13px]' style={{ color: user.statusTeacher === false ? '#888' : 'blue' }}>{user.statusTeacher === false ? 'Chưa phê duyệt' : 'Đã phê duyệt'}</span>
                                     </div>
                                     <div className='right-2 top-1 absolute flex flex-col gap-2'>
-                                        {user.courses.length == 0 && (
-                                            <button className='p-1 transition-all'>
-                                                <i className="fa-regular fa-trash-can text-[#999] transition-all hover:text-[red]"></i>
-                                            </button>
-                                        )}
                                         {user.statusTeacher === false && (
                                             <button onClick={() => handleAcceptRecord(user)} className='p-1 transition-all'>
                                                 <i className="fa-solid fa-check text-[#999] transition-all hover:text-[blue]"></i>
@@ -116,11 +123,6 @@ const QuanLyGiaoVien = () => {
                                         <span className='text-[14px]'>Số lượng khóa học: {user.courses.length}</span>
                                     </div>
                                     <div className='right-2 top-1 absolute flex flex-col gap-2'>
-                                        {user.courses.length == 0 && (
-                                            <button className='p-1 transition-all'>
-                                                <i className="fa-regular fa-trash-can text-[#999] transition-all hover:text-[red]"></i>
-                                            </button>
-                                        )}
                                         {user.statusTeacher === false && (
                                             <button onClick={() => handleAcceptRecord(user)} className='p-1 transition-all'>
                                                 <i className="fa-solid fa-check text-[#999] transition-all hover:text-[blue]"></i>
@@ -148,7 +150,7 @@ const QuanLyGiaoVien = () => {
                                 </div>
                                 <div className='right-2 top-[50%] translate-y-[-50%] absolute flex flex-col'>
                                     {currentUser.courses.length == 0 && (
-                                        <button className='p-1 transition-all'>
+                                        <button onClick={() => handleDelete(currentUser)} className='p-1 transition-all'>
                                             <i className="fa-regular fa-trash-can text-[#999] transition-all hover:text-[red] text-[25px]"></i>
                                         </button>
                                     )}

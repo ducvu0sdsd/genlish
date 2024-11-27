@@ -159,7 +159,7 @@ const QuanLyDoanhThuGiaoVien = () => {
                                     <td
                                         className="py-4"
                                     >
-                                        {formatMoney(payment.payments.reduce((total, item) => total += item.price, 0))}đ
+                                        {formatMoney(payment.payments.reduce((total, item) => total += (item.price * 0.8), 0))}đ
                                     </td>
                                     <td className="py-4 flex items-center gap-2">
                                         <button

@@ -8,7 +8,7 @@ import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { payloadContext } from '@/context/PayloadContext'
 import { usePathname } from 'next/navigation'
 
-const DetailCourse = ({ course, setStudy, setPayment, handleAccept }) => {
+const DetailCourse = ({ course, setStudy, setPayment, handleAccept, handleDelete }) => {
 
     const [more, setMore] = useState(false)
     const { authData, authHandler } = useContext(authContext)
@@ -145,6 +145,11 @@ const DetailCourse = ({ course, setStudy, setPayment, handleAccept }) => {
                                 <button onClick={() => {
                                     handleAccept(course)
                                 }} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[#00d5ff]'>Phê duyệt khóa học</button>
+                            )}
+                            {course.status === false && (
+                                <button onClick={() => {
+                                    handleDelete(course)
+                                }} className='text-[white] pt-2 mt-2 pb-2 rounded-lg font-semibold w-[90%] bg-[red]'>Xóa khóa học</button>
                             )}
                         </>
                     )}

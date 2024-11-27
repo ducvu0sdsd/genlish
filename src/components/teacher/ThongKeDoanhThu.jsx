@@ -36,17 +36,17 @@ const ThongKeDoanhThu = () => {
                     .map(item => item.payments)
                     .flat()
                     .filter(item => item.type === typePayments.studentTranfer)
-                    .reduce((total, item) => total + item.price, 0))
+                    .reduce((total, item) => total + (item.price * 0.8), 0))
                 setPendingPayment(payments
                     .map(item => item.payments)
                     .flat()
                     .filter(item => item.type === typePayments.waitingForTeacher)
-                    .reduce((total, item) => total + item.price, 0))
+                    .reduce((total, item) => total + (item.price * 0.8), 0))
                 setPaid(payments
                     .map(item => item.payments)
                     .flat()
                     .filter(item => item.type === typePayments.moneyToTeacher)
-                    .reduce((total, item) => total + item.price, 0))
+                    .reduce((total, item) => total + (item.price * 0.8), 0))
                 setNumberOfUser(payments
                     .map(item => item.payments)
                     .flat().length)
@@ -107,7 +107,7 @@ const ThongKeDoanhThu = () => {
                     <input value={toDate} onChange={e => setToDate(e.target.value)} type='date' className='border-[1px] border-[#e4e4e4] rounded-md px-2 text-[14px]' />
                 </div>
                 <div className='flex items-center gap-2'>
-                    <span className='text-[16px] font-medium'>Khả Dụng: {formatMoney(balance)}đ</span>
+                    <span className='text-[16px] font-medium'>Khả Dụng: {formatMoney(balance * 0.8)}đ</span>
                     <button onClick={() => handleWithdraw()} style={{ background: 'linear-gradient(to right, #56ccf2, #2f80ed)' }} className='transition-all hover:scale-[1.05] text[13px] px-4 py-1 text-[white] font-semibold rounded-lg'>Rút tiền</button>
                 </div>
             </div>
@@ -155,7 +155,7 @@ const ThongKeDoanhThu = () => {
                         <div className='flex flex-col items-end'>
                             <span className='text-[14px]'>Tổng số người học: {payment.payments.length}</span>
                             <span className='text-[13px] font-semibold'>Tổng tiền: {formatMoney(payment.payments.reduce((total, item) => {
-                                return total += item.price
+                                return total += (item.price * 0.8)
                             }, 0))}đ</span>
                         </div>
                     </div>

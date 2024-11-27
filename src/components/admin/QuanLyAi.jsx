@@ -28,8 +28,8 @@ const QuanLyAi = ({ gates, setGates, cua, setCua }) => {
                             <button onClick={() => { formHandler.showThemAi() }} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-semibold text-[14px] w-[140px] py-[7px] rounded-lg">Thêm Chương Học</button>
                         </div>
                         <div className="w-full max-h-[90%] mt-2 overflow-y-auto relative">
-                            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead className="sticky top-0 left-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <table className="w-full text-sm text-left rtl:text-right">
+                                <thead className="sticky top-0 left-0 text-xs uppercase bg-gray-50 ">
                                     <tr>
                                         <th
                                             scope="col"
@@ -48,11 +48,11 @@ const QuanLyAi = ({ gates, setGates, cua, setCua }) => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className=" w-[full] bg-black font-medium">
+                                <tbody className=" w-[full]  font-medium">
                                     {gates.map((gate, index) => (
                                         <tr
                                             key={index}
-                                            className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                                            className="odd:bg-white  even:bg-gray-50  border-b"
                                         >
                                             <td
                                                 scope="row"

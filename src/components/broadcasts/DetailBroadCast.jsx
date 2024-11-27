@@ -92,7 +92,7 @@ const DetailBroadCast = ({ broadCast, setBroadCast }) => {
             })
     }
     return (
-        <div style={{ right: broadCast ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[82%] gap-6 p-[1.5rem] h-screen overflow-y-auto'>
+        <div style={{ right: broadCast ? '0' : '-100%', transition: '0.5s' }} className='bg-[white] z-40 fixed top-0 w-[95%] gap-6 p-[1.5rem] h-screen overflow-y-auto'>
             <button onClick={() => setBroadCast()} className='text-[35px] absolute top-3 right-4 text-[#999]'><i className='bx bx-x' ></i></button>
             <h1 className='mb-4 font-poppins text-[24px] font-bold'>Test Overview</h1>
             <div className='flex gap-[2rem] w-full'>

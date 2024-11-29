@@ -45,7 +45,8 @@ const CommunicateWithAI = () => {
         const data = [...messages, { speaker: 'i', content: doc }].map(item => {
             return item.content
         }).join('---------------------------------')
-        console.log(data)
+        console.log(data);
+
         setMessages(prev => [...prev, { speaker: 'i', content: doc }])
         api({ sendToken: false, type: TypeHTTP.POST, path: '/openai/ask', body: { ask: data + (messages.length < 2 ? ' Communicate with me briefly and daily life, No Yapping' : '') } })
             .then(res => {

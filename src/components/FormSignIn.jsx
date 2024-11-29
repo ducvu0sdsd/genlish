@@ -21,9 +21,11 @@ const FormSignIn = ({ visible, hidden }) => {
     const handleSignIn = () => {
         if (info.phone === '') {
             notifyHandler.notify(notifyType.FAIL, 'Số điện thoại không được để trống')
+            return
         }
         if (info.password === '') {
             notifyHandler.notify(notifyType.FAIL, 'Mật khẩu không được để trống')
+            return
         }
         api({ type: TypeHTTP.POST, body: { phone: info.phone, password: info.password }, sendToken: false, path: '/auth/sign-in' })
             .then(res => {

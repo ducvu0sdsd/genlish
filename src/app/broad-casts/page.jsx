@@ -22,12 +22,12 @@ const BroadCasts = () => {
         >
             <section className='w-full h-screen flex bg-[#f9fafb]'>
                 <Navbar />
-                <div className='w-[95%] gap-5 grid grid-cols-4 p-[1.5rem] overflow-y-auto'>
+                <div className='w-[95%] gap-7 grid grid-cols-4 p-[1.5rem] overflow-y-auto'>
                     {broadcasts.map((broadCast, index) => (
                         <div
                             key={index}
                             onClick={() => setCurrentBroadCast(broadCast)}
-                            className='rounded-md w-full h-[220px] cursor-pointer overflow-hidden flex flex-col shadow-xl bg-white ransform scale-105 hover:scale-110 transition-transform duration-300 '>
+                            className='rounded-md w-full h-[250px] cursor-pointer overflow-hidden flex flex-col shadow-xl bg-white ransform scale-105 hover:scale-110 transition-transform duration-300 '>
                             <img src={broadCast.thum} width={'100%'} />
                             <div className='py-1 flex justify-between'>
                                 <span

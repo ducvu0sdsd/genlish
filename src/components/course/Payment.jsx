@@ -91,8 +91,8 @@ const Payment = ({ course, payment, setPayment }) => {
                     </div>
                     <img src={url} className='w-[25%]' />
                     <div className='flex flex-col items-center gap-1'>
-                        <span className='rounded-md text-[13px] font-semibold'>Tên chủ TK: THAI QUANG BAO</span>
-                        <span className='font-medium text-[14px]'>Số TK: 37731017 </span>
+                        <span className='rounded-md text-[13px] font-semibold'>Tên chủ TK: LE XUAN TUAN ANH</span>
+                        <span className='font-medium text-[14px]'>Số TK: 9908080899 </span>
                         <span className='rounded-md text-[14px]'>Sử dụng app Momo hoặc app Ngân hàng để thanh toán</span>
                         <span className='rounded-md text-[14px]'>Khóa Học {course.title} - {formatMoney(course.price)}đ</span>
                     </div>

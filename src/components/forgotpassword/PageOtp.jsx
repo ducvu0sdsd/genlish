@@ -91,6 +91,21 @@ const PageOtp = ({ phone, change, setChange, changNextPage, setChangNextPage }) 
     const [newPassword, setNewPassword] = useState()
     const [reNewPassword, setReNewPassword] = useState()
     const handleChange = () => {
+
+        if (newPassword === '' || reNewPassword === '') {
+            notifyHandler.notify(notifyType.FAIL, 'Vui lòng không  để trống')
+            return
+        }
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(newPassword)) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+            return;
+        }
+        if (newPassword !== reNewPassword) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu mới phải trùng với mật khẩu xác nhận')
+            return
+        }
         api({ path: '/user/changeNewPassword', body: { phone: phone, newPassword: newPassword, reNewPassword: reNewPassword }, sendToken: false, type: TypeHTTP.POST }).then(res => {
             notifyHandler.notify(notifyType.SUCCESS, 'Đổi mật khẩu thành công')
             setChange(!change)

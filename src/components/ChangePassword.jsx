@@ -11,9 +11,18 @@ const ChangePassword = ({ change, setChange }) => {
     const { notifyHandler } = useContext(notifyContext)
 
     const handleChange = () => {
-        if (oldPassword.length < 6 || newPassword.length < 6) {
-            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu phải trên 6 ký tự')
+        if (oldPassword === "" || newPassword === "") {
+            notifyHandler.notify(notifyType.WARNING, 'Vui lòng không để trống')
             return
+        }
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(oldPassword)) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+            return;
+        }
+        if (!passwordRegex.test(newPassword)) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+            return;
         }
         if (newPassword !== confirmNewPassword) {
             notifyHandler.notify(notifyType.WARNING, 'Mật khẩu mới phải trùng với mật khẩu xác nhận')
@@ -25,8 +34,13 @@ const ChangePassword = ({ change, setChange }) => {
                 setNewPassword('')
                 setConfirmNewPassword('')
                 notifyHandler.notify(notifyType.SUCCESS, 'Cập nhật mật khẩu thành công')
-                authHandler.setUser(res.user)
+
                 setChange()
+
+                globalThis.localStorage.removeItem('accessToken')
+                globalThis.localStorage.removeItem('refreshToken')
+                authHandler.setUser()
+                notifyHandler.navigate('/')
             }).catch(e => {
                 notifyHandler.notify(notifyType.FAIL, e.message.data)
             })

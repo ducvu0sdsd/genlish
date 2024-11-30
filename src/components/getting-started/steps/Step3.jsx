@@ -16,18 +16,23 @@ const Step3 = ({ setCurrentStep, currentStep }) => {
     })
 
     const handleChangeStep = () => {
-        if (info.fullName === '') {
-
+        if (info.fullName === '' || info.address === '' || info.gender === null || info.dob === null) {
+            notifyHandler.notify(notifyType.WARNING, 'Không được để trống')
+            return
         }
-        if (info.dob === null) {
-
+        const nameRegex = /^[A-Za-zÀ-ÿ\s]{2,}$/;
+        if (!nameRegex.test(info.fullName)) {
+            notifyHandler.notify(notifyType.WARNING, 'Họ tên không hợp lệ');
+            return;
         }
-        if (info.gender === null) {
 
+        const addressRegex = /^[A-Za-z0-9À-ÿ\s,.-]{5,}$/;
+        if (!addressRegex.test(info.address)) {
+            notifyHandler.notify(notifyType.WARNING, 'Địa chỉ không hợp lệ');
+            return;
         }
-        if (info.address === '') {
 
-        }
+
         api({ sendToken: false, type: TypeHTTP.POST, path: '/auth/sign-up-step-other', body: { ...authData.user, statusSignUp: 3, fullName: info.fullName, dob: info.dob, address: info.address, gender: info.gender } })
             .then(user => {
                 authHandler.setUser(user)

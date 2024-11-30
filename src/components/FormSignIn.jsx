@@ -19,13 +19,20 @@ const FormSignIn = ({ visible, hidden }) => {
     })
 
     const handleSignIn = () => {
-        if (info.phone === '') {
-            notifyHandler.notify(notifyType.FAIL, 'Số điện thoại không được để trống')
+        if (info.phone === '' || info.password === '') {
+            notifyHandler.notify(notifyType.FAIL, 'Vui lòng không  để trống')
             return
         }
-        if (info.password === '') {
-            notifyHandler.notify(notifyType.FAIL, 'Mật khẩu không được để trống')
-            return
+        const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+
+        if (!phoneRegex.test(info.phone)) {
+            notifyHandler.notify(notifyType.WARNING, 'Số điện thoại không hợp lệ');
+            return;
+        }
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(info.password)) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+            return;
         }
         api({ type: TypeHTTP.POST, body: { phone: info.phone, password: info.password }, sendToken: false, path: '/auth/sign-in' })
             .then(res => {
@@ -45,6 +52,15 @@ const FormSignIn = ({ visible, hidden }) => {
                 setTimeout(() => {
                     if (res.user.statusSignUp === 7) {
                         notifyHandler.notify(notifyType.SUCCESS, 'Đăng nhập thành công')
+                        setInfo(prevState => ({
+                            ...prevState,
+                            phone: ""
+                        }));
+                        setInfo(prevState => ({
+                            ...prevState,
+                            password: ""
+                        }));
+
                     } else {
                         notifyHandler.notify(notifyType.WARNING, 'Hãy hoàn thành thông tin của bạn')
                     }

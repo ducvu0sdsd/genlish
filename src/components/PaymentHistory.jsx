@@ -24,7 +24,7 @@ const PaymentHistory = ({ history, setHistory }) => {
             <div className='w-full h-[90%] flex flex-col overflow-y-auto gap-2'>
                 {payments.map((payment, index) => (
                     <div key={index} className='flex flex-col bg-[#f3f3f3] px-4 py-2 w-[90%] rounded-lg gap-2'>
-                        <span>Thụ hưởng: 37731017-THAIQUANGBAO</span>
+                        <span>Thụ hưởng: 9908080899-LE XUAN TUAN ANH</span>
                         <div className='flex gap-1'>
                             <span className='w-[120px]'>Nội dung:</span>
                             <span>{payment.paymentInfo}</span>

@@ -15,7 +15,9 @@ const Payment = ({ course, payment, setPayment }) => {
 
     useEffect(() => {
         if (course && authData.user && payment === true) {
-            setUrl(`https://qr.sepay.vn/img?bank=ACB&acc=37731017&&template=compact&amount=${'2000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
+            setUrl(`https://qr.sepay.vn/img?bank=MBBank&acc=9908080899&&template=compact&amount=${'2000'}&des=MaKH${authData.user?._id}MaCourse${course._id}THANHTOAN`)
+
+
         }
     }, [payment])
 

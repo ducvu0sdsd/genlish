@@ -8,6 +8,7 @@ import { mainColor } from '@/utils/color'
 import { convertSecondsToReadableFormat } from '@/utils/time'
 import { formatMoney, removeVietnameseTones } from '@/utils/other'
 import { notifyContext } from '@/context/NotifyContext'
+import { authContext } from '@/context/AuthContext'
 const Course = () => {
 
     const [courses, setCourses] = useState([])
@@ -22,6 +23,35 @@ const Course = () => {
                 setLoading(false)
             })
     }, [])
+
+
+
+    const { authData } = useContext(authContext)
+    const [cou, setCou] = useState([])
+
+    useEffect(() => {
+
+        if (courses && Array.isArray(courses)) {
+            courses.forEach(courseItem => {
+                if (authData.user?._id && courseItem?._id) {
+                    api({
+                        sendToken: true,
+                        type: TypeHTTP.GET,
+                        path: `/studycourse/get-by-student-and-course?studentid=${authData.user._id}&courseid=${courseItem._id}`
+                    })
+                        .then(res => {
+                            if (res !== null && res !== undefined) {
+                                setCou(prevCou => [...prevCou, res]);
+                            }
+                        })
+                        .catch(error => {
+
+                            console.error("Error fetching data:", error);
+                        });
+                }
+            });
+        }
+    }, [courses, authData.user?._id]);
 
     return (
         <motion.div
@@ -41,7 +71,17 @@ const Course = () => {
                                         return <div onClick={() => notifyHandler.navigate(`/course/${removeVietnameseTones(course.slug)}`)} className='transition-all hover:scale-[1.05] cursor-pointer flex flex-col w-[full] pb-2 shadow-xl rounded-xl' key={index}>
                                             <img src={course.image} width={'100%'} className='rounded-t-xl' />
                                             <span className='font-medium text-[15px] w-full px-3 mt-2'>{course.title}</span>
-                                            <span className={`font-semibold text-[14px] text-[#5dade2] mt-1 w-full px-3`}>{course.type === 'free' ? 'Miễn Phí' : `${formatMoney(course.price)} đ`}</span>
+
+                                            <>
+
+                                                {cou && cou.some(c => c.course_id === course._id) ? (
+                                                    <span className={`font-semibold text-[14px] text-[#5dade2] mt-1 w-full px-3`}>Đã đăng kí</span>
+                                                ) : (
+                                                    <span className={`font-semibold text-[14px] text-[#5dade2] mt-1 w-full px-3`}>{course.type === 'free' ? 'Miễn Phí' : `${formatMoney(course.price)} đ`}</span>
+                                                )}
+                                            </>
+
+
                                             <div className='flex gap-1 relative items-center px-2 mt-1'>
                                                 <img src={course.teacher.avatar} className='w-[25px] aspect-square rounded-full' />
                                                 <span className='text-[13px] text-[#4d4d4d]'>{course.teacher.fullName}</span>

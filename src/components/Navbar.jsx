@@ -10,7 +10,7 @@ const Navbar = () => {
     const { notifyHandler } = useContext(notifyContext)
     const { authData, authHandler } = useContext(authContext)
     const pathname = usePathname()
-    console.log(pathname)
+
 
     const handleSignOut = () => {
         globalThis.localStorage.removeItem('accessToken')

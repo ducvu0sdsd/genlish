@@ -14,6 +14,8 @@ const QuanLyAi = ({ gates, setGates, cua, setCua }) => {
         api({ type: TypeHTTP.DELETE, path: `/gate/delete/${gateId}`, sendToken: false, })
             .then((gate) => {
                 setGates(gates.filter(item => item._id.toLowerCase() !== gate._id.toLowerCase()));
+
+
                 notifyHandler.notify(notifyType.SUCCESS, 'Xóa thành công')
             })
     }

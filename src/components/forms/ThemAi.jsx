@@ -16,7 +16,12 @@ const ThemAi = ({ visible, hidden }) => {
 
 
     const handleCreateAi = () => {
-        api({ type: TypeHTTP.POST, sendToken: false, body: { ...ai }, path: '/gate/save' })
+        const body = {
+            title,
+            level
+        };
+
+        api({ type: TypeHTTP.POST, sendToken: false, body, path: '/gate/save' })
             .then(gate => {
                 notifyHandler.notify(notifyType.SUCCESS, 'Thêm Thành Công')
                 globalThis.window.location.reload()

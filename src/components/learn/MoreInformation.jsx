@@ -1,7 +1,7 @@
 import { authContext } from '@/context/AuthContext'
 import { studyContext } from '@/context/StudyContext'
 import { api, TypeHTTP } from '@/utils/api'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 const MoreInformation = () => {
 
@@ -39,7 +39,10 @@ const MoreInformation = () => {
         }
         return 0
     }
+    useEffect(() => {
+        console.log(studyData);
 
+    })
     return (
         <div className='w-[28%] flex flex-col gap-4 h-screen overflow-auto py-[1rem]'>
             <div className='flex text-[#6e6e6e] items-center justify-end gap-4 w-full'>
@@ -61,14 +64,14 @@ const MoreInformation = () => {
                 <div className='flex w-full items-center gap-3'>
                     <img src='/ai.png' className='w-[52px]' />
                     <div className='flex flex-col'>
-                        <span className='text-[15px]'>Level {studyData.gates[0].level}</span>
-                        <span className='font-bold text-[18px]'>{studyData.gates[0]?.title}</span>
+                        <span className='text-[15px]'>Level {studyData.currentGate.level}</span>
+                        <span className='font-bold text-[18px]'>{studyData.currentGate.title}</span>
                     </div>
                 </div>
                 <div className='w-full cursor-pointer mt-3 h-[75%] overflow-auto items-center transition-all flex flex-col gap-2'>
                     {studyData.doors.map((door, index) => (
                         <div key={index} style={{ backgroundColor: door.individual.color }} className={`flex w-[95%] hover:scale-[1.05] transition-all items-center gap-1 text-[white] px-2 py-3 rounded-lg`}>
-                            <img className='h-[25px]' src={door.individual.image} />
+                            <img className='h-[25px]' style={{ mixBlendMode: 'multiply', filter: ' brightness(0.8) contrast(2)' }} src={door.individual.image} />
                             <span className='font-semibold text-[15px] translate-y-[2px]'>{`Cửa ${door.individual.door}: ${door.individual.title} (${getProcess(door)}/${door.individual.numberOfTest})`}</span>
                         </div>
                     ))}

@@ -1,4 +1,5 @@
 
+import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { payloadContext } from '@/context/PayloadContext'
 import { api, TypeHTTP } from '@/utils/api'
 import { mainColor } from '@/utils/color'
@@ -10,7 +11,7 @@ const Note = ({ visible, hidden }) => {
     const [currentStep, setCurrentStep] = useState(1)
     const { payloadData, payloadHandler } = useContext(payloadContext)
     const [note, setNote] = useState('')
-
+    const { notifyHandler } = useContext(notifyContext)
     const handleSubmitNote = () => {
         const body = {
             ...payloadData.studyCourse,
@@ -22,6 +23,7 @@ const Note = ({ visible, hidden }) => {
                 setNote('')
                 payloadHandler.setTime()
                 hidden()
+                notifyHandler.notify(notifyType.SUCCESS, 'Ghi chú thành công')
             })
     }
 

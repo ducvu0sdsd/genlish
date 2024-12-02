@@ -66,7 +66,7 @@ export const formatDate = (isoString) => {
     const month = date.getMonth() + 1; // Lấy tháng, cần cộng thêm 1 vì getMonth() trả về giá trị từ 0-11
     const year = date.getFullYear();
 
-    return `ngày ${day} tháng ${month} năm ${year}`;
+    return `Ngày ${day} tháng ${month} năm ${year}`;
 };
 
 export const formatDateTime = (isoString) => {

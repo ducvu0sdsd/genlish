@@ -1,6 +1,9 @@
 import { notifyContext, notifyType } from '@/context/NotifyContext'
 import { api, TypeHTTP } from '@/utils/api'
+import { apiKey } from '@/utils/apikey'
+import axios from 'axios'
 import React, { useContext } from 'react'
+import { formatDuration, parseISO8601Duration } from '@/utils/other'
 
 const QuanLyBroadcast = ({ broadcast, broadcasts, setBroadCasts, setBroadCast }) => {
     const { notifyHandler } = useContext(notifyContext)
@@ -33,9 +36,9 @@ const QuanLyBroadcast = ({ broadcast, broadcasts, setBroadCasts, setBroadCast })
         const selectedFile = e.target.files[0]; // Lấy file đầu tiên từ danh sách file
         if (selectedFile) {
             if (type === 'vietnam') {
-                setBroadcast({ ...broadcast, vietnameseFile: selectedFile })
+                setBroadCast({ ...broadcast, vietnameseFile: selectedFile })
             } else {
-                setBroadcast({ ...broadcast, englishFile: selectedFile })
+                setBroadCast({ ...broadcast, englishFile: selectedFile })
             }
         }
     };
@@ -55,7 +58,7 @@ const QuanLyBroadcast = ({ broadcast, broadcasts, setBroadCasts, setBroadCast })
             <div className='grid grid-cols-2 gap-3'>
                 <input type='file' onChange={e => handleFileChange(e, 'english')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
                 <input type='file' onChange={e => handleFileChange(e, 'vietnam')} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' />
-                <input value={broadcast.urlVideo} onChange={e => setBroadcast({ ...broadcast, urlVideo: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='URL Video' />
+                <input value={broadcast.urlVideo} onChange={e => setBroadCast({ ...broadcast, urlVideo: e.target.value })} className='rounded-lg text-[15px] focus:outline-0 shadow-sm h-[45px] px-[1rem] border-[1px] border-[#e1e1e1]' placeholder='URL Video' />
             </div>
 
             <button onClick={() => handleCreateBroadCast()} className="text-center bg-[#149dff] transition-all hover:scale-[1.06] text-[white] font-bold text-[16px] w-[10%] py-[7px] rounded-lg">Thêm</button>

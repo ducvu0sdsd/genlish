@@ -34,7 +34,7 @@ const CacKhoaHoc = () => {
                 <div className='min-w-[100%] px-[1rem]'>
                     {loading === false ? (
                         <>
-                            {courses.length > 0 && (
+                            {courses.length >= 0 && (
                                 <div className='w-full flex flex-col mt-[1rem] pb-[1rem] gap-2 h-[100%]'>
                                     <div className='flex items-center justify-between'>
                                         <span className='font-semibold text-[18px]'>Các Khóa Học Của {authData.user?.fullName}</span>

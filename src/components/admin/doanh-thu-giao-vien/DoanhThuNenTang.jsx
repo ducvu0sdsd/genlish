@@ -15,6 +15,8 @@ const DoanhThuNenTang = ({ option }) => {
             .then(res => {
                 const filter = res.filter(item => date1GetterThanDate2(item.createdAt, fromDate) && date1GetterThanDate2(toDate, item.createdAt))
                 setPayments(filter)
+                console.log(payments);
+
             })
     }, [reload, fromDate, toDate])
 

@@ -51,26 +51,26 @@ const SignUpTeacher = () => {
     }
 
     const handleSignUp = () => {
-        if (info.phone === '') {
+        if (info.phone === '' || info.password === '' || info.address === '' || info.fullName === '' || info.gender === null || info.dob === null || info.confirmPassword === '') {
+            notifyHandler.notify(notifyType.WARNING, 'Vui lòng nhập đầy đủ thông tin')
             return
         }
-        if (info.password === '') {
-            return
-        }
+
         if (info.confirmPassword !== info.password) {
-            return
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu xác nhận không khớp');
+            return;
         }
-        if (info.address === '') {
-            return
+        const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+
+        if (!phoneRegex.test(info.phone)) {
+            notifyHandler.notify(notifyType.WARNING, 'Số điện thoại không hợp lệ');
+            return;
         }
-        if (info.fullName === '') {
-            return
-        }
-        if (info.gender === null) {
-            return
-        }
-        if (info.dob === null) {
-            return
+
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(info.password)) {
+            notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+            return;
         }
         api({ type: TypeHTTP.POST, sendToken: false, path: '/auth/sign-up-with-teacher', body: info })
             .then(res => {

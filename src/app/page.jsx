@@ -40,9 +40,23 @@ export default function Home() {
     if (role === roles.teacher) {
       if (phone === '') {
         notifyHandler.notify(notifyType.FAIL, 'Số điện thoại không được để trống')
+        return;
       }
       if (password === '') {
         notifyHandler.notify(notifyType.FAIL, 'Mật khẩu không được để trống')
+        return;
+      }
+
+      const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
+
+      if (!phoneRegex.test(phone)) {
+        notifyHandler.notify(notifyType.WARNING, 'Số điện thoại không hợp lệ');
+        return;
+      }
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        notifyHandler.notify(notifyType.WARNING, 'Mật khẩu không hợp lệ. Mật khẩu ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và chữ số');
+        return;
       }
       api({ type: TypeHTTP.POST, body: { phone: phone, password: password }, sendToken: false, path: '/auth/sign-in-with-teacher' })
         .then(res => {

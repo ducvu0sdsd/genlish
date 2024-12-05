@@ -6,7 +6,7 @@ import YeuCauRutTien from './doanh-thu-giao-vien/YeuCauRutTien'
 import DoanhThuNenTang from './doanh-thu-giao-vien/DoanhThuNenTang'
 
 const QuanLyDoanhThuGiaoVien = () => {
-    const { notifyHandler } = useContext(notifyContext)
+
     const [payments, setPayments] = useState([])
     const [option, setOption] = useState('1')
 
@@ -62,7 +62,7 @@ const QuanLyDoanhThuGiaoVien = () => {
                         <option value={'2'}>Thống kê doanh thu</option>
                     </select>
                 </div>
-                {option === '1' ? <YeuCauRutTien payments={payments} /> : <DoanhThuNenTang option={option} />}
+                {option === '1' ? <YeuCauRutTien /> : <DoanhThuNenTang option={option} />}
             </div>
         </section>
     )

@@ -60,37 +60,71 @@ const Teacher = () => {
                         <div className='w-[100%] h-full justify-center translate-y-[-50px] gap-5 flex flex-col items-center'>
                             <img src={authData.user?.avatar} alt="" className='col-span-2 w-[200px] aspect-square rounded-full' />
                             <section className='w-[100%] grid grid-cols-2 gap-[1rem] px-[12rem] justify-center items-center overflow-y-auto'>
-                                <input
-                                    name="phone"
-                                    value={authData.user?.phone}
-                                    onChange={handleChange}
-                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                                    disabled
-                                />
-                                <input
-                                    name="fullName"
-                                    value={authData.user?.fullName}
-                                    onChange={handleChange}
-                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                                />
-                                <input
-                                    name="address"
-                                    value={authData.user?.address}
-                                    onChange={handleChange}
-                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                                />
 
-                                <select
-                                    name="gender"
-                                    onChange={handleChange}
-                                    className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                                >
+                                <div className="flex flex-col">
+                                    <label
 
-                                    <option value={true}>Nam</option>
-                                    <option value={false}>Nữ</option>
-                                </select>
+                                        className="text-[14px] font-medium mb-2"
+                                    >
+                                        Số điện thoại
+                                    </label>
+                                    <input
+                                        name="phone"
+                                        value={authData.user?.phone}
+                                        onChange={handleChange}
+                                        className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                        disabled
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label
+
+                                        className="text-[14px] font-medium mb-2"
+                                    >
+                                        Họ tên
+                                    </label>
+                                    <input
+                                        name="fullName"
+                                        value={authData.user?.fullName}
+                                        onChange={handleChange}
+                                        className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label
+
+                                        className="text-[14px] font-medium mb-2"
+                                    >
+                                        Địa chỉ
+                                    </label>
+                                    <input
+                                        name="address"
+                                        value={authData.user?.address}
+                                        onChange={handleChange}
+                                        className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label
+
+                                        className="text-[14px] font-medium mb-2"
+                                    >
+                                        Giới tính
+                                    </label>
+                                    <select
+                                        name="gender"
+                                        onChange={handleChange}
+                                        className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                                    >
+
+                                        <option value={true}>Nam</option>
+                                        <option value={false}>Nữ</option>
+                                    </select>
+                                </div>
+
                                 <span className='font-semibold'>Thông tin thanh toán</span>
                                 <div />
+
                                 <input
                                     placeholder='Tên ngân hàng'
                                     value={authData.user?.bank?.bankName}

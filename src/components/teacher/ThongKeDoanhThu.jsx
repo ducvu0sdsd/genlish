@@ -62,11 +62,19 @@ const ThongKeDoanhThu = () => {
     }, [authData.user, fromDate, toDate])
 
     const handleWithdraw = () => {
+
+        console.log();
+        if (authData.user.bank.accountName === "" || authData.user.bank.accountNumber === "" || authData.user.bank.bankName === "") {
+            notifyHandler.notify(notifyType.WARNING, 'Vui lòng cập nhật đầy đủ thông tin ngân hàng')
+            return
+        }
         if (balance === 0) {
             notifyHandler.notify(notifyType.WARNING, 'Số dư của bạn phải trên 200.000đ')
             return
         }
         notifyHandler.notify(notifyType.LOADING, 'Đang gửi yêu cầu rút tiền')
+
+
         api({ sendToken: true, type: TypeHTTP.PUT, path: `/payment/withdraw/${authData.user._id}` })
             .then(balance => {
                 getByTimeAndProvider().then(() => {

@@ -47,36 +47,73 @@ const HoSo = () => {
                     <img src={user?.avatar} alt="" className='col-span-2 w-[200px] aspect-square rounded-full' />
                     <section className='w-[100%] grid grid-cols-2 gap-[1rem] px-[12rem] justify-center items-center overflow-y-auto'>
 
-                        <input
-                            name="phone"
-                            value={user?.phone}
-                            onChange={handleChange}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                            disabled
-                        />
-                        <input
-                            name="fullName"
-                            value={user?.fullName}
-                            onChange={handleChange}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                        />
-                        <input
-                            name="address"
-                            value={user?.address}
-                            onChange={handleChange}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                        />
 
-                        <select
-                            name="gender"
-                            onChange={handleChange}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
-                        >
+                        <div className="flex flex-col">
+                            <label
 
-                            <option value={true}>Nam</option>
-                            <option value={false}>Nữ</option>
-                        </select>
-                        <span className='font-semibold'>Thông tin thanh toán</span>
+                                className="text-[14px] font-medium mb-2"
+                            >
+                                Số điện thoại
+                            </label>
+                            <input
+                                id="phone"
+                                name="phone"
+                                value={user?.phone}
+                                onChange={handleChange}
+                                className="rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]"
+                                disabled
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label
+
+                                className="text-[14px] font-medium mb-2"
+                            >
+                                Họ tên
+                            </label>
+                            <input
+                                name="fullName"
+                                value={user?.fullName}
+                                onChange={handleChange}
+                                className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            />
+                        </div>
+
+
+
+                        <div className="flex flex-col">
+                            <label
+
+                                className="text-[14px] font-medium mb-2"
+                            >
+                                Địa chỉ
+                            </label>
+                            <input
+                                name="address"
+                                value={user?.address}
+                                onChange={handleChange}
+                                className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            />
+                        </div>
+
+                        <div className="flex flex-col">
+                            <label
+
+                                className="text-[14px] font-medium mb-2"
+                            >
+                                Giới tính
+                            </label>
+                            <select
+                                name="gender"
+                                onChange={handleChange}
+                                className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            >
+
+                                <option value={true}>Nam</option>
+                                <option value={false}>Nữ</option>
+                            </select>
+                        </div>
+
                         <div />
                         <input
                             placeholder='Tên ngân hàng'
@@ -85,7 +122,7 @@ const HoSo = () => {
                                 ...prevData,
                                 bank: { ...prevData.bank, bankName: e.target.value },
                             }))}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            className='hidden rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
                         />
                         <input
                             placeholder='Tên tài khoản'
@@ -94,7 +131,7 @@ const HoSo = () => {
                                 ...prevData,
                                 bank: { ...prevData.bank, accountName: e.target.value },
                             }))}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            className='hidden rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
                         />
                         <input
                             placeholder='Số tài khoản'
@@ -103,7 +140,7 @@ const HoSo = () => {
                                 ...prevData,
                                 bank: { ...prevData.bank, accountNumber: e.target.value },
                             }))}
-                            className='rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
+                            className='hidden rounded-lg text-[15px] focus:outline-none shadow-sm h-[45px] px-4 border border-[#e1e1e1]'
                         />
                         <button onClick={() => setHistory(true)} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-[#2dcc87] text-white'>Lịch sử thanh toán</button>
                         <button onClick={() => handleUpdateUser()} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] transition-all bg-blue-400 text-white'> Cập nhật thông tin người dùng</button>

@@ -27,29 +27,135 @@ const QuanLyNguoiDung = () => {
                 <input value={name} onChange={e => setName(e.target.value)} placeholder='Tìm tên người dùng' className='text-[14px] px-2 h-[37px] w-[200px] rounded-md focus:outline-none border-[#c4c4c4] border-[1px]' />
             </div>
             {name === '' ? (
-                <div className='w-full grid grid-cols-3 gap-2 mt-3'>
-                    {users.map((user, index) => (
-                        <div key={index} className='flex w-full rounded-lg bg-[#f0f0f0] gap-2 p-[10px]'>
-                            <img src={user.avatar} className='rounded-full w-[50px] h-[50px]' />
-                            <div className='flex flex-col gap-[2px]'>
-                                <span>{user.fullName}</span>
-                                <span className='text-[14px]'>Đã đăng ký vào {formatDate(user.createdAt)}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+
+                <table className="w-full text-sm text-left rtl:text-right">
+                    <thead className="sticky top-0 left-0 text-xs uppercase bg-gray-50 ">
+                        <tr>
+                            <th
+                                scope="col"
+                                className="w-[5%] py-3 text-center"
+                            >
+                                #
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Họ và tên
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Số điện thoại
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Tiến độ
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Địa chỉ
+                            </th>
+                            <th scope="col" className="w-[20%] py-3">
+                                Thời gian
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody className=" w-[full]  font-medium">
+                        {users.map((user, index) => (
+                            <tr
+                                key={index}
+                                className="odd:bg-white  even:bg-gray-50  border-b"
+                            >
+                                <td
+                                    scope="row"
+                                    className="px-6 py-4 text-center font-medium"
+                                >
+                                    {index + 1}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.fullName}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.phone}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    Cấp độ {user.study.levelVocabulary.gate} - Ải {user.study.levelVocabulary.door}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.address}
+                                </td>
+
+                                <td
+                                    className="py-4"
+                                >
+                                    Đã đăng ký vào {formatDate(user.createdAt)}
+                                </td>
+
+                            </tr>
+                        ))}
+
+                    </tbody>
+                </table>
             ) : (
-                <div className='w-full grid grid-cols-3 gap-2 mt-3'>
-                    {userFilters.map((user, index) => (
-                        <div key={index} className='flex w-full rounded-lg bg-[#f0f0f0] gap-2 p-[10px]'>
-                            <img src={user.avatar} className='rounded-full w-[50px] h-[50px]' />
-                            <div className='flex flex-col gap-[2px]'>
-                                <span>{user.fullName}</span>
-                                <span className='text-[14px]'>Đã đăng ký vào {formatDate(user.createdAt)}</span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+
+                <table className="w-full text-sm text-left rtl:text-right">
+                    <thead className="sticky top-0 left-0 text-xs uppercase bg-gray-50 ">
+                        <tr>
+                            <th
+                                scope="col"
+                                className="w-[5%] py-3 text-center"
+                            >
+                                #
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Họ và tên
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Số điện thoại
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Tiến độ
+                            </th>
+                            <th scope="col" className="w-[15%] py-3">
+                                Địa chỉ
+                            </th>
+                            <th scope="col" className="w-[20%] py-3">
+                                Thời gian
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody className=" w-[full]  font-medium">
+                        {userFilters.map((user, index) => (
+                            <tr
+                                key={index}
+                                className="odd:bg-white  even:bg-gray-50  border-b"
+                            >
+                                <td
+                                    scope="row"
+                                    className="px-6 py-4 text-center font-medium"
+                                >
+                                    {index + 1}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.fullName}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.phone}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    Cấp độ {user.study.levelVocabulary.gate} - Ải {user.study.levelVocabulary.door}
+                                </td>
+                                <td className="py-4 text-[15px]">
+                                    {user.address}
+                                </td>
+
+                                <td
+                                    className="py-4"
+                                >
+                                    Đã đăng ký vào {formatDate(user.createdAt)}
+                                </td>
+
+                            </tr>
+                        ))}
+
+                    </tbody>
+                </table>
             )}
         </section>
     )

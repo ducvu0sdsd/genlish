@@ -80,10 +80,7 @@ const QuanLyGiaoVien = () => {
                     <div className='flex justify-between'>
                         <h1 className='font-semibold text-[20px]'>Tất Cả Giáo Viên: {users.length}</h1>
                         <div className='flex items-center gap-2'>
-                            {/* <button style={{ background: 'linear-gradient(to right, #3494e6, #ec6ead)' }} className='flex h-[37px] transition-all hover:scale-[1.05] items-center gap-2 px-4 py-2 rounded-lg'>
-                            <i className="fa-solid fa-plus text-[white]"></i>
-                            <span className='text-[white]'>Thêm giáo viên</span>
-                        </button> */}
+
                             <input value={name} onChange={e => setName(e.target.value)} placeholder='Tìm giáo viên' className='text-[14px] px-2 h-[37px] w-[200px] rounded-md focus:outline-none border-[#c4c4c4] border-[1px]' />
                         </div>
                     </div>
@@ -142,11 +139,18 @@ const QuanLyGiaoVien = () => {
                                 <span className='font-semibold text-[#999] text-[15px]'>Quay về</span>
                             </div>
                             <div className='flex items-center w-full relative'>
-                                <img src={currentUser.avatar} className='w-[100px] h-[100px] rounded-full' />
+                                <img src={currentUser.avatar} className='w-[120px] h-[120px] rounded-full' />
                                 <div className='flex flex-col gap-1'>
                                     <span className='text-[18px]'>{currentUser.fullName}</span>
+
                                     <span className='text-[14px]'>Số lượng khóa học: {currentUser.courses.length}</span>
                                     <span className='text-[13px]' style={{ color: currentUser.statusTeacher === false ? '#888' : 'blue' }}>{currentUser.statusTeacher === false ? 'Chưa phê duyệt' : 'Đã phê duyệt'}</span>
+
+                                </div>
+                                <div className='flex flex-col gap-1 px-[200px]'>
+                                    <span className='text-[18px]'>Địa chỉ :{currentUser.address}</span>
+                                    <span className='text-[13px]'> Số điện thoại: {currentUser.phone}</span>
+
                                 </div>
                                 <div className='right-2 top-[50%] translate-y-[-50%] absolute flex flex-col'>
                                     {currentUser.courses.length == 0 && (

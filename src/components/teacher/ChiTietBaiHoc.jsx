@@ -67,7 +67,7 @@ const ChiTietBaiHoc = ({ course, setCurrentCourse }) => {
                                     <span className='text-[12px]'>URL: {course.url}</span>
                                 </div>
                                 <div className='flex gap-2 absolute right-[1rem] top-[50%] translate-y-[-50%]'>
-                                    <button className='bg-[blue] px-2 py-1 rounded-md text-[white] font-semibold'>update</button>
+
                                     <button onClick={() => handleDelete(course._id)} className='bg-[red] px-2 py-1 rounded-md text-[white] font-semibold'>delete</button>
                                 </div>
                             </div>

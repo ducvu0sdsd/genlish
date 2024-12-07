@@ -137,7 +137,7 @@ const PageOtp = ({ phone, change, setChange, changNextPage, setChangNextPage }) 
                             <button onClick={() => handleOtp()} className='rounded-lg text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] w-full transition-all bg-purple-600 text-white'>Xác thực</button>
                             <div className='flex justify-between'>
                                 <div onClick={() => setChangNextPage(true)} className=' text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] w-50% transition-all text-purple-600'>Quay lại</div>
-                                <div onClick={() => handleSendOtp()} className=' text-[15px] h-[45px] focus:outline-0 hover:scale-[1.05] w-50% transition-all text-purple-600'>Gửi lại mã</div>
+
                             </div>
 
                         </div>

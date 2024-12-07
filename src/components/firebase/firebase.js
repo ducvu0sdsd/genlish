@@ -55,17 +55,9 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 //     appId: "1:517532600559:web:e707721c95fdfd66f8731a",
 //     measurementId: "G-T25WFYY2J6"
 // };
-// const firebaseConfig = {
-//     apiKey: "AIzaSyAL1FrViJB6VeN87MxZE_YM4XouOCTrh5c",
-//     authDomain: "genlish-db29c.firebaseapp.com",
-//     projectId: "genlish-db29c",
-//     storageBucket: "genlish-db29c.firebasestorage.app",
-//     messagingSenderId: "455937950855",
-//     appId: "1:455937950855:web:2984f66f0783df49a2e422",
-//     measurementId: "G-M3YVYXP8ZV"
-// };
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDcesHdThiEsFH-KCLRmgSJcKooNEo0yx8",
+
     authDomain: "autonomous-time-443911-i3.firebaseapp.com",
     projectId: "autonomous-time-443911-i3",
     storageBucket: "autonomous-time-443911-i3.firebasestorage.app",

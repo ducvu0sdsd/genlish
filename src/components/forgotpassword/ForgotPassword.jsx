@@ -16,7 +16,7 @@ const ForgotPassword = ({ change, setChange }) => {
         api({ path: `/user/getByPhone/${phone}`, type: TypeHTTP.GET, sendToken: false }).then(res => {
             notifyHandler.notify(notifyType.SUCCESS, `Đã gửi mã xác nhận tới số ${phone}`)
             setChangNextPage(false)
-            setPhone("")
+
         }).catch(e => {
 
             notifyHandler.notify(notifyType.FAIL, e.message.data)

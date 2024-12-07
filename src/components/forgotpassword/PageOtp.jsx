@@ -13,7 +13,10 @@ const PageOtp = ({ phone, change, setChange, changNextPage, setChangNextPage }) 
     const recaptchaRef = useRef(null);
     const { notifyHandler } = useContext(notifyContext)
     const { authHandler } = useContext(authContext)
+    useEffect(() => {
+        console.log(phone);
 
+    })
 
     const handleSendOtp = () => {
         // // Xóa phần tử chứa reCAPTCHA cũ
@@ -71,17 +74,17 @@ const PageOtp = ({ phone, change, setChange, changNextPage, setChangNextPage }) 
                     });
             }
         }, 100); // trì hoãn 100ms
-    }, [auth, phone]);
+    }, [phone]);
     const handleOtp = () => {
         notifyHandler.notify(notifyType.LOADING, 'Đang xác thực')
-        // verification?.confirm(otp)
-        //     .then(data => {
-        //         notifyHandler.notify(notifyType.SUCCESS, 'Mã xác minh đúng')
-        //         setNewPage(false)
-        //     })
-        //     .catch((error) => {
-        //         notifyHandler.notify(notifyType.FAIL, 'Mã xác minh không đúng')
-        //     })
+        verification.confirm(otp)
+            .then(data => {
+                notifyHandler.notify(notifyType.SUCCESS, 'Mã xác minh đúng')
+                setNewPage(false)
+            })
+            .catch((error) => {
+                notifyHandler.notify(notifyType.FAIL, 'Mã xác minh không đúng')
+            })
         setTimeout(() => {
             setNewPage(false)
             notifyHandler.notify(notifyType.SUCCESS, 'Xác minh thành công')
